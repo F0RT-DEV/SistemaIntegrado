@@ -1,0 +1,92 @@
+/* Estilização geral */
+.cadastro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f3f4f6;
+  }
+  
+  /* Caixa do formulário */
+  .cadastro-box {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  /* Alerta de erro */
+  .alerta {
+    margin-bottom: 16px;
+    padding: 12px;
+    background-color: #ef4444;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+  }
+  
+  /* Logo */
+  .cadastro-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cadastro-logo img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .cadastro-logo h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  /* Campos de entrada */
+  .cadastro-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  /* Botão de cadastro */
+  .cadastro-button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 16px;
+    background-color: #2563eb;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .cadastro-button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  /* Link de login */
+  .login-link {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .login-link button {
+    color: #2563eb;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .login-link button:hover {
+    text-decoration: underline;
+  }
+  
