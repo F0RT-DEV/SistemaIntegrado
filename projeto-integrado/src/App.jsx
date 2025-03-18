@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { GraduationCap, Apple, Heart } from 'lucide-react';
 import { useState } from "react";
 import NavBarra from "./components/NavBarra";
 import EducaMais from "./pages/EducaMais";
@@ -14,9 +15,9 @@ function MainContent({ isAuthenticated, login }) {
   const isCadastroPage = location.pathname === "/cadastro" || location.pathname === "/login" || location.pathname === "/esqueci-senha"; // Adicionei a rota /esqueci-senha
 
   const systems = [
-    { id: "educa", name: "Educa Mais", title: "LOGO" },
-    { id: "fome", name: "Fome 0", title: "LOGO" },
-    { id: "sus", name: "Conect SUS", title: "LOGO" },
+    { id: 'educa', name: 'Educa Mais', icon: GraduationCap, color: 'blue' },
+    { id: 'fome', name: 'Fome 0', icon: Apple, color: 'green' },
+    { id: 'sus', name: 'Conect SUS', icon: Heart, color: 'red' }
   ];
 
   return (
