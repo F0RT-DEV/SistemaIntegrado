@@ -1,0 +1,99 @@
+.system-info {
+    padding: 20px;
+  }
+  
+  .info-box {
+    background-color: #e3f2fd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .options-grid {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .option-card {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+  }
+  
+  .option-card:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .form-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .registration-form, .consult-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .registration-form h4, .consult-form h4 {
+    margin-bottom: 10px;
+    color: #2196f3;
+  }
+  
+  .student-form {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .student-form h5 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .registration-form label, .consult-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .registration-form input, .consult-form input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .add-student-button {
+    padding: 10px 15px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  .add-student-button:hover {
+    background-color: #45a049;
+  }
+  
+  .submit-button {
+    padding: 10px 15px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  .submit-button:hover {
+    background-color: #1976d2;
+  }
