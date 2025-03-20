@@ -13,7 +13,7 @@ const SistemaCard = ({ system }) => {
       className={`system-card ${isActive ? 'active' : ''}`}
     >
       <div className={`icon-wrapper ${system.color}`}>
-        <system.icon className="icon-small" />
+      <system.icon className="icon-small" />
       </div>
       <h3 className="system-title">
         {system.name}

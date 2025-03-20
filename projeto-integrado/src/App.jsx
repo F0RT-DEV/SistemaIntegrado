@@ -1,4 +1,10 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { GraduationCap, Apple, Heart } from 'lucide-react';
 import { useState } from "react";
 import NavBarra from "./components/NavBarra";
@@ -9,16 +15,20 @@ import SistemaCard from "./components/SistemaCard";
 import Cadastro from "./pages/Cadastro";
 import Login from "./pages/Login";
 import EsqueciSenha from "./pages/Esquecisenha"; // Importando a página Esqueci Senha
+import Footer from "./pages/Footer";
 
 function MainContent({ isAuthenticated, login }) {
   const location = useLocation();
-  const isCadastroPage = location.pathname === "/cadastro" || location.pathname === "/login" || location.pathname === "/esqueci-senha"; // Adicionei a rota /esqueci-senha
+  const isCadastroPage =
+    location.pathname === "/cadastro" ||
+    location.pathname === "/login" ||
+    location.pathname === "/esqueci-senha"; // Adicionei a rota /esqueci-senha
 
-  const systems = [
-    { id: 'educa', name: 'Educa Mais', icon: GraduationCap, color: 'blue' },
-    { id: 'fome', name: 'Fome 0', icon: Apple, color: 'green' },
-    { id: 'sus', name: 'Conect SUS', icon: Heart, color: 'red' }
-  ];
+    const systems = [
+      { id: 'educa', name: 'Educa Mais', icon: GraduationCap, color: 'blue' },
+      { id: 'fome', name: 'Fome 0', icon: Apple, color: 'green' },
+      { id: 'sus', name: 'Conect SUS', icon: Heart, color: 'red' }
+    ];
 
   return (
     <main className="main-content">
@@ -32,13 +42,14 @@ function MainContent({ isAuthenticated, login }) {
 
       <div className={isCadastroPage ? "cadastro-full" : "system-content"}>
         <Routes>
-          <Route path="/"/>
+          <Route path="/" />
           <Route path="/educa" element={<EducaMais />} />
           <Route path="/fome" element={<FomeZero />} />
           <Route path="/sus" element={<ConectSus />} />
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/login" element={<Login login={login} />} />
-          <Route path="/esqueci-senha" element={<EsqueciSenha />} /> {/* Adicionando a nova rota */}
+          <Route path="/esqueci-senha" element={<EsqueciSenha />} />{" "}
+          {/* Adicionando a nova rota */}
         </Routes>
       </div>
     </main>
@@ -57,6 +68,7 @@ function App() {
       <div className="container">
         <NavBarra />
         <MainContent isAuthenticated={isAuthenticated} login={handleLogin} />
+        <Footer/>
       </div>
     </Router>
   );

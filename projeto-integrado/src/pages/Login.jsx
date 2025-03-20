@@ -51,7 +51,7 @@ const Login = ({ login }) => {
         </div>
 
         <div className="esquecisenha-link">
-        <span>Esqueceu sua senha ? </span>
+        <span>Esqueceu seu senha ? </span>
         <button onClick={() => navigate("/esqueci-senha")}>Clique aqui</button>
         </div>
       </div>
