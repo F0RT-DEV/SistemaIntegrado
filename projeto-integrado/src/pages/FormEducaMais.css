@@ -38,12 +38,24 @@
   .registration-form, .consult-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
   }
   
   .registration-form h4, .consult-form h4 {
     margin-bottom: 10px;
     color: #2196f3;
+  }
+  
+  .student-form {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .student-form h5 {
+    margin-bottom: 10px;
+    color: #333;
   }
   
   .registration-form label, .consult-form label {
@@ -58,15 +70,30 @@
     border: 1px solid #ccc;
   }
   
-  .registration-form button, .consult-form button {
+  .add-student-button {
+    padding: 10px 15px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  .add-student-button:hover {
+    background-color: #45a049;
+  }
+  
+  .submit-button {
     padding: 10px 15px;
     background-color: #2196f3;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    align-self: flex-start;
   }
   
-  .registration-form button:hover, .consult-form button:hover {
+  .submit-button:hover {
     background-color: #1976d2;
   }
