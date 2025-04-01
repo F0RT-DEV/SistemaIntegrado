@@ -15,7 +15,7 @@ import SistemaCard from "./components/SistemaCard";
 import Cadastro from "./pages/Cadastro";
 import Login from "./pages/Login";
 import EsqueciSenha from "./pages/Esquecisenha"; // Importando a página Esqueci Senha
-import Footer from "./pages/Footer";
+import Footer from "./components/Footer";
 
 function MainContent({ isAuthenticated, login }) {
   const location = useLocation();

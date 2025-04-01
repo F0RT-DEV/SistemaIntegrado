@@ -74,7 +74,7 @@ body {
   max-width: 80rem;
   margin: 0 auto;
   padding: 2rem 1rem;
-  height: 100vh;
+  height: auto;
 }
 
 .systems-grid {
@@ -127,7 +127,7 @@ body {
 }
 
 .icon-wrapper.red {
-  background-color: #adb81f;;
+  background-color: #FFFF86;;
 }
 
 .icon-wrapper svg {
@@ -154,6 +154,7 @@ body {
   border-radius: 0.75rem;
   padding: 1.5rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  height: 100vh;
 }
 
 .content-title {
