@@ -49,18 +49,18 @@ const Cadastro = () => {
     fileInputRef.current.click();
   };
 
-  const handleCadastro = () => {
+  const handleCadastro = () => { 
     if (!formData.nome || !formData.cpf || !formData.email) {
-      setAlerta("Campos obrigatórios não preenchidos!");
+      setAlerta("⚠️ Preencha todos os campos obrigatórios!");
       return;
     }
-
+  
     console.log("Usuário cadastrado:", formData);
     setAlerta("");
-    alert("Cadastro realizado com sucesso!");
+    alert("✅ Cadastro realizado com sucesso!");
     navigate("/");
   };
-
+  
   return (
     <div className="cadastro-full">
       <div className="editar-perfil-container">

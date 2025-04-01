@@ -132,13 +132,14 @@
 
 /* Alerta */
 .alerta {
-  padding: 12px;
-  background-color: #ffebee;
-  color: #c62828;
-  border-radius: 4px;
-  margin-bottom: 20px;
+  background-color: #ffcccc;
+  color: #d8000c;
+  border: 1px solid #d8000c;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
   text-align: center;
-  font-size: 14px;
+  font-weight: bold;
 }
 
 /* Campos desabilitados */
@@ -151,4 +152,43 @@ input:disabled {
 /* Input file oculto */
 input[type="file"] {
   display: none;
+}
+
+
+.alert-box {
+  background-color: #2d2d39;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  max-width: 350px;
+  font-family: Arial, sans-serif;
+}
+
+.alert-box i {
+  color: #00ff88;
+  font-size: 20px;
+}
+
+.alert-text {
+  flex-grow: 1;
+}
+
+.alert-button {
+  background-color: #00e5ff;
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.alert-button:hover {
+  background-color: #00c5dd;
 }
