@@ -14,25 +14,23 @@ import ConectSus from "./pages/ConectSus";
 import SistemaCard from "./components/SistemaCard";
 import Cadastro from "./pages/Cadastro";
 import Login from "./pages/Login";
-import EsqueciSenha from "./pages/Esquecisenha"; // Importando a página Esqueci Senha
+import EsqueciSenha from "./pages/Esquecisenha";
 import Footer from "./components/Footer";
+import LandingPage from "./components/LandingPage";
 
 function MainContent({ isAuthenticated, login }) {
   const location = useLocation();
-  const isCadastroPage =
-    location.pathname === "/cadastro" ||
-    location.pathname === "/login" ||
-    location.pathname === "/esqueci-senha"; // Adicionei a rota /esqueci-senha
+  const isAuthPage = false; // Removemos a verificação pois as rotas de auth estão no nível superior
 
-    const systems = [
-      { id: 'educa', name: 'Educa Mais', icon: GraduationCap, color: 'blue' },
-      { id: 'fome', name: 'Fome 0', icon: Apple, color: 'green' },
-      { id: 'sus', name: 'Conect SUS', icon: Heart, color: 'red' }
-    ];
+  const systems = [
+    { id: 'educa', name: 'Educa Mais', icon: GraduationCap, color: 'blue' },
+    { id: 'fome', name: 'Fome 0', icon: Apple, color: 'green' },
+    { id: 'sus', name: 'Conect SUS', icon: Heart, color: 'red' }
+  ];
 
   return (
     <main className="main-content">
-      {!isCadastroPage && (
+      {location.pathname.startsWith('/app') && (
         <div className="systems-grid">
           {systems.map((system) => (
             <SistemaCard key={system.id} system={system} />
@@ -40,16 +38,11 @@ function MainContent({ isAuthenticated, login }) {
         </div>
       )}
 
-      <div className={isCadastroPage ? "cadastro-full" : "system-content"}>
+      <div className="system-content">
         <Routes>
-          <Route path="/" />
-          <Route path="/educa" element={<EducaMais />} />
-          <Route path="/fome" element={<FomeZero />} />
-          <Route path="/sus" element={<ConectSus />} />
-          <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/login" element={<Login login={login} />} />
-          <Route path="/esqueci-senha" element={<EsqueciSenha />} />{" "}
-          {/* Adicionando a nova rota */}
+          <Route path="/app/educa" element={<EducaMais />} />
+          <Route path="/app/fome" element={<FomeZero />} />
+          <Route path="/app/sus" element={<ConectSus />} />
         </Routes>
       </div>
     </main>
@@ -65,11 +58,46 @@ function App() {
 
   return (
     <Router>
-      <div className="container">
-        <NavBarra />
-        <MainContent isAuthenticated={isAuthenticated} login={handleLogin} />
-        <Footer/>
-      </div>
+      <Routes>
+        {/* Rota da Landing Page */}
+        <Route 
+          path="/" 
+          element={
+            !isAuthenticated ? (
+              <LandingPage />
+            ) : (
+              <Navigate to="/app" replace />
+            )
+          } 
+        />
+        
+        {/* Rotas de Autenticação (acessíveis sem login) */}
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/login" element={<Login login={handleLogin} />} />
+        <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+        
+        {/* Rotas do Sistema Principal (requerem autenticação) */}
+        <Route 
+          path="/app/*" 
+          element={
+            isAuthenticated ? (
+              <div className="app-container">
+                <NavBarra isAuthenticated={isAuthenticated} />
+                <MainContent 
+                  isAuthenticated={isAuthenticated} 
+                  login={handleLogin} 
+                />
+                <Footer />
+              </div>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        
+        {/* Redirecionamento padrão */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </Router>
   );
 }

@@ -70,7 +70,7 @@ function App() {
               </div>
               <h3>Educa Mais</h3>
               <p>Matrícula escolar e acompanhamento educacional</p>
-              <button className="link-button">
+              <button className="link-button" href="http://localhost:5173/educa">
                 <span>Saiba mais</span>
                 <ChevronRight size={20} />
               </button>
