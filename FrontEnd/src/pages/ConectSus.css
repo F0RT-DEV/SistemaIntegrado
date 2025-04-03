@@ -177,3 +177,29 @@
     text-align: center;
     font-style: italic;
   }
+  /* Mensagem de confirmação */
+.confirmation-message {
+  position: fixed;
+  top: 50px; /* Mesma posição que a mensagem de boas-vindas */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(40, 167, 69, 0.9); /* Verde de confirmação */
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  z-index: 1000;
+  animation: fadeInOut 3s ease-in-out;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  width: 80%;
+  max-width: 350px;
+  font-size: 1.1rem;
+}
+
+/* Mantenha as animações existentes */
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.9); }
+  20% { opacity: 1; transform: translateX(-50%) scale(1); }
+  80% { opacity: 1; transform: translateX(-50%) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) scale(0.9); }
+}

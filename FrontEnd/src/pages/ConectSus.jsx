@@ -1,39 +1,68 @@
-import React, { useState } from 'react';
-import './ConectSus.css'; // Importando o CSS
+import React, { useState, useEffect } from 'react';
+import './ConectSus.css';
 
 const ConectSus = () => {
-  const [showModal, setShowModal] = useState(false); // Controla o modal de agendamento
-  const [showConsultas, setShowConsultas] = useState(false); // Controla a exibição da lista de consultas
-  const [consultas, setConsultas] = useState([]); // Lista de consultas agendadas
-  const [nomePaciente, setNomePaciente] = useState(''); // Estado para o nome do paciente
-  const [dataConsulta, setDataConsulta] = useState(''); // Estado para a data da consulta
-  const [horaConsulta, setHoraConsulta] = useState(''); // Estado para a hora da consulta
+  const [showModal, setShowModal] = useState(false);
+  const [showConsultas, setShowConsultas] = useState(false);
+  const [consultas, setConsultas] = useState([]);
+  const [nomePaciente, setNomePaciente] = useState('');
+  const [dataConsulta, setDataConsulta] = useState('');
+  const [horaConsulta, setHoraConsulta] = useState('');
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false); // Novo estado para confirmação
 
-  // Função para adicionar uma nova consulta
+  useEffect(() => {
+    setShowWelcome(true);
+    const timer = setTimeout(() => {
+      setShowWelcome(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const agendarConsulta = () => {
     if (nomePaciente && dataConsulta && horaConsulta) {
       const novaConsulta = {
-        id: new Date().getTime(), // ID único baseado no timestamp
+        id: new Date().getTime(),
         nome: nomePaciente,
         data: dataConsulta,
         hora: horaConsulta,
       };
-      setConsultas([...consultas, novaConsulta]); // Adiciona a nova consulta à lista
-      setNomePaciente(''); // Limpa o campo do nome
-      setDataConsulta(''); // Limpa o campo da data
-      setHoraConsulta(''); // Limpa o campo da hora
-      setShowModal(false); // Fecha o modal
+      setConsultas([...consultas, novaConsulta]);
+      setNomePaciente('');
+      setDataConsulta('');
+      setHoraConsulta('');
+      setShowModal(false);
+      
+      // Mostra a mensagem de confirmação
+      setShowConfirmation(true);
+      setTimeout(() => setShowConfirmation(false), 3000);
     } else {
-      alert('Preencha todos os campos!'); // Validação simples
+      alert('Preencha todos os campos!');
     }
   };
 
   return (
     <div className="system-info">
+      {showWelcome && (
+        <div className="welcome-message-top">
+          <h2>Seja bem-vindo ao Conect SUS!</h2>
+        </div>
+      )}
+
+      {/* Mensagem de confirmação de agendamento */}
+      {showConfirmation && (
+        <div className="confirmation-message">
+          <h2>Consulta confirmada!</h2>
+        </div>
+      )}
+
+      {/* Resto do seu código permanece igual */}
       <div className="info-box">
         <h3 className="info-title">Conect SUS</h3>
         <p className="info-description">Agende e acompanhe consultas médicas</p>
       </div>
+
       <div className="options-grid">
         <div className="option-card" onClick={() => setShowModal(true)}>
           <h4 className="option-title">Agendar Consulta</h4>
@@ -45,7 +74,6 @@ const ConectSus = () => {
         </div>
       </div>
 
-      {/* Modal de agendamento */}
       {showModal && (
         <div className="modal">
           <div className="modal-content">
@@ -74,7 +102,6 @@ const ConectSus = () => {
         </div>
       )}
 
-      {/* Lista de consultas agendadas */}
       {showConsultas && (
         <div className="consultas-list">
           <h3>Consultas Agendadas</h3>

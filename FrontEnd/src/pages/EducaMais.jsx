@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './FormEducaMais.css';
 
 const EducaMais = () => {
   const [showNewRegistrationModal, setShowNewRegistrationModal] = useState(false);
   const [showConsultModal, setShowConsultModal] = useState(false);
   const [students, setStudents] = useState([{ name: '', birthDate: '', grade: '', cpf: '' }]);
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [showRegistrationConfirmation, setShowRegistrationConfirmation] = useState(false);
+  const [showConsultConfirmation, setShowConsultConfirmation] = useState(false);
+
+  // Mensagem de boas-vindas ao carregar a página
+  useEffect(() => {
+    setShowWelcome(true);
+    const timer = setTimeout(() => {
+      setShowWelcome(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleAddStudent = () => {
     setStudents([...students, { name: '', birthDate: '', grade: '', cpf: '' }]);
@@ -19,17 +32,51 @@ const EducaMais = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Alunos cadastrados:', students);
-    // Limpa o formulário após o envio
     setStudents([{ name: '', birthDate: '', grade: '', cpf: '' }]);
     setShowNewRegistrationModal(false);
+    
+    // Mostra mensagem de confirmação de matrícula
+    setShowRegistrationConfirmation(true);
+    setTimeout(() => setShowRegistrationConfirmation(false), 3000);
+  };
+
+  const handleConsultSubmit = (e) => {
+    e.preventDefault();
+    setShowConsultModal(false);
+    
+    // Mostra mensagem de confirmação de consulta
+    setShowConsultConfirmation(true);
+    setTimeout(() => setShowConsultConfirmation(false), 3000);
   };
 
   return (
     <div className="system-info">
+      {/* Mensagem de boas-vindas */}
+      {showWelcome && (
+        <div className="welcome-message-top">
+          <h2>Seja bem-vindo ao EducaMais!</h2>
+        </div>
+      )}
+
+      {/* Mensagem de confirmação de matrícula */}
+      {showRegistrationConfirmation && (
+        <div className="confirmation-message registration">
+          <h2>Matrícula realizada com sucesso!</h2>
+        </div>
+      )}
+
+      {/* Mensagem de confirmação de consulta */}
+      {showConsultConfirmation && (
+        <div className="confirmation-message consult">
+          <h2>Consulta realizada com sucesso!</h2>
+        </div>
+      )}
+
       <div className="info-box blue">
         <h3 className="info-title blue">Matrícula Escolar</h3>
         <p className="info-description blue">Realize ou acompanhe matrículas no sistema educacional</p>
       </div>
+
       <div className="options-grid">
         <div className="option-card" onClick={() => setShowNewRegistrationModal(true)}>
           <h4 className="option-title">Nova Matrícula</h4>
@@ -101,7 +148,7 @@ const EducaMais = () => {
         <div className="modal">
           <div className="modal-content">
             <h3>Consultar Matrícula</h3>
-            <form>
+            <form onSubmit={handleConsultSubmit}>
               <input
                 type="text"
                 placeholder="Número da Matrícula ou CPF"

@@ -75,3 +75,45 @@
   color: white;
   margin-right: auto;
 }
+/* Mensagens de boas-vindas e confirmação */
+.welcome-message-top,
+.confirmation-message {
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  z-index: 1100;
+  animation: fadeInOut 3s ease-in-out;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  width: 80%;
+  max-width: 350px;
+  font-size: 1.1rem;
+}
+
+.welcome-message-top {
+  background-color: rgba(52, 152, 219, 0.9); /* Azul EducaMais */
+}
+
+.confirmation-message.registration {
+  background-color: rgba(46, 204, 113, 0.9); /* Verde para matrícula */
+}
+
+.confirmation-message.consult {
+  background-color: rgba(155, 89, 182, 0.9); /* Roxo para consulta */
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.9); }
+  20% { opacity: 1; transform: translateX(-50%) scale(1); }
+  80% { opacity: 1; transform: translateX(-50%) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) scale(0.9); }
+}
+
+/* Ajuste para garantir que os modais apareçam acima das mensagens */
+.modal {
+  z-index: 1000;
+}
