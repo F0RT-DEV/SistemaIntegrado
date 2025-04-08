@@ -1,6 +1,17 @@
-import React from 'react';
-import { Book, ShoppingBasket, Heart, Download, Menu, ChevronRight, MessageSquare, Wifi, Bell, Phone } from 'lucide-react';
-import './App.css';
+import React from "react";
+import {
+  Book,
+  ShoppingBasket,
+  Heart,
+  Download,
+  Menu,
+  ChevronRight,
+  MessageSquare,
+  Wifi,
+  Bell,
+  Phone,
+} from "lucide-react";
+import "./App.css";
 
 function App() {
   return (
@@ -9,10 +20,13 @@ function App() {
       <header className="header">
         <div className="container header-content">
           <div className="logo">
-            <img src="https://images.unsplash.com/photo-1584441405886-bc91be61e56a?w=50&h=50&fit=crop" alt="Logo AP" />
-            <span>Governo AP</span>
+            <img
+              src="https://www.portal.ap.gov.br/img/logo_gea.png"
+              alt="Logo AP"
+            />
+            
           </div>
-          
+
           <nav className="main-nav">
             <a href="#">Home</a>
             <a href="#">Serviços</a>
@@ -25,9 +39,7 @@ function App() {
               <Download size={20} />
               <span>Baixe o app</span>
             </button>
-            <button className="access-button">
-              Acessar
-            </button>
+            <button className="access-button">Acessar</button>
             <button className="menu-button">
               <Menu size={24} />
             </button>
@@ -39,20 +51,17 @@ function App() {
       <section className="hero">
         <div className="container hero-content">
           <div className="hero-text">
-            <h1>
-              Todos os serviços do Governo AP em um só lugar
-            </h1>
+            <h1>Todos os serviços do Governo do Amapá em um só lugar</h1>
             <p>
-              Educação, saúde e assistência social de forma integrada e acessível
+              Educação, saúde e assistência social de forma integrada e
+              acessível
             </p>
-            <button className="cta-button">
-              Conheça nossos serviços
-            </button>
+            <button className="cta-button">Conheça nossos serviços</button>
           </div>
           <div className="hero-image">
-            <img 
-              src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=600&h=400&fit=crop" 
-              alt="App Preview" 
+            <img
+              src="https://www.portal.ap.gov.br/img/logo_gea.png"
+              alt="App Preview"
             />
           </div>
         </div>
@@ -105,25 +114,45 @@ function App() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="features">
-        <div className="container">
-          <h2>Diferenciais</h2>
-          <div className="features-grid">
-            <div className="feature-item">
-              <Wifi className="feature-icon" size={48} />
-              <h3>Recurso Offline</h3>
-              <p>Funcionalidade especial para comunidades ribeirinhas</p>
+      {/* Seção de Serviços - Governo do Estado do Amazonas */}
+      <section className="features bg-gray-100 py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-blue-900 mb-8 border-b-4 border-yellow-500 inline-block">
+            Serviços do Governo
+          </h2>
+          <div className="features-grid grid md:grid-cols-3 gap-8">
+            <div className="feature-item bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+              <Wifi className="feature-icon text-green-700 mb-4" size={48} />
+              <h3 className="text-xl font-semibold text-gray-800">
+                Acesso Digital
+              </h3>
+              <p className="text-gray-600">
+                Plataforma otimizada para comunidades ribeirinhas com acesso
+                remoto via internet ou satélite.
+              </p>
             </div>
-            <div className="feature-item">
-              <MessageSquare className="feature-icon" size={48} />
-              <h3>Integração Total</h3>
-              <p>Dados compartilhados entre sistemas para menos burocracia</p>
+            <div className="feature-item bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+              <MessageSquare
+                className="feature-icon text-blue-700 mb-4"
+                size={48}
+              />
+              <h3 className="text-xl font-semibold text-gray-800">
+                Transparência e Notícias
+              </h3>
+              <p className="text-gray-600">
+                Acompanhe informações atualizadas sobre programas estaduais e
+                iniciativas em sua região.
+              </p>
             </div>
-            <div className="feature-item">
-              <Bell className="feature-icon" size={48} />
-              <h3>Notificações</h3>
-              <p>Acompanhe tudo por SMS, e-mail ou no aplicativo</p>
+            <div className="feature-item bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+              <Bell className="feature-icon text-yellow-600 mb-4" size={48} />
+              <h3 className="text-xl font-semibold text-gray-800">
+                Alertas Oficiais
+              </h3>
+              <p className="text-gray-600">
+                Receba notificações por SMS, e-mail ou pelo aplicativo do
+                Governo do Amazonas.
+              </p>
             </div>
           </div>
         </div>
@@ -147,9 +176,9 @@ function App() {
             </div>
           </div>
           <div className="download-image">
-            <img 
-              src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&h=500&fit=crop" 
-              alt="App Preview" 
+            <img
+              src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&h=500&fit=crop"
+              alt="App Preview"
             />
           </div>
         </div>
@@ -162,25 +191,43 @@ function App() {
             <div className="footer-column">
               <h3>Serviços</h3>
               <ul>
-                <li><a href="#">Educa Mais</a></li>
-                <li><a href="#">Fome 0</a></li>
-                <li><a href="#">Conect SUS</a></li>
+                <li>
+                  <a href="#">Educa Mais</a>
+                </li>
+                <li>
+                  <a href="#">Fome 0</a>
+                </li>
+                <li>
+                  <a href="#">Conect SUS</a>
+                </li>
               </ul>
             </div>
             <div className="footer-column">
               <h3>Suporte</h3>
               <ul>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Contato</a></li>
-                <li><a href="#">Ajuda</a></li>
+                <li>
+                  <a href="#">FAQ</a>
+                </li>
+                <li>
+                  <a href="#">Contato</a>
+                </li>
+                <li>
+                  <a href="#">Ajuda</a>
+                </li>
               </ul>
             </div>
             <div className="footer-column">
               <h3>Legal</h3>
               <ul>
-                <li><a href="#">Privacidade</a></li>
-                <li><a href="#">Termos</a></li>
-                <li><a href="#">Segurança</a></li>
+                <li>
+                  <a href="#">Privacidade</a>
+                </li>
+                <li>
+                  <a href="#">Termos</a>
+                </li>
+                <li>
+                  <a href="#">Segurança</a>
+                </li>
               </ul>
             </div>
             <div className="footer-column">
