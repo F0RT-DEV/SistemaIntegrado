@@ -1,49 +1,46 @@
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
   useLocation,
+  Outlet  // Adicione esta importação
 } from "react-router-dom";
-import { GraduationCap, Apple, Heart } from 'lucide-react';
 import { useState } from "react";
+import { GraduationCap, Apple, Heart } from "lucide-react";
 import NavBarra from "./components/NavBarra";
 import EducaMais from "./pages/EducaMais";
 import FomeZero from "./pages/FomeZero";
 import ConectSus from "./pages/ConectSus";
-import SistemaCard from "./components/SistemaCard";
 import Cadastro from "./pages/Cadastro";
 import Login from "./pages/Login";
 import EsqueciSenha from "./pages/Esquecisenha";
 import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
-
-function MainContent({ isAuthenticated, login }) {
+import SistemaCard from "./components/SistemaCard";
+import "./App.css"; // Adicione o arquivo CSS para estilos globais
+function MainContent() {
   const location = useLocation();
-  const isAuthPage = false; // Removemos a verificação pois as rotas de auth estão no nível superior
 
   const systems = [
-    { id: 'educa', name: 'Educa Mais', icon: GraduationCap, color: 'blue' },
-    { id: 'fome', name: 'Fome 0', icon: Apple, color: 'green' },
-    { id: 'sus', name: 'Conect SUS', icon: Heart, color: 'red' }
+    { id: "educa", name: "Educa Mais", icon: GraduationCap, color: "blue" },
+    { id: "fome", name: "Fome 0", icon: Apple, color: "green" },
+    { id: "sus", name: "Conect SUS", icon: Heart, color: "red" },
   ];
 
   return (
     <main className="main-content">
-      {location.pathname.startsWith('/app') && (
-        <div className="systems-grid">
-          {systems.map((system) => (
-            <SistemaCard key={system.id} system={system} />
-          ))}
-        </div>
+      {location.pathname.startsWith("/app") && (
+        <section className="services">
+            <div className="systems-grid">
+              {systems.map((system) => (
+                <SistemaCard key={system.id} system={system} />
+              ))}
+            </div>
+        </section>
       )}
 
-      <div className="system-content">
-        <Routes>
-          <Route path="/app/educa" element={<EducaMais />} />
-          <Route path="/app/fome" element={<FomeZero />} />
-          <Route path="/app/sus" element={<ConectSus />} />
-        </Routes>
+      <div className="system-content-container">
+        <Outlet />
       </div>
     </main>
   );
@@ -57,48 +54,48 @@ function App() {
   };
 
   return (
-    <Router>
       <Routes>
-        {/* Rota da Landing Page */}
-        <Route 
-          path="/" 
+        {/* Landing Page */}
+        <Route
+          path="/"
           element={
             !isAuthenticated ? (
               <LandingPage />
             ) : (
               <Navigate to="/app" replace />
             )
-          } 
+          }
         />
-        
-        {/* Rotas de Autenticação (acessíveis sem login) */}
+
+        {/* Autenticação */}
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/login" element={<Login login={handleLogin} />} />
         <Route path="/esqueci-senha" element={<EsqueciSenha />} />
-        
-        {/* Rotas do Sistema Principal (requerem autenticação) */}
-        <Route 
-          path="/app/*" 
+
+        {/* App Principal */}
+        <Route
+          path="/app/*"
           element={
             isAuthenticated ? (
-              <div className="app-container">
+              <div className="app">
                 <NavBarra isAuthenticated={isAuthenticated} />
-                <MainContent 
-                  isAuthenticated={isAuthenticated} 
-                  login={handleLogin} 
-                />
+                <MainContent />
                 <Footer />
               </div>
             ) : (
               <Navigate to="/login" replace />
             )
           }
-        />
-        
-        {/* Redirecionamento padrão */}
+        >
+          {/* Rotas aninhadas */}
+          <Route path="educa" element={<EducaMais />} />
+          <Route path="fome" element={<FomeZero />} />
+          <Route path="sus" element={<ConectSus />} />
+        </Route>
+
+        {/* Redirecionamento Padrão */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </Router>
   );
 }
 
