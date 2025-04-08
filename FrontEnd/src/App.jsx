@@ -1,56 +1,46 @@
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
   useLocation,
+  Outlet  // Adicione esta importação
 } from "react-router-dom";
-import { GraduationCap, Apple, Heart } from 'lucide-react';
 import { useState } from "react";
+import { GraduationCap, Apple, Heart } from "lucide-react";
 import NavBarra from "./components/NavBarra";
 import EducaMais from "./pages/EducaMais";
 import FomeZero from "./pages/FomeZero";
 import ConectSus from "./pages/ConectSus";
-import SistemaCard from "./components/SistemaCard";
 import Cadastro from "./pages/Cadastro";
 import Login from "./pages/Login";
-import EsqueciSenha from "./pages/Esquecisenha"; // Importando a página Esqueci Senha
+import EsqueciSenha from "./pages/Esquecisenha";
 import Footer from "./components/Footer";
-
-function MainContent({ isAuthenticated, login }) {
+import LandingPage from "./components/LandingPage";
+import SistemaCard from "./components/SistemaCard";
+import "./App.css"; // Adicione o arquivo CSS para estilos globais
+function MainContent() {
   const location = useLocation();
-  const isCadastroPage =
-    location.pathname === "/cadastro" ||
-    location.pathname === "/login" ||
-    location.pathname === "/esqueci-senha"; // Adicionei a rota /esqueci-senha
 
-    const systems = [
-      { id: 'educa', name: 'Educa Mais', icon: GraduationCap, color: 'blue' },
-      { id: 'fome', name: 'Fome 0', icon: Apple, color: 'green' },
-      { id: 'sus', name: 'Conect SUS', icon: Heart, color: 'red' }
-    ];
+  const systems = [
+    { id: "educa", name: "Educa Mais", icon: GraduationCap, color: "blue" },
+    { id: "fome", name: "Fome 0", icon: Apple, color: "green" },
+    { id: "sus", name: "Conect SUS", icon: Heart, color: "red" },
+  ];
 
   return (
     <main className="main-content">
-      {!isCadastroPage && (
-        <div className="systems-grid">
-          {systems.map((system) => (
-            <SistemaCard key={system.id} system={system} />
-          ))}
-        </div>
+      {location.pathname.startsWith("/app") && (
+        <section className="services">
+            <div className="systems-grid">
+              {systems.map((system) => (
+                <SistemaCard key={system.id} system={system} />
+              ))}
+            </div>
+        </section>
       )}
 
-      <div className={isCadastroPage ? "cadastro-full" : "system-content"}>
-        <Routes>
-          <Route path="/" />
-          <Route path="/educa" element={<EducaMais />} />
-          <Route path="/fome" element={<FomeZero />} />
-          <Route path="/sus" element={<ConectSus />} />
-          <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/login" element={<Login login={login} />} />
-          <Route path="/esqueci-senha" element={<EsqueciSenha />} />{" "}
-          {/* Adicionando a nova rota */}
-        </Routes>
+      <div className="system-content-container">
+        <Outlet />
       </div>
     </main>
   );
@@ -64,13 +54,48 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="container">
-        <NavBarra />
-        <MainContent isAuthenticated={isAuthenticated} login={handleLogin} />
-        <Footer/>
-      </div>
-    </Router>
+      <Routes>
+        {/* Landing Page */}
+        <Route
+          path="/"
+          element={
+            !isAuthenticated ? (
+              <LandingPage />
+            ) : (
+              <Navigate to="/app" replace />
+            )
+          }
+        />
+
+        {/* Autenticação */}
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/login" element={<Login login={handleLogin} />} />
+        <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+
+        {/* App Principal */}
+        <Route
+          path="/app/*"
+          element={
+            isAuthenticated ? (
+              <div className="app">
+                <NavBarra isAuthenticated={isAuthenticated} />
+                <MainContent />
+                <Footer />
+              </div>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        >
+          {/* Rotas aninhadas */}
+          <Route path="educa" element={<EducaMais />} />
+          <Route path="fome" element={<FomeZero />} />
+          <Route path="sus" element={<ConectSus />} />
+        </Route>
+
+        {/* Redirecionamento Padrão */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
   );
 }
 
