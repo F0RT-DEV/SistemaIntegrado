@@ -1,6 +1,7 @@
 import React from "react";
 import { Bell, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import "./NavBarra.css"; // Importando o CSS para estilização
 
 const NavBarra = () => {
   const navigate = useNavigate();
@@ -12,12 +13,11 @@ const NavBarra = () => {
           <div className="nav-left">
             <div className="nav-logo">
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Bandeira_do_Amap%C3%A1.svg/640px-Bandeira_do_Amap%C3%A1.svg.png"
+                src="https://agenciaamapa.com.br/images/logo_amapa_700.png"
                 alt="Bandeira do Amapá"
                 onClick={() => navigate("/")} 
                 style={{ cursor: "pointer" }}
               />
-              <h1>Governo AP</h1>
             </div>
           </div>
           <div className="nav-right">

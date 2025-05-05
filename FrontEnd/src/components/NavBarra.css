@@ -1,0 +1,47 @@
+.nav {
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    height: 90px;
+    display: flex;
+    align-items: center; /* centraliza verticalmente */
+  }
+  
+  .nav-container {
+    width: 100%;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .nav-left,
+  .nav-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-logo img {
+    max-height: 60px;
+    width: auto;
+    display: block;
+  }
+  
+  .nav-right {
+    gap: 1rem;
+  }
+  
+  .icon {
+    color: #050505;
+  }
+  
+  .icon-small {
+    width: 2rem;
+    height: 2rem;
+  }
+  

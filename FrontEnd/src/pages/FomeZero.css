@@ -1,6 +1,4 @@
-/* Estilos para o modal do Fome Zero */
 
-/* Modal Overlay */
 .modal {
     position: fixed;
     top: 0;
@@ -119,4 +117,24 @@
 
 .confirmation-message.consult {
   background-color: rgba(155, 89, 182, 0.9); /* Roxo para consulta */
+}
+
+.option-cardFZERO {
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background-color:#22c55e;
+
+  p{
+    color: rgb(7, 7, 7);
+  }
+}
+.option-cardFzero {
+  padding: 1rem;
+  border: 1px solid #9d9da8;
+  border-radius: 0.5rem;
+
+  p{
+    color: rgb(7, 7, 7);
+  }
 }

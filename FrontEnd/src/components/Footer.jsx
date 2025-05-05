@@ -8,17 +8,16 @@ const navigate = useNavigate();
   return (
     <footer className="footer">
       <div className="footer-container">
-        <div className="footer-section">
-          <img className="footer-logo"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Bandeira_do_Amap%C3%A1.svg/640px-Bandeira_do_Amap%C3%A1.svg.png"
-            alt="Bandeira do Amapá"
-            onClick={() => navigate("/")}
-            style={{ cursor: "pointer" }}
-          />
-          <p className="footer-title">Governo do Amapá</p>
-        </div>
+      <div className="footer-logo">
+              <img
+                src="https://agenciaamapa.com.br/images/logo_amapa_700.png"
+                alt="Bandeira do Amapá"
+                onClick={() => navigate("/")} 
+                style={{ cursor: "pointer" }}
+              />
+            </div>
 
-        <div className="footer-section">
+        <div className="footer-section links">
           <h3 className="footer-heading">Links Úteis</h3>
           <ul className="footer-links">
             <li>
@@ -36,7 +35,7 @@ const navigate = useNavigate();
           </ul>
         </div>
 
-        <div className="footer-section">
+        <div className="footer-section contato">
           <h3 className="footer-heading">Contato</h3>
           <p>Rodovia JK, 123 - Macapá/AP</p>
           <p>Email: contato@ap.gov.br</p>

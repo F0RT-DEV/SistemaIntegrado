@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import "./FormeZero.css";
+import "./FomeZero.css";
 
 const FomeZero = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -64,18 +64,22 @@ const FomeZero = () => {
           </div>
       )}
 
-      <div className="system-info">
+     
         <div className="info-box">
           <h3 className="info-title">Programa Fome Zero</h3>
           <p className="info-description">Solicite ou acompanhe pedidos de cesta básica</p>
         </div>
         <div className="options-grid">
-          <div className="option-card" onClick={() => setMostrarFormulario(true)}>
+          <div className="option-cardFZERO" onClick={() => setMostrarFormulario(true)}>
             <h4 className="option-title">Nova Solicitação</h4>
             <p className="option-description">Cadastre um novo pedido de cesta básica</p>
           </div>
+          <div className="option-cardFzero" onClick={() => setMostrarFormulario(true)}>
+            <h4 className="option-title">Acompanhar Pedido</h4>
+            <p className="option-description">Visualize seu pedido</p>
+          </div>
         </div>
-      </div>
+      
 
       {mostrarFormulario && (
         <div className="modal">

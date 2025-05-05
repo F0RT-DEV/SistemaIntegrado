@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Book, ShoppingBasket, Heart, Download, Menu, ChevronRight, MessageSquare, Wifi, Bell, Phone } from 'lucide-react';
 import './App.css';
 
@@ -12,12 +13,12 @@ function App() {
             <img src="https://images.unsplash.com/photo-1584441405886-bc91be61e56a?w=50&h=50&fit=crop" alt="Logo AP" />
             <span>Governo AP</span>
           </div>
-          
+
           <nav className="main-nav">
-            <a href="#">Home</a>
-            <a href="#">Serviços</a>
-            <a href="#">Sobre</a>
-            <a href="#">Ajuda</a>
+            <Link to="/">Home</Link>
+            <Link to="#servicos">Serviços</Link>
+            <Link to="#sobre">Sobre</Link>
+            <Link to="#ajuda">Ajuda</Link>
           </nav>
 
           <div className="header-buttons">
@@ -25,9 +26,9 @@ function App() {
               <Download size={20} />
               <span>Baixe o app</span>
             </button>
-            <button className="access-button">
+            <Link to="/app" className="access-button">
               Acessar
-            </button>
+            </Link>
             <button className="menu-button">
               <Menu size={24} />
             </button>
@@ -39,15 +40,11 @@ function App() {
       <section className="hero">
         <div className="container hero-content">
           <div className="hero-text">
-            <h1>
-              Todos os serviços do Governo AP em um só lugar
-            </h1>
-            <p>
-              Educação, saúde e assistência social de forma integrada e acessível
-            </p>
-            <button className="cta-button">
+            <h1>Todos os serviços do Governo AP em um só lugar</h1>
+            <p>Educação, saúde e assistência social de forma integrada e acessível</p>
+            <Link to="/app" className="cta-button">
               Conheça nossos serviços
-            </button>
+            </Link>
           </div>
           <div className="hero-image">
             <img 
@@ -59,7 +56,7 @@ function App() {
       </section>
 
       {/* Services Section */}
-      <section className="services">
+      <section className="services" id="servicos">
         <div className="container">
           <h2>Nossos Serviços</h2>
           <div className="services-grid">
@@ -70,10 +67,10 @@ function App() {
               </div>
               <h3>Educa Mais</h3>
               <p>Matrícula escolar e acompanhamento educacional</p>
-              <button className="link-button" href="http://localhost:5173/educa">
+              <Link to="/app/educa" className="link-button">
                 <span>Saiba mais</span>
                 <ChevronRight size={20} />
-              </button>
+              </Link>
             </div>
 
             {/* Fome 0 */}
@@ -83,10 +80,10 @@ function App() {
               </div>
               <h3>Fome 0</h3>
               <p>Programa de assistência alimentar</p>
-              <button className="link-button">
+              <Link to="/app/fome" className="link-button">
                 <span>Saiba mais</span>
                 <ChevronRight size={20} />
-              </button>
+              </Link>
             </div>
 
             {/* Conect SUS */}
@@ -96,17 +93,17 @@ function App() {
               </div>
               <h3>Conect SUS</h3>
               <p>Agendamento de consultas e serviços de saúde</p>
-              <button className="link-button">
+              <Link to="/app/sus" className="link-button">
                 <span>Saiba mais</span>
                 <ChevronRight size={20} />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="features">
+      <section className="features" id="sobre">
         <div className="container">
           <h2>Diferenciais</h2>
           <div className="features-grid">
@@ -156,31 +153,31 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="footer">
+      <footer className="footer" id="ajuda">
         <div className="container">
           <div className="footer-grid">
             <div className="footer-column">
               <h3>Serviços</h3>
               <ul>
-                <li><a href="#">Educa Mais</a></li>
-                <li><a href="#">Fome 0</a></li>
-                <li><a href="#">Conect SUS</a></li>
+                <li><Link to="/app/educa">Educa Mais</Link></li>
+                <li><Link to="/app/fome">Fome 0</Link></li>
+                <li><Link to="/app/sus">Conect SUS</Link></li>
               </ul>
             </div>
             <div className="footer-column">
               <h3>Suporte</h3>
               <ul>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Contato</a></li>
-                <li><a href="#">Ajuda</a></li>
+                <li><Link to="/faq">FAQ</Link></li>
+                <li><Link to="/contato">Contato</Link></li>
+                <li><Link to="/ajuda">Ajuda</Link></li>
               </ul>
             </div>
             <div className="footer-column">
               <h3>Legal</h3>
               <ul>
-                <li><a href="#">Privacidade</a></li>
-                <li><a href="#">Termos</a></li>
-                <li><a href="#">Segurança</a></li>
+                <li><Link to="/privacidade">Privacidade</Link></li>
+                <li><Link to="/termos">Termos</Link></li>
+                <li><Link to="/seguranca">Segurança</Link></li>
               </ul>
             </div>
             <div className="footer-column">
@@ -209,3 +206,4 @@ function App() {
 }
 
 export default App;
+

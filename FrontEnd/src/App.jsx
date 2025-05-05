@@ -23,7 +23,7 @@ function MainContent() {
 
   const systems = [
     { id: "educa", name: "Educa Mais", icon: GraduationCap, color: "blue" },
-    { id: "fome", name: "Fome 0", icon: Apple, color: "green" },
+    { id: "fome", name: "Fome Zero", icon: Apple, color: "green" },
     { id: "sus", name: "Conect SUS", icon: Heart, color: "red" },
   ];
 

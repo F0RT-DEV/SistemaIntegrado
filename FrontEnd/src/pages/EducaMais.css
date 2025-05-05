@@ -117,3 +117,33 @@
 .modal {
   z-index: 1000;
 }
+
+.option-cardEDM {
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background-color: #3b82f6;
+
+  p{
+    color: rgb(7, 7, 7);
+  }
+}
+.option-cardEdm {
+  padding: 1rem;
+  border: 1px solid #9d9da8;
+  border-radius: 0.5rem;
+
+  p{
+    color: rgb(7, 7, 7);
+  }
+}
+
+.option-title {
+  font-weight: 500;
+  color: #111827;
+}
+
+.option-description {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+}

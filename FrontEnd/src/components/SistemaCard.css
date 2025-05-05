@@ -1,0 +1,20 @@
+.system-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 2px rgba(10, 10, 10, 0.05);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .system-card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .system-card.active {
+    box-shadow: 0 0 0 2px #3b82f6, 0 0 0 4px #ffffff;
+    transform: scale(1.05);
+  }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './FormEducaMais.css';
+import './EducaMais.css';
 
 const EducaMais = () => {
   const [showNewRegistrationModal, setShowNewRegistrationModal] = useState(false);
@@ -78,11 +78,11 @@ const EducaMais = () => {
       </div>
 
       <div className="options-grid">
-        <div className="option-card" onClick={() => setShowNewRegistrationModal(true)}>
+        <div className="option-cardEDM" onClick={() => setShowNewRegistrationModal(true)}>
           <h4 className="option-title">Nova Matrícula</h4>
           <p className="option-description">Cadastre um novo aluno no sistema</p>
         </div>
-        <div className="option-card" onClick={() => setShowConsultModal(true)}>
+        <div className="option-cardEdm" onClick={() => setShowConsultModal(true)}>
           <h4 className="option-title">Consultar Matrícula</h4>
           <p className="option-description">Verifique o status de uma matrícula</p>
         </div>

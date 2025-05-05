@@ -135,3 +135,23 @@
   80% { opacity: 1; transform: translateX(-50%) scale(1); }
   100% { opacity: 0; transform: translateX(-50%) scale(0.9); }
 }
+
+.option-cardCSUS {
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background-color:#F5F649;
+
+  p{
+    color: rgb(7, 7, 7);
+  }
+}
+.option-cardCsus {
+  padding: 1rem;
+  border: 1px solid #9d9da8;
+  border-radius: 0.5rem;
+
+  p{
+    color: rgb(7, 7, 7);
+  }
+}
