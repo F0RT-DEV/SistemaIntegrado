@@ -24,12 +24,13 @@ const NavBarra = () => {
             <Bell className="icon icon-small" />
 
             <button
-              className="nav-button"
-              onClick={() => navigate("/cadastro")}
-              style={{ cursor: "pointer", background: "transparent", border: "none" }}
-            >
-              <User className="icon icon-small" />
-            </button>
+  className="nav-button"
+  onClick={() => navigate("/app/perfil")}
+  style={{ cursor: "pointer", background: "transparent", border: "none" }}
+>
+  <User className="icon icon-small" />
+</button>
+
           </div>
         </div>
       </div>

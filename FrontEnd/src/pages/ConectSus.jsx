@@ -63,11 +63,11 @@ const ConectSus = () => {
 
       <div className="options-grid">
         <div className="option-cardCSUS" onClick={() => setShowModal(true)}>
-          <h4 className="option-title">Agendar Consulta</h4>
+          <h4 className="option-titleAC">Agendar Consulta</h4>
           <p className="option-description">Marque uma nova consulta médica</p>
         </div>
         <div className="option-cardCsus" onClick={() => setShowConsultas(!showConsultas)}>
-          <h4 className="option-title">Minhas Consultas</h4>
+          <h4 className="option-titleac">Minhas Consultas</h4>
           <p className="option-description">Visualize suas consultas agendadas</p>
         </div>
       </div>

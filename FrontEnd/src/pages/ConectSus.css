@@ -143,7 +143,7 @@
   background-color:#F5F649;
 
   p{
-    color: rgb(7, 7, 7);
+    color: rgb(255, 255, 255);
   }
 }
 .option-cardCsus {
@@ -154,4 +154,13 @@
   p{
     color: rgb(7, 7, 7);
   }
+}
+
+.option-titleac {
+  font-weight: 500;
+  color: #000000;
+}
+.option-titleAC {
+  font-weight: 500;
+  color: #f7f7f7;
 }

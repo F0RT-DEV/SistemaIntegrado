@@ -71,11 +71,11 @@ const FomeZero = () => {
         </div>
         <div className="options-grid">
           <div className="option-cardFZERO" onClick={() => setMostrarFormulario(true)}>
-            <h4 className="option-title">Nova Solicitação</h4>
+            <h4 className="option-titleFZERO">Nova Solicitação</h4>
             <p className="option-description">Cadastre um novo pedido de cesta básica</p>
           </div>
           <div className="option-cardFzero" onClick={() => setMostrarFormulario(true)}>
-            <h4 className="option-title">Acompanhar Pedido</h4>
+            <h4 className="option-titlefzero">Acompanhar Pedido</h4>
             <p className="option-description">Visualize seu pedido</p>
           </div>
         </div>

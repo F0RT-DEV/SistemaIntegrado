@@ -16,8 +16,11 @@ import Login from "./pages/Login";
 import EsqueciSenha from "./pages/Esquecisenha";
 import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
+import PerfilUsuario from "./pages/PerfilUsuario";
 import SistemaCard from "./components/SistemaCard";
-import "./App.css"; // Adicione o arquivo CSS para estilos globais
+import "./App.css";
+
+
 function MainContent() {
   const location = useLocation();
 
@@ -91,7 +94,10 @@ function App() {
           <Route path="educa" element={<EducaMais />} />
           <Route path="fome" element={<FomeZero />} />
           <Route path="sus" element={<ConectSus />} />
+          <Route path="perfil" element={<PerfilUsuario />} />
         </Route>
+        
+        
 
         {/* Redirecionamento Padrão */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -79,11 +79,11 @@ const EducaMais = () => {
 
       <div className="options-grid">
         <div className="option-cardEDM" onClick={() => setShowNewRegistrationModal(true)}>
-          <h4 className="option-title">Nova Matrícula</h4>
+          <h4 className="option-titleEDM">Nova Matrícula</h4>
           <p className="option-description">Cadastre um novo aluno no sistema</p>
         </div>
         <div className="option-cardEdm" onClick={() => setShowConsultModal(true)}>
-          <h4 className="option-title">Consultar Matrícula</h4>
+          <h4 className="option-titleedm">Consultar Matrícula</h4>
           <p className="option-description">Verifique o status de uma matrícula</p>
         </div>
       </div>

@@ -125,7 +125,7 @@
   background-color: #3b82f6;
 
   p{
-    color: rgb(7, 7, 7);
+    color: rgb(241, 241, 241);
   }
 }
 .option-cardEdm {
@@ -138,9 +138,13 @@
   }
 }
 
-.option-title {
+.option-titleedm {
   font-weight: 500;
-  color: #111827;
+  color: #000000;
+}
+.option-titleEDM {
+  font-weight: 500;
+  color: #f7f7f7;
 }
 
 .option-description {
