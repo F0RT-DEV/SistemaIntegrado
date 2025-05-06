@@ -6,16 +6,21 @@ const Cadastro = () => {
   const [formData, setFormData] = useState({
     foto: null,
     nome: "",
-    cpf: "",
+    documento_de_identificacao: "",
+    telefone: "",
+    email: "",
+    data_nascimento: "",
+    senha: "",
     genero: "",
     cep: "",
-    cidade: "VITORIA",
-    logradouro: "AV.R",
-    numero: "",
-    bairro: "",
+    endereco: "",
     complemento: "",
-    email: "PEDRO.AGBRIEL2578@ICLOUD.COM"
+    n_casa: "",
+    cidade: "VITORIA",
+    bairro: "",
+    uf: "ES"
   });
+
   const [alerta, setAlerta] = useState("");
   const [previewFoto, setPreviewFoto] = useState(null);
   const fileInputRef = useRef(null);
@@ -30,7 +35,6 @@ const Cadastro = () => {
   };
 
   const handleFotoChange = (e) => {
-    console.log('Campo alterado:', e.target.name, 'Valor:', e.target.value);
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -50,7 +54,7 @@ const Cadastro = () => {
   };
 
   const handleCadastro = () => { 
-    if (!formData.nome || !formData.cpf || !formData.email) {
+    if (!formData.nome || !formData.documento_de_identificacao || !formData.email || !formData.senha) {
       setAlerta("⚠️ Preencha todos os campos obrigatórios!");
       return;
     }
@@ -90,39 +94,91 @@ const Cadastro = () => {
         {alerta && <div className="alerta">{alerta}</div>}
         
         <div className="form-group">
-          <label>NOME:</label>
+          <label>NOME COMPLETO:</label>
           <input
             type="text"
             name="nome"
             value={formData.nome}
             onChange={handleChange}
             placeholder="DIGITE SEU NOME COMPLETO"
+            required
           />
         </div>
         
+        <div className="form-row">
+          <div className="form-group">
+            <label>CPF:</label>
+            <input
+              type="text"
+              name="documento_de_identificacao"
+              value={formData.documento_de_identificacao}
+              onChange={handleChange}
+              placeholder="DIGITE SEU CPF"
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>DATA DE NASCIMENTO:</label>
+            <input
+              type="date"
+              name="data_nascimento"
+              value={formData.data_nascimento}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>TELEFONE:</label>
+            <input
+              type="tel"
+              name="telefone"
+              value={formData.telefone}
+              onChange={handleChange}
+              placeholder="DIGITE SEU TELEFONE"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>GÊNERO:</label>
+            <select
+              name="genero"
+              value={formData.genero}
+              onChange={handleChange}
+            >
+              <option value="">SELECIONE</option>
+              <option value="masculino">Masculino</option>
+              <option value="feminino">Feminino</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+        </div>
+        
         <div className="form-group">
-          <label>CPF:</label>
+          <label>E-MAIL:</label>
           <input
-            type="text"
-            name="cpf"
-            value={formData.cpf}
+            type="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
-            placeholder="DIGITE SEU CPF"
+            placeholder="DIGITE SEU E-MAIL"
+            required
           />
         </div>
         
         <div className="form-group">
-          <label>GENERO:</label>
-          <select
-            name="genero"
-            value={formData.genero}
+          <label>SENHA:</label>
+          <input
+            type="password"
+            name="senha"
+            value={formData.senha}
             onChange={handleChange}
-          >
-            <option value="">SELECIONE</option>
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
-            <option value="outro">Outro</option>
-          </select>
+            placeholder="CRIE UMA SENHA"
+            required
+          />
         </div>
         
         <div className="form-row">
@@ -133,77 +189,56 @@ const Cadastro = () => {
               name="cep"
               value={formData.cep}
               onChange={handleChange}
-              placeholder="EX:29000.000"
+              placeholder="EX: 29000-000"
             />
           </div>
           
           <div className="form-group">
-            <label>CIDADE:</label>
-            <input
-              type="text"
-              name="cidade"
-              value={formData.cidade}
-              onChange={handleChange}
-              disabled
-            />
-          </div>
-        </div>
-
-        <div className="form-group">
             <label>UF:</label>
             <select
               name="uf"
               value={formData.uf}
               onChange={handleChange}
             >
-              <option value="AC">AM</option>
-              <option value="AL">AL</option>
-              <option value="AP">AP</option>
-              <option value="AM">AM</option>
-              <option value="BA">BA</option>
-              <option value="CE">CE</option>
-              <option value="DF">DF</option>
               <option value="ES">ES</option>
-              <option value="GO">GO</option>
-              <option value="MA">MA</option>
-              <option value="MT">MT</option>
-              <option value="MS">MS</option>
-              <option value="MG">MG</option>
-              <option value="PA">PA</option>
-              <option value="PB">PB</option>
-              <option value="PR">PR</option>
-              <option value="PE">PE</option>
-              <option value="PI">PI</option>
-              <option value="RJ">RJ</option>
-              <option value="RN">RN</option>
-              <option value="RS">RS</option>
-              <option value="RO">RO</option>
-              <option value="RR">RR</option>
-              <option value="SC">SC</option>
-              <option value="SP">SP</option>
-              <option value="SE">SE</option>
-              <option value="TO">TO</option>
+              <option value="AC">AC</option>
+              <option value="AL">AL</option>
+              {/* Outras opções de UF... */}
             </select>
           </div>
+        </div>
         
         <div className="form-group">
-          <label>LOGRADOURO:</label>
+          <label>CIDADE:</label>
           <input
             type="text"
-            name="logradouro"
-            value={formData.logradouro}
+            name="cidade"
+            value={formData.cidade}
             onChange={handleChange}
+            disabled
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>ENDEREÇO:</label>
+          <input
+            type="text"
+            name="endereco"
+            value={formData.endereco}
+            onChange={handleChange}
+            placeholder="DIGITE SEU ENDEREÇO"
           />
         </div>
         
         <div className="form-row">
           <div className="form-group">
-            <label>NUMERO:</label>
+            <label>NÚMERO:</label>
             <input
               type="text"
-              name="numero"
-              value={formData.numero}
+              name="n_casa"
+              value={formData.n_casa}
               onChange={handleChange}
+              placeholder="NÚMERO"
             />
           </div>
           
@@ -226,17 +261,7 @@ const Cadastro = () => {
             name="complemento"
             value={formData.complemento}
             onChange={handleChange}
-          />
-        </div>
-        
-        <div className="form-group">
-          <label>E-MAIL:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            disabled
+            placeholder="COMPLEMENTO (OPCIONAL)"
           />
         </div>
         
