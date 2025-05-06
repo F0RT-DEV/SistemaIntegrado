@@ -13,7 +13,7 @@ import FomeZero from "./pages/FomeZero";
 import ConectSus from "./pages/ConectSus";
 import Cadastro from "./pages/Cadastro";
 import Login from "./pages/Login";
-import EsqueciSenha from "./pages/Esquecisenha";
+import Esquecisenha from "./pages/Esquecisenha";
 import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
 import PerfilUsuario from "./pages/PerfilUsuario";
@@ -32,7 +32,7 @@ function MainContent() {
 
   return (
     <main className="main-content">
-      {location.pathname.startsWith("/app") && (
+      {location.pathname.startsWith("/app") && !location.pathname.startsWith("/app/perfil") && (
         <section className="services">
             <div className="systems-grid">
               {systems.map((system) => (
@@ -73,7 +73,7 @@ function App() {
         {/* Autenticação */}
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/login" element={<Login login={handleLogin} />} />
-        <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+        <Route path="/esqueci-senha" element={<Esquecisenha />} />
 
         {/* App Principal */}
         <Route

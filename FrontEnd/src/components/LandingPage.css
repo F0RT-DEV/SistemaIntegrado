@@ -1,6 +1,4 @@
-/* src/components/LandingPage.css */
-
-/* ===== Variáveis e Estilos Globais ===== */
+/* Global styles - Apenas as variáveis, sem reset ou body */
 :root {
   --color-blue-900: #1e3a8a;
   --color-blue-600: #2563eb;
@@ -12,20 +10,13 @@
   --color-gray-50: #f9fafb;
 }
 
-.landing-page {
-  font-family: system-ui, -apple-system, sans-serif;
-  line-height: 1.5;
-  color: #333;
-}
-
-/* ===== Container ===== */
 .landing-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
-/* ===== Header ===== */
+/* Header styles */
 .landing-header {
   position: fixed;
   width: 100%;
@@ -49,7 +40,7 @@
 
 .landing-logo img {
   height: 2.5rem;
-  width: 2.5rem;
+  width: 5.5rem;
   border-radius: 0.25rem;
 }
 
@@ -117,11 +108,12 @@
   cursor: pointer;
 }
 
-/* ===== Hero Section ===== */
+/* Hero section */
 .landing-hero {
-  padding-top: 6rem;
+  padding-top: 10rem;
   padding-bottom: 4rem;
   background: linear-gradient(to bottom right, #f0f9ff, #f3e8ff);
+  height: 500px;
 }
 
 .landing-hero-content {
@@ -157,8 +149,6 @@
   cursor: pointer;
   transition: background-color 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-decoration: none;
-  display: inline-block;
 }
 
 .landing-cta-button:hover {
@@ -168,11 +158,11 @@
 .landing-hero-image img {
   width: 100%;
   max-width: 600px;
+  height: 100%;
   border-radius: 0.5rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== Services Section ===== */
+/* Services section */
 .landing-services {
   padding: 4rem 0;
   background: white;
@@ -211,7 +201,7 @@
   justify-content: center;
   margin-bottom: 1.5rem;
 }
-
+/* Service Cards */
 .landing-service-icon.blue {
   background: #dbeafe;
   color: var(--color-blue-600);
@@ -247,14 +237,13 @@
   color: var(--color-blue-600);
   cursor: pointer;
   transition: color 0.3s;
-  text-decoration: none;
 }
 
 .landing-link-button:hover {
   color: var(--color-blue-900);
 }
 
-/* ===== Features Section ===== */
+/* Features section */
 .landing-features {
   padding: 4rem 0;
   background: var(--color-gray-50);
@@ -291,7 +280,7 @@
   color: var(--color-gray-600);
 }
 
-/* ===== Download Section ===== */
+/* Download section */
 .landing-download {
   padding: 4rem 0;
   background: linear-gradient(to bottom right, var(--color-blue-600), var(--color-purple-600));
@@ -348,7 +337,7 @@
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
 }
 
-/* ===== Footer ===== */
+/* Footer */
 .landing-footer {
   background: var(--color-blue-900);
   color: white;
@@ -411,7 +400,7 @@
   text-align: center;
 }
 
-/* ===== Media Queries ===== */
+/* Media Queries */
 @media (min-width: 768px) {
   .landing-main-nav {
     display: flex;

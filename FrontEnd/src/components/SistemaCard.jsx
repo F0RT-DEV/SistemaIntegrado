@@ -12,9 +12,25 @@ const SistemaCard = ({ system }) => {
     <button
     onClick={() => navigate(`/app/${system.id}`)} 
       className={`system-card ${isActive ? 'active' : ''}`}>
-      <div className={`icon-wrapper ${system.color}`}>
-      <system.icon className="icon-small" />
-      </div>
+      <div 
+  className={`icon-wrapper ${system.color}`}
+  style={{
+    ...(system.color === 'red' && {
+      backgroundColor: 'rgba(0, 0, 0, 0.12)',
+      border: '2px solid rgba(255, 51, 255, 0.3)'
+    }),
+    ...(system.color === 'blue' && {
+      backgroundColor: 'rgba(0, 0, 0, 0.12)',
+      border: '2px solid rgba(3, 7, 248, 0.46)'
+    }),
+    ...(system.color === 'green' && {
+      backgroundColor: 'rgba(0, 0, 0, 0.12)',
+      border: '2px solid rgba(13, 233, 42, 0.42)'
+    })
+  }}
+>
+  <system.icon className={`icon-small ${system.color}`} size={24} />
+</div>
       <h3 className="system-title">
         {system.name}
       </h3>

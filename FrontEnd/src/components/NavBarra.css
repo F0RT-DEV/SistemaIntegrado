@@ -45,3 +45,40 @@
     height: 2rem;
   }
   
+  .notification-wrapper {
+    position: relative;
+    margin-right: 20px;
+  }
+  
+  .notification-dropdown {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    width: 200px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    z-index: 100;
+  }
+  
+  .notification-message {
+    color: #333;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .icon-small.has-notifications {
+    position: relative;
+  }
+  
+  .icon-small.has-notifications::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+  }
