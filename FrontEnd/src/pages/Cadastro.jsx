@@ -11,6 +11,7 @@ const Cadastro = () => {
     email: "",
     data_nascimento: "",
     senha: "",
+    confirmarSenha: "",
     genero: "",
     cep: "",
     endereco: "",
@@ -54,11 +55,24 @@ const Cadastro = () => {
   };
 
   const handleCadastro = () => { 
+    // Validação dos campos obrigatórios
     if (!formData.nome || !formData.documento_de_identificacao || !formData.email || !formData.senha) {
       setAlerta("⚠️ Preencha todos os campos obrigatórios!");
       return;
     }
-  
+    
+    // Validação da senha
+    if (formData.senha !== formData.confirmarSenha) {
+      setAlerta("⚠️ As senhas não coincidem!");
+      return;
+    }
+    
+    // Validação de força da senha (opcional)
+    if (formData.senha.length < 6) {
+      setAlerta("⚠️ A senha deve ter pelo menos 6 caracteres!");
+      return;
+    }
+
     console.log("Usuário cadastrado:", formData);
     setAlerta("");
     alert("✅ Cadastro realizado com sucesso!");
@@ -169,16 +183,30 @@ const Cadastro = () => {
           />
         </div>
         
-        <div className="form-group">
-          <label>SENHA:</label>
-          <input
-            type="password"
-            name="senha"
-            value={formData.senha}
-            onChange={handleChange}
-            placeholder="CRIE UMA SENHA"
-            required
-          />
+        <div className="form-row">
+          <div className="form-group">
+            <label>SENHA:</label>
+            <input
+              type="password"
+              name="senha"
+              value={formData.senha}
+              onChange={handleChange}
+              placeholder="CRIE UMA SENHA"
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>CONFIRMAR SENHA:</label>
+            <input
+              type="password"
+              name="confirmarSenha"
+              value={formData.confirmarSenha}
+              onChange={handleChange}
+              placeholder="CONFIRME SUA SENHA"
+              required
+            />
+          </div>
         </div>
         
         <div className="form-row">

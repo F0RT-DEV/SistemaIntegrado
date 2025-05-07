@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./PerfilUsuario.css";
-import { User, Mail, MapPin, Grid, Pencil, X, Check } from "lucide-react";
+import { User, Mail, MapPin, Grid, Pencil } from "lucide-react";
+import EditarPerfilModal from "../components/EditarPerfilModal"; // ⬅️ Importando o novo modal
 
 const PerfilUsuario = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedUser, setEditedUser] = useState({
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [user, setUser] = useState({
     nome: "Maria da Silva",
     email: "maria@email.com",
     foto: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -18,180 +19,47 @@ const PerfilUsuario = () => {
     complemento: "Apto 101"
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedUser(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const servicos = [
+    { nome: "EducaMais", status: "ativo", desc: "1 matrícula ativa" },
+    { nome: "FomeZero", status: "pendente", desc: "Pedido de cesta básica em andamento" },
+    { nome: "ConectSUS", status: "", desc: "1 consulta agendada" }
+  ];
 
   const handleSave = () => {
-    setIsEditing(false);
-    // Aqui você pode adicionar a lógica para salvar no backend
+    setIsModalOpen(false);
+    // Lógica de salvar no backend pode ser adicionada aqui
   };
 
   return (
     <div className="perfil-container">
       <div className="perfil-header">
-        <h1>
-          <User size={24} />
-          Meu Perfil
-        </h1>
-        <button 
-          className={`edit-button ${isEditing ? 'editing' : ''}`}
-          onClick={() => isEditing ? handleSave() : setIsEditing(true)}
+        <h1><User size={24} /> Meu Perfil</h1>
+        <button  className="edit-button"
+          onClick={() => setIsModalOpen(true)}
         >
-          {isEditing ? (
-            <>
-              <Check size={16} />
-              Salvar
-            </>
-          ) : (
-            <>
-              <Pencil size={16} />
-              Editar
-            </>
-          )}
+          <Pencil size={16} /> Editar
         </button>
-        {isEditing && (
-          <button 
-            className="cancel-button"
-            onClick={() => setIsEditing(false)}
-          >
-            <X size={16} />
-            Cancelar
-          </button>
-        )}
       </div>
       
       <div className="perfil-content">
         <div className="perfil-info">
           <div className="foto-section">
-            {editedUser.foto ? (
-              <img src={editedUser.foto} alt="Foto de perfil" className="foto-perfilP" />
+            {user.foto ? (
+              <img src={user.foto} alt="Foto de perfil" className="foto-perfilP" />
             ) : (
-              <div className="foto-placeholder">
-                <User size={40} />
-              </div>
+              <div className="foto-placeholder"><User size={40} /></div>
             )}
           </div>
 
           <div className="dados-section">
-            <p>
-              <strong>Nome:</strong>
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="nome"
-                  value={editedUser.nome}
-                  onChange={handleInputChange}
-                  className="edit-input"
-                />
-              ) : (
-                editedUser.nome
-              )}
-            </p>
-            <p><strong>CPF:</strong> {editedUser.cpf}</p>
-            <p>
-              <strong>Gênero:</strong>
-              {isEditing ? (
-                <select
-                  name="genero"
-                  value={editedUser.genero}
-                  onChange={handleInputChange}
-                  className="edit-input"
-                >
-                  <option value="Feminino">Feminino</option>
-                  <option value="Masculino">Masculino</option>
-                  <option value="Outro">Outro</option>
-                </select>
-              ) : (
-                editedUser.genero
-              )}
-            </p>
-            <p>
-              <strong>Email:</strong>
+            <p><strong>Nome:</strong> {user.nome}</p>
+            <p><strong>CPF:</strong> {user.cpf}</p>
+            <p><strong>Gênero:</strong> {user.genero}</p>
+            <p><strong>Email:</strong><span className="flex items-center gap-2">{user.email}</span></p>
+            <p><strong>Endereço:</strong>
               <span className="flex items-center gap-2">
-                <Mail size={16} />
-                {isEditing ? (
-                  <input
-                    type="email"
-                    name="email"
-                    value={editedUser.email}
-                    onChange={handleInputChange}
-                    className="edit-input"
-                  />
-                ) : (
-                  editedUser.email
-                )}
+                {`${user.logradouro}, Nº ${user.numero}, ${user.bairro}, ${user.complemento}, ${user.cidade} - ${user.uf}`}
               </span>
-            </p>
-            <p>
-              <strong>Endereço:</strong>
-              <span className="flex items-center gap-2">
-                <MapPin size={16} />
-                {isEditing ? (
-                  <div className="endereco-inputs">
-                    <input
-                      type="text"
-                      name="logradouro"
-                      value={editedUser.logradouro}
-                      onChange={handleInputChange}
-                      placeholder="Logradouro"
-                      className="edit-input"
-                    />
-                    <input
-                      type="text"
-                      name="numero"
-                      value={editedUser.numero}
-                      onChange={handleInputChange}
-                      placeholder="Número"
-                      className="edit-input"
-                    />
-                    <input
-                      type="text"
-                      name="bairro"
-                      value={editedUser.bairro}
-                      onChange={handleInputChange}
-                      placeholder="Bairro"
-                      className="edit-input"
-                    />
-                    <input
-                      type="text"
-                      name="cidade"
-                      value={editedUser.cidade}
-                      onChange={handleInputChange}
-                      placeholder="Cidade"
-                      className="edit-input"
-                    />
-                    <input
-                      type="text"
-                      name="uf"
-                      value={editedUser.uf}
-                      onChange={handleInputChange}
-                      placeholder="UF"
-                      className="edit-input"
-                    />
-                  </div>
-                ) : (
-                  `${editedUser.logradouro}, Nº ${editedUser.numero}, ${editedUser.bairro}, ${editedUser.cidade} - ${editedUser.uf}`
-                )}
-              </span>
-            </p>
-            <p>
-              <strong>Complemento:</strong>
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="complemento"
-                  value={editedUser.complemento}
-                  onChange={handleInputChange}
-                  className="edit-input"
-                />
-              ) : (
-                editedUser.complemento || "Nenhum"
-              )}
             </p>
           </div>
         </div>
@@ -199,26 +67,26 @@ const PerfilUsuario = () => {
         <hr className="section-divider" />
 
         <div className="acessos-rapidos">
-          <h2>
-            <Grid size={20} />
-            Serviços Acessados
-          </h2>
+          <h2><Grid size={20} /> Serviços Acessados</h2>
           <ul className="servicos-list">
-            <li className="servico-item ativo">
-              <strong>EducaMais</strong>
-              <span>1 matrícula ativa</span>
-            </li>
-            <li className="servico-item pendente">
-              <strong>FomeZero</strong>
-              <span>Pedido de cesta básica em andamento</span>
-            </li>
-            <li className="servico-item">
-              <strong>ConectSUS</strong>
-              <span>1 consulta agendada</span>
-            </li>
+            {servicos.map(servico => (
+              <li key={servico.nome} className={`servico-item ${servico.status}`}>
+                <strong>{servico.nome}</strong>
+                <span>{servico.desc}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
+
+      {isModalOpen && (
+        <EditarPerfilModal
+          user={user}
+          setUser={setUser}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSave}
+        />
+      )}
     </div>
   );
 };

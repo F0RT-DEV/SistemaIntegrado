@@ -96,19 +96,6 @@ const FomeZero = () => {
                 <option value="Acima de 2 salários mínimos">Acima de 2 salários mínimos</option>
               </select>
 
-              <select name="numeroDependentes" value={formData.numeroDependentes} onChange={handleChange} required>
-                <option value="">Número de Dependentes</option>
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3 ou mais">3 ou mais</option>
-              </select>
-
-              <input type="email" name="emailDependente" placeholder="Email do Dependente" value={formData.emailDependente} onChange={handleChange} required />
-              <input type="text" name="cpfDependente" placeholder="CPF do Dependente" value={formData.cpfDependente} onChange={handleChange} required />
-
-              <input type="file" accept="image/*" onChange={handleFileChange} required />
-
               <div className="modal-buttons">
                 <button type="button" onClick={() => setMostrarFormulario(false)} className="cancel-button">Cancelar</button>
                 <button type="submit" className="confirm-button">Enviar Pedido</button>

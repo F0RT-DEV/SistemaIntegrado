@@ -133,7 +133,7 @@
   padding: 1rem;
   border: 1px solid #9d9da8;
   border-radius: 0.5rem;
-
+  cursor: pointer;
   p{
     color: rgb(7, 7, 7);
   }

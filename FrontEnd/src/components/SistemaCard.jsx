@@ -17,7 +17,7 @@ const SistemaCard = ({ system }) => {
   style={{
     ...(system.color === 'red' && {
       backgroundColor: 'rgba(0, 0, 0, 0.12)',
-      border: '2px solid rgba(255, 51, 255, 0.3)'
+      border: '2px solid rgba(255, 102, 0, 0.3) '
     }),
     ...(system.color === 'blue' && {
       backgroundColor: 'rgba(0, 0, 0, 0.12)',

@@ -140,7 +140,8 @@
   padding: 1rem;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
-  background-color:#FF33FF;
+  background-color:#FF6600;
+  cursor: pointer;
 
   p{
     color: rgb(255, 255, 255);
@@ -150,6 +151,7 @@
   padding: 1rem;
   border: 1px solid #9d9da8;
   border-radius: 0.5rem;
+  cursor: pointer;
 
   p{
     color: rgb(7, 7, 7);

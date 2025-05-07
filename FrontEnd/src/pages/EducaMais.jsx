@@ -146,7 +146,7 @@ const EducaMais = () => {
       {/* Modal de Consulta de Matrícula */}
       {showConsultModal && (
         <div className="modal">
-          <div className="modal-content">
+          <div className="modal-contentED">
             <h3>Consultar Matrícula</h3>
             <form onSubmit={handleConsultSubmit}>
               <input

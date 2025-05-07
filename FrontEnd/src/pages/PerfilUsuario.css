@@ -81,19 +81,6 @@
     color: white;
     border-color: var(--success);
   }
-  
-  .cancel-button {
-    background-color: white;
-    color: var(--danger);
-    margin-left: 0.5rem;
-  }
-  
-  .cancel-button:hover {
-    background-color: var(--danger);
-    color: white;
-    border-color: var(--danger);
-  }
-  
   .perfil-content {
     padding: 0 2rem 2rem;
   }
@@ -162,32 +149,6 @@
     min-width: 100px;
     color: var(--gray-800);
     font-weight: 600;
-  }
-  
-  .edit-input {
-    padding: 0.5rem;
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius);
-    font-size: 0.875rem;
-    width: 100%;
-    transition: var(--transition);
-  }
-  
-  .edit-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px var(--primary-light);
-  }
-  
-  .endereco-inputs {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-    width: 100%;
-  }
-  
-  .endereco-inputs input {
-    width: 100%;
   }
   
   .section-divider {
