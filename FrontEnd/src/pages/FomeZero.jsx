@@ -5,12 +5,15 @@ const FomeZero = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [mostrarBemVindo, setMostrarBemVindo] = useState(true);
   const [mostrarConsulta, setMostrarConsulta] = useState(false);
-  const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false); // novo estado
+  const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false);
 
-  const [formData, setFormData] = useState({
-    nome: "",
-    cpf: "",
-    rendaFamiliar: "",
+  const [formData, setFormData] = useState(() => {
+    const userData = JSON.parse(localStorage.getItem("usuarioLogado")) || {};
+    return {
+      nome: userData.nome || "",
+      cpf: userData.cpf || "",
+      rendaFamiliar: ""
+    };
   });
 
   const [pedidos, setPedidos] = useState([]);
@@ -22,10 +25,22 @@ const FomeZero = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Atualiza os dados quando o modal abre
+  useEffect(() => {
+    if (mostrarFormulario) {
+      const userData = JSON.parse(localStorage.getItem("usuarioLogado")) || {};
+      setFormData(prev => ({
+        ...prev,
+        nome: userData.nome || prev.nome,
+        cpf: userData.cpf || prev.cpf
+      }));
+    }
+  }, [mostrarFormulario]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "cpf") {
+      // Permite qualquer número (removida a validação)
       const onlyNumbers = value.replace(/\D/g, "");
       setFormData({ ...formData, [name]: onlyNumbers });
     } else {
@@ -33,30 +48,17 @@ const FomeZero = () => {
     }
   };
 
-  const validarCPF = (cpf) => {
-    if (cpf.length !== 11 || !/\d{11}/.test(cpf)) return false;
-    let soma = 0, resto;
-    for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf[9])) return false;
-    soma = 0;
-    for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    return resto === parseInt(cpf[10]);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validarCPF(formData.cpf)) {
-      alert("CPF inválido!");
+    
+    // Verificação básica apenas se tem 11 dígitos (sem validar dígitos verificadores)
+    if (formData.cpf.length !== 11) {
+      alert("CPF deve conter 11 dígitos!");
       return;
     }
 
     setPedidos([...pedidos, formData]);
     setFormData({ nome: "", cpf: "", rendaFamiliar: "" });
-
     setMostrarFormulario(false);
 
     // Mostra a confirmação por 3 segundos
@@ -100,9 +102,32 @@ const FomeZero = () => {
           <div className="modal-content">
             <h3>Nova Solicitação</h3>
             <form onSubmit={handleSubmit}>
-              <input type="text" name="nome" placeholder="Nome" value={formData.nome} onChange={handleChange} required />
-              <input type="text" name="cpf" placeholder="CPF" value={formData.cpf} onChange={handleChange} required />
-              <select name="rendaFamiliar" value={formData.rendaFamiliar} onChange={handleChange} required>
+              <p>Novo pedido</p>
+              <input 
+                type="text" 
+                name="nome" 
+                placeholder="Nome" 
+                value={formData.nome} 
+                onChange={handleChange} 
+                required 
+                className={formData.nome ? 'auto-filled' : ''}
+              />
+              <input 
+                type="text" 
+                name="cpf" 
+                placeholder="CPF (apenas números)" 
+                value={formData.cpf} 
+                onChange={handleChange} 
+                required 
+                className={formData.cpf ? 'auto-filled' : ''}
+                maxLength={11}
+              />
+              <select 
+                name="rendaFamiliar" 
+                value={formData.rendaFamiliar} 
+                onChange={handleChange} 
+                required
+              >
                 <option value="">Selecione a Renda Familiar</option>
                 <option value="Até 1 salário mínimo">Até 1 salário mínimo</option>
                 <option value="De 1 a 2 salários mínimos">De 1 a 2 salários mínimos</option>
@@ -110,8 +135,12 @@ const FomeZero = () => {
               </select>
 
               <div className="modal-buttons">
-                <button type="button" onClick={() => setMostrarFormulario(false)} className="cancel-button">Cancelar</button>
-                <button type="submit" className="confirm-button">Enviar Pedido</button>
+                <button type="button" onClick={() => setMostrarFormulario(false)} className="cancel-button">
+                  Cancelar
+                </button>
+                <button type="submit" className="confirm-button">
+                  Enviar Pedido
+                </button>
               </div>
             </form>
           </div>

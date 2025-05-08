@@ -87,3 +87,8 @@
   margin-top: 0.25rem;
   font-size: 0.875rem;
 }
+
+.auto-filled {
+  background-color: #f0f8ff; /* Azul bem clarinho */
+  border-left: 3px solid #4682b4; /* Borda lateral azul */
+}

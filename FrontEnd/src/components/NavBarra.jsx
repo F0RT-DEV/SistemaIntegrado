@@ -38,10 +38,10 @@ const NavBarra = () => {
   }, []);
 
   const handleLogout = () => {
-    navigate("/login");
-    window.location.reload(); // Força logout completo
+    localStorage.removeItem("token");
+    window.location.href = "/";
   };
-
+  
   return (
     <nav className="nav">
       <div className="nav-container">

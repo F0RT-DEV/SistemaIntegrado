@@ -1,23 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PerfilUsuario.css";
 import { User, Mail, MapPin, Grid, Pencil } from "lucide-react";
 import EditarPerfilModal from "../components/EditarPerfilModal";
 
 const PerfilUsuario = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user, setUser] = useState({
-    nome: "Choconelson Ferreira Castrado",
-    email: "LatiuGrau2025@email.com",
-    foto: "https://media1.tenor.com/m/cRz_EwERcloAAAAC/image-perms.gif",
-    cpf: "123.456.789-00",
-    genero: "Masculino",
-    logradouro: "Rua das Flores",
-    numero: "123",
-    bairro: "Centro",
-    cidade: "São Paulo",
-    uf: "SP",
-    complemento: "Apto 101"
-  });
+  const [user, setUser] = useState({});
+
+  // Carregar dados do localStorage ao montar o componente
+  useEffect(() => {
+    const savedUser = JSON.parse(localStorage.getItem("userData"));
+    if (savedUser) {
+      setUser(savedUser);
+    }
+  }, []);
 
   const servicos = [
     { nome: "EducaMais", status: "ativo", desc: "1 matrícula ativa" },
@@ -34,9 +30,7 @@ const PerfilUsuario = () => {
     <div className="perfil-container">
       <div className="perfil-header">
         <h1><User size={24} /> Meu Perfil</h1>
-        <button  className="edit-button"
-          onClick={() => setIsModalOpen(true)}
-        >
+        <button className="edit-button" onClick={() => setIsModalOpen(true)}>
           <Pencil size={16} /> Editar
         </button>
       </div>
@@ -55,7 +49,7 @@ const PerfilUsuario = () => {
             <p><strong>Nome:</strong> {user.nome}</p>
             <p><strong>CPF:</strong> {user.cpf}</p>
             <p><strong>Gênero:</strong> {user.genero}</p>
-            <p><strong>Email:</strong><span className="flex items-center gap-2">{user.email}</span></p>
+            <p><strong>Email:</strong> <span className="flex items-center gap-2">{user.email}</span></p>
             <p><strong>Endereço:</strong>
               <span className="flex items-center gap-2">
                 {`${user.logradouro}, Nº ${user.numero}, ${user.bairro}, ${user.complemento}, ${user.cidade} - ${user.uf}`}

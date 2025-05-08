@@ -3,9 +3,10 @@ import {
   Route,
   Navigate,
   useLocation,
-  Outlet  // Adicione esta importação
+  Outlet,
 } from "react-router-dom";
 import { useState } from "react";
+import { useEffect } from "react";
 import { GraduationCap, Apple, Heart } from "lucide-react";
 import NavBarra from "./components/NavBarra";
 import EducaMais from "./pages/EducaMais";
@@ -52,6 +53,13 @@ function MainContent() {
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   const handleLogin = () => {
     setIsAuthenticated(true);
   };
@@ -95,6 +103,7 @@ function App() {
           <Route path="fome" element={<FomeZero />} />
           <Route path="sus" element={<ConectSus />} />
           <Route path="perfil" element={<PerfilUsuario />} />
+          <Route path="landing" element={<LandingPage />} />
         </Route>
         
         

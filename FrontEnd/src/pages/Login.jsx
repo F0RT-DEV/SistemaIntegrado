@@ -18,16 +18,26 @@ const Login = ({ login }) => {
       return;
     }
   
-    if (email === "admin@email.com" && senha === "123456") {
+    // Verificar se o usuário existe no localStorage
+    const storedUser = JSON.parse(localStorage.getItem("userData"));
+  
+    // Checar login válido
+    if (
+      (storedUser && storedUser.email === email && storedUser.senha === senha) ||  // Verifica dados do cadastro
+      (email === "admin@email.com" && senha === "123456")  // Verifica admin
+    ) {
       setSucesso("Login efetuado com sucesso!");
       setTimeout(() => {
+        localStorage.setItem("token", "fake-token-123");
+        console.log("Token salvo:", localStorage.getItem("token")); // Simula o token
         login();
         navigate("/educa");
-      }, 1100); // Pequeno delay para mostrar o alerta antes do redirecionamento
+      }, 1100);
     } else {
-      setAlerta("E-mail ou senha incorretos!");
+      setAlerta("E-mail ou senha inválidos!");
     }
   };
+      
 
   return (
     <div className="login-container">

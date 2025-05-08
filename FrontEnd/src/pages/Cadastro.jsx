@@ -17,9 +17,9 @@ const Cadastro = () => {
     endereco: "",
     complemento: "",
     n_casa: "",
-    cidade: "VITORIA",
+    cidade: "",
     bairro: "",
-    uf: "ES"
+    uf: ""
   });
 
   const [alerta, setAlerta] = useState("");
@@ -55,29 +55,45 @@ const Cadastro = () => {
   };
 
   const handleCadastro = () => { 
-    // Validação dos campos obrigatórios
     if (!formData.nome || !formData.documento_de_identificacao || !formData.email || !formData.senha) {
       setAlerta("⚠️ Preencha todos os campos obrigatórios!");
       return;
     }
-    
-    // Validação da senha
+  
     if (formData.senha !== formData.confirmarSenha) {
       setAlerta("⚠️ As senhas não coincidem!");
       return;
     }
-    
-    // Validação de força da senha (opcional)
+  
     if (formData.senha.length < 6) {
       setAlerta("⚠️ A senha deve ter pelo menos 6 caracteres!");
       return;
     }
-
-    console.log("Usuário cadastrado:", formData);
+  
+    const userData = {
+      nome: formData.nome,
+      email: formData.email,
+      senha: formData.senha,
+      foto: previewFoto || "",
+      cpf: formData.documento_de_identificacao,
+      genero: formData.genero,
+      logradouro: formData.endereco,
+      numero: formData.n_casa,
+      bairro: formData.bairro,
+      cidade: formData.cidade,
+      uf: formData.uf,
+      complemento: formData.complemento
+    };
+  
+    localStorage.setItem("userData", JSON.stringify(userData));
+    localStorage.setItem("usuarioLogado", JSON.stringify(userData)); // <- aqui adicionamos
+  
     setAlerta("");
-    alert(" Cadastro realizado com sucesso!");
-    navigate("/");
+    alert("Cadastro realizado com sucesso!");
+    navigate("/login");
   };
+  
+
   
   return (
     <div className="cadastro-full">
@@ -243,7 +259,6 @@ const Cadastro = () => {
             name="cidade"
             value={formData.cidade}
             onChange={handleChange}
-            disabled
           />
         </div>
         
