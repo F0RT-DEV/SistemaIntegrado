@@ -108,27 +108,33 @@ const ConectSus = () => {
         </div>
       )}
 
-      {showConsultas && (
-        <div className="consultas-list">
-          <h3>Consultas Agendadas</h3>
-          {consultas.length > 0 ? (
-            <ul>
-              {consultas.map((consulta) => (
-                <li key={consulta.id}>
-                  <strong>{consulta.nome}</strong>
-                  <div>
-                    {new Date(consulta.dataHora).toLocaleDateString()} às {new Date(consulta.dataHora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </div>
-                  <div>Médico: {consulta.medico}</div>
-                  <div>Especialidade: {consulta.especialidade}</div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>Nenhuma consulta agendada.</p>
-          )}
-        </div>
-      )}
+{showConsultas && (
+  <div className="consultas-list">
+    <h3>Consultas Agendadas</h3>
+    {consultas.length > 0 ? (
+      <ul>
+        {consultas.map((consulta) => (
+          <li key={consulta.id}>
+            <strong>{consulta.nome}</strong>
+            <div>
+              {new Date(consulta.dataHora).toLocaleDateString()} às {new Date(consulta.dataHora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </div>
+            <div>Médico: {consulta.medico}</div>
+            <div>Especialidade: {consulta.especialidade}</div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>Nenhuma consulta agendada.</p>
+    )}
+    <div className="center-button">
+      <button onClick={() => setShowConsultas(false)} className="cancel-button">
+        Fechar
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

@@ -268,7 +268,11 @@
 .landing-feature-icon {
   color: var(--color-purple-600);
   margin-bottom: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 
 .landing-feature-item h3 {
   font-size: 1.25rem;

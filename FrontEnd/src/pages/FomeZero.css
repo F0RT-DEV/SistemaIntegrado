@@ -89,8 +89,7 @@
     100% { opacity: 0; }
   }
 
-.welcome-message-top,
-.confirmation-message {
+.welcome-message-top {
   position: fixed;
   top: 50px;
   left: 50%;
@@ -112,18 +111,89 @@
 }
 
 .confirmation-message.registration {
-  background-color: rgba(46, 204, 113, 0.9); /* Verde para matrícula */
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #28a745;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  animation: fadeInOut 3s ease-in-out forwards;
 }
 
-.confirmation-message.consult {
-  background-color: rgba(155, 89, 182, 0.9); /* Roxo para consulta */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
 }
+
+
+.consultas-listFZ {
+  margin-top: 30px;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.consultas-listFZ h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  color: #222;
+  text-transform: uppercase;
+}
+
+.consultas-listFZ ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.consultas-listFZ li {
+  background-color: #f1f1f1;
+  margin-bottom: 12px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  border-left: 5px solid #28a745;
+  font-size: 15px;
+  color: #444;
+}
+
+.consultas-listFZ li strong {
+  display: block;
+  font-size: 16px;
+  color: #222;
+  font-weight: 600;
+}
+
+.center-button {
+  text-align: center;
+  margin-top: 20px;
+}
+
 
 .option-cardFZERO {
   padding: 1rem;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
   background-color:#22c55e;
+  cursor: pointer;
 
   p{
     color: rgb(255, 255, 255);

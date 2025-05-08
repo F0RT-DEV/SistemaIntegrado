@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import "./PerfilUsuario.css";
 import { User, Mail, MapPin, Grid, Pencil } from "lucide-react";
-import EditarPerfilModal from "../components/EditarPerfilModal"; // ⬅️ Importando o novo modal
+import EditarPerfilModal from "../components/EditarPerfilModal";
 
 const PerfilUsuario = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState({
-    nome: "Maria da Silva",
-    email: "maria@email.com",
-    foto: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=600",
+    nome: "Choconelson Ferreira Castrado",
+    email: "LatiuGrau2025@email.com",
+    foto: "https://media1.tenor.com/m/cRz_EwERcloAAAAC/image-perms.gif",
     cpf: "123.456.789-00",
-    genero: "Feminino",
+    genero: "Masculino",
     logradouro: "Rua das Flores",
     numero: "123",
     bairro: "Centro",
@@ -22,7 +22,7 @@ const PerfilUsuario = () => {
   const servicos = [
     { nome: "EducaMais", status: "ativo", desc: "1 matrícula ativa" },
     { nome: "FomeZero", status: "pendente", desc: "Pedido de cesta básica em andamento" },
-    { nome: "ConectSUS", status: "", desc: "1 consulta agendada" }
+    { nome: "ConectSUS", status: "agendado", desc: "1 consulta agendada" }
   ];
 
   const handleSave = () => {

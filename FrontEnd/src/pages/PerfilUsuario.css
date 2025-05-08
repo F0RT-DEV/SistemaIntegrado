@@ -10,9 +10,9 @@
     --gray-400: #94a3b8;
     --gray-600: #475569;
     --gray-800: #1e293b;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --danger: #ef4444;
+    --ativo: #1d53e9;
+    --pendente: #0b972e;
+    --agendado: #f59e0b;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -23,7 +23,7 @@
   
   .perfil-container {
     max-width: 900px;
-    margin: 4rem auto;
+    margin: 1rem auto;
     background: white;
     border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
@@ -96,7 +96,8 @@
   
   .foto-section {
     flex-shrink: 0;
-    margin-top: 80px;
+    display: grid;
+    place-items: center;
   }
   
   .foto-perfilP {
@@ -206,11 +207,15 @@
   }
   
   .servico-item.pendente {
-    border-left: 4px solid var(--warning);
+    border-left: 4px solid var(--pendente);
   }
   
   .servico-item.ativo {
-    border-left: 4px solid var(--success);
+    border-left: 4px solid var(--ativo);
+  }
+
+  .servico-item.agendado {
+    border-left: 4px solid var(--agendado);
   }
   
   .servico-item strong {

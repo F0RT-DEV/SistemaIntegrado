@@ -75,7 +75,7 @@ const Cadastro = () => {
 
     console.log("Usuário cadastrado:", formData);
     setAlerta("");
-    alert("✅ Cadastro realizado com sucesso!");
+    alert(" Cadastro realizado com sucesso!");
     navigate("/");
   };
   

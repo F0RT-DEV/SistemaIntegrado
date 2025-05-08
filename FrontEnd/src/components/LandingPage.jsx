@@ -122,7 +122,7 @@ function LandingPage() {
           </h2>
           <div className="landing-features-grid grid md:grid-cols-3 gap-8">
             <div className="landing-feature-item bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-              <Wifi className="landing-feature-icon text-green-700 mb-4" size={48} />
+              <Wifi className="landing-feature-icon text-green-700 mb-4 mx-auto" size={48} />
               <h3 className="text-xl font-semibold text-gray-800">
                 Acesso Digital
               </h3>

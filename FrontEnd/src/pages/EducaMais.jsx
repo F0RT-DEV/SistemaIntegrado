@@ -8,6 +8,8 @@ const EducaMais = () => {
   const [showWelcome, setShowWelcome] = useState(false);
   const [showRegistrationConfirmation, setShowRegistrationConfirmation] = useState(false);
   const [showConsultConfirmation, setShowConsultConfirmation] = useState(false);
+  const [registrations, setRegistrations] = useState([]);
+
 
   // Mensagem de boas-vindas ao carregar a página
   useEffect(() => {
@@ -32,13 +34,19 @@ const EducaMais = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Alunos cadastrados:', students);
+  
+    // Adiciona os alunos cadastrados ao estado de matrículas
+    setRegistrations([...registrations, ...students]);
+  
+    // Limpa os campos e fecha o modal
     setStudents([{ name: '', birthDate: '', grade: '', cpf: '' }]);
     setShowNewRegistrationModal(false);
-    
-    // Mostra mensagem de confirmação de matrícula
+  
+    // Mensagem de confirmação
     setShowRegistrationConfirmation(true);
     setTimeout(() => setShowRegistrationConfirmation(false), 3000);
   };
+  
 
   const handleConsultSubmit = (e) => {
     e.preventDefault();
@@ -145,27 +153,31 @@ const EducaMais = () => {
 
       {/* Modal de Consulta de Matrícula */}
       {showConsultModal && (
-        <div className="modal">
-          <div className="modal-contentED">
-            <h3>Consultar Matrícula</h3>
-            <form onSubmit={handleConsultSubmit}>
-              <input
-                type="text"
-                placeholder="Número da Matrícula ou CPF"
-                required
-              />
-              <div className="modal-buttons">
-                <button type="button" onClick={() => setShowConsultModal(false)} className="cancel-button">
-                  Cancelar
-                </button>
-                <button type="submit" className="confirm-button">
-                  Consultar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+  <div className="consultas-list">
+    <h3>Matrículas Cadastradas</h3>
+    {registrations.length > 0 ? (
+      <ul>
+        {registrations.map((student, index) => (
+          <li key={index}>
+            <strong>{student.name}</strong>
+            <div>CPF: {student.cpf}</div>
+            <div>Nascimento: {student.birthDate}</div>
+            <div>Série/Ano: {student.grade}</div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>Nenhuma matrícula cadastrada.</p>
+    )}
+    <div className="center-button">
+      <button onClick={() => setShowConsultModal(false)} className="cancel-button">
+        Fechar
+      </button>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };

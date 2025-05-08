@@ -14,14 +14,14 @@ body {
 
 
 .system-content-container{
-height: 87vh;
+height: auto;
 }
 
 .main-content {
   max-width: 80rem;
   margin: 0 auto;
   padding: 2rem 1rem;
-  height: auto;
+  height: 100vh;
 }
 
 .systems-grid {

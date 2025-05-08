@@ -3,36 +3,37 @@ import "./FomeZero.css";
 
 const FomeZero = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  const [mostrarPopup, setMostrarPopup] = useState(false);
   const [mostrarBemVindo, setMostrarBemVindo] = useState(true);
+  const [mostrarConsulta, setMostrarConsulta] = useState(false);
+  const [mostrarConfirmacao, setMostrarConfirmacao] = useState(false); // novo estado
 
   const [formData, setFormData] = useState({
     nome: "",
     cpf: "",
     rendaFamiliar: "",
-    numeroDependentes: "",
-    emailDependente: "",
-    cpfDependente: "",
-    imagem: null,
   });
 
+  const [pedidos, setPedidos] = useState([]);
+
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setMostrarBemVindo(false);
     }, 3000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, imagem: e.target.files[0] });
+    if (name === "cpf") {
+      const onlyNumbers = value.replace(/\D/g, "");
+      setFormData({ ...formData, [name]: onlyNumbers });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const validarCPF = (cpf) => {
-    cpf = cpf.replace(/[.-]/g, "");
     if (cpf.length !== 11 || !/\d{11}/.test(cpf)) return false;
     let soma = 0, resto;
     for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
@@ -48,39 +49,52 @@ const FomeZero = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validarCPF(formData.cpf) || !validarCPF(formData.cpfDependente)) {
+    if (!validarCPF(formData.cpf)) {
       alert("CPF inválido!");
       return;
     }
+
+    setPedidos([...pedidos, formData]);
+    setFormData({ nome: "", cpf: "", rendaFamiliar: "" });
+
     setMostrarFormulario(false);
-    setMostrarPopup(true);
+
+    // Mostra a confirmação por 3 segundos
+    setMostrarConfirmacao(true);
+    setTimeout(() => setMostrarConfirmacao(false), 3000);
   };
 
   return (
     <div className="system-info">
       {mostrarBemVindo && (
         <div className="welcome-message-top">
-            <h2>Bem-vindo ao Programa Fome Zero!</h2>
-          </div>
+          <h2>Bem-vindo ao Fome Zero!</h2>
+        </div>
       )}
 
-     
-        <div className="info-box">
-          <h3 className="info-title">Programa Fome Zero</h3>
-          <p className="info-description">Solicite ou acompanhe pedidos de cesta básica</p>
+      {mostrarConfirmacao && (
+        <div className="confirmation-message registration">
+          <h2>Solicitação enviada com sucesso!</h2>
         </div>
-        <div className="options-grid">
-          <div className="option-cardFZERO" onClick={() => setMostrarFormulario(true)}>
-            <h4 className="option-titleFZERO">Nova Solicitação</h4>
-            <p className="option-description">Cadastre um novo pedido de cesta básica</p>
-          </div>
-          <div className="option-cardFzero" onClick={() => setMostrarFormulario(true)}>
-            <h4 className="option-titlefzero">Acompanhar Pedido</h4>
-            <p className="option-description">Visualize seu pedido</p>
-          </div>
-        </div>
-      
+      )}
 
+      <div className="info-box">
+        <h3 className="info-title">Programa Fome Zero</h3>
+        <p className="info-description">Solicite ou acompanhe pedidos de cesta básica</p>
+      </div>
+
+      <div className="options-grid">
+        <div className="option-cardFZERO" onClick={() => setMostrarFormulario(true)}>
+          <h4 className="option-titleFZERO">Nova Solicitação</h4>
+          <p className="option-description">Cadastre um novo pedido de cesta básica</p>
+        </div>
+        <div className="option-cardFzero" onClick={() => setMostrarConsulta(true)}>
+          <h4 className="option-titlefzero">Acompanhar Pedido</h4>
+          <p className="option-description">Visualize seu pedido</p>
+        </div>
+      </div>
+
+      {/* Modal Nova Solicitação */}
       {mostrarFormulario && (
         <div className="modal">
           <div className="modal-content">
@@ -88,7 +102,6 @@ const FomeZero = () => {
             <form onSubmit={handleSubmit}>
               <input type="text" name="nome" placeholder="Nome" value={formData.nome} onChange={handleChange} required />
               <input type="text" name="cpf" placeholder="CPF" value={formData.cpf} onChange={handleChange} required />
-
               <select name="rendaFamiliar" value={formData.rendaFamiliar} onChange={handleChange} required>
                 <option value="">Selecione a Renda Familiar</option>
                 <option value="Até 1 salário mínimo">Até 1 salário mínimo</option>
@@ -105,14 +118,29 @@ const FomeZero = () => {
         </div>
       )}
 
-      {mostrarPopup && (
-        //<div className="modal">
-          <div className="confirmation-message registration">
-            <h3>Solicitação Enviada!</h3>
-            <p>Seu pedido foi enviado com sucesso. Em breve, você poderá acompanhar o status.</p>
-            <button onClick={() => setMostrarPopup(false)} className="confirm-button">Fechar</button>
+      {/* Modal de Consulta */}
+      {mostrarConsulta && (
+        <div className="consultas-listFZ">
+          <h3>Pedidos Cadastrados</h3>
+          {pedidos.length > 0 ? (
+            <ul>
+              {pedidos.map((pedido, index) => (
+                <li key={index}>
+                  <strong>{pedido.nome}</strong>
+                  <div>CPF: {pedido.cpf}</div>
+                  <div>Renda Familiar: {pedido.rendaFamiliar}</div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Nenhum pedido encontrado.</p>
+          )}
+          <div className="center-button">
+            <button onClick={() => setMostrarConsulta(false)} className="cancel-button">
+              Fechar
+            </button>
           </div>
-        //</div>
+        </div>
       )}
     </div>
   );

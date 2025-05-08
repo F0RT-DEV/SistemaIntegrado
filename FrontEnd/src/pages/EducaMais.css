@@ -1,6 +1,5 @@
-/* Estilos para o modal */
-
-.consultas-list {
+/* Se já estiver em uso, não precisa repetir */
+.consultas-listED {
   margin-top: 30px;
   padding: 25px;
   background-color: #ffffff;
@@ -8,7 +7,7 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
-.consultas-list h3 {
+.consultas-listED h3 {
   font-size: 22px;
   margin-bottom: 20px;
   text-align: center;
@@ -17,28 +16,29 @@
   text-transform: uppercase;
 }
 
-.consultas-list ul {
+.consultas-listED ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.consultas-list li {
+.consultas-listED li {
   background-color: #f1f1f1;
   margin-bottom: 12px;
   padding: 14px 20px;
   border-radius: 10px;
-  border-left: 5px solid #3498db; /* Azul EducaMais */
+  border-left: 5px solid #28a745;
   font-size: 15px;
   color: #444;
 }
 
-.consultas-list li strong {
+.consultas-listED li strong {
   display: block;
   font-size: 16px;
   color: #222;
   font-weight: 600;
 }
+
 
 
 @keyframes fadeInOut {
@@ -58,6 +58,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
   background-color: #3b82f6;
+  cursor: pointer;
 
   p{
     color: rgb(241, 241, 241);

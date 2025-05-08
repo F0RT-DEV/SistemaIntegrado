@@ -6,18 +6,24 @@ const Login = ({ login }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [alerta, setAlerta] = useState("");
+  const [sucesso, setSucesso] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = () => {
+    setAlerta(""); // Limpa alertas anteriores
+    setSucesso("");
+  
     if (!email || !senha) {
       setAlerta("Preencha todos os campos!");
       return;
     }
-
-    // Simulação de autenticação
+  
     if (email === "admin@email.com" && senha === "123456") {
-      login();
-      navigate("/educa"); // Redireciona para a página principal após o login
+      setSucesso("Login efetuado com sucesso!");
+      setTimeout(() => {
+        login();
+        navigate("/educa");
+      }, 1100); // Pequeno delay para mostrar o alerta antes do redirecionamento
     } else {
       setAlerta("E-mail ou senha incorretos!");
     }
@@ -27,6 +33,7 @@ const Login = ({ login }) => {
     <div className="login-container">
       <div className="login-box">
         {alerta && <div className="alerta">{alerta}</div>}
+        {sucesso && <div className="alerta-sucesso">{sucesso}</div>}
         <h2>Login</h2>
         <input
           type="email"
