@@ -37,14 +37,22 @@ const Login = ({ login }) => {
       setAlerta("E-mail ou senha inválidos!");
     }
   };
-      
 
   return (
     <div className="login-container">
       <div className="login-box">
+        {/* Adicionando a logo */}
+        <img 
+          src="https://www.portal.ap.gov.br/img/logo_gea.png" 
+          alt="Logo GEA" 
+          className="login-logo"
+        />
+        
         {alerta && <div className="alerta">{alerta}</div>}
         {sucesso && <div className="alerta-sucesso">{sucesso}</div>}
-        <h2>Login</h2>
+        
+        <h2 className="login-title">Login</h2>
+        
         <input
           type="email"
           value={email}
@@ -59,17 +67,19 @@ const Login = ({ login }) => {
           placeholder="Digite sua senha"
           className="login-input"
         />
+        
         <button onClick={handleLogin} className="login-button">
           Entrar
         </button>
+        
         <div className="cadastro-link">
           <span>Não tem uma conta? </span>
           <button onClick={() => navigate("/cadastro")}>Cadastre-se</button>
         </div>
 
         <div className="esquecisenha-link">
-        <span>Esqueceu seu senha ? </span>
-        <button onClick={() => navigate("/esqueci-senha")}>Clique aqui</button>
+          <span>Esqueceu sua senha? </span>
+          <button onClick={() => navigate("/esqueci-senha")}>Clique aqui</button>
         </div>
       </div>
     </div>

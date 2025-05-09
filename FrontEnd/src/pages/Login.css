@@ -4,92 +4,125 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f3f4f6;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
 }
 
 /* Caixa do formulário */
 .login-box {
-  background: white;
-  padding: 24px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   text-align: center;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.login-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Logo */
+.login-logo {
+  width: 180px;
+  margin: 0 auto 20px;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Título */
+.login-title {
+  color: #6a11cb;
+  font-size: 24px;
+  margin-bottom: 24px;
+  font-weight: 700;
 }
 
 /* Alerta de erro */
 .alerta {
   margin-bottom: 16px;
   padding: 12px;
-  background-color: #ef4444;
+  background-color: #ff4757;
   color: white;
   text-align: center;
   border-radius: 8px;
+  font-weight: 500;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Campos de entrada */
 .login-input {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 14px;
+  margin: 12px 0;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
   font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.login-input:focus {
+  border-color: #6a11cb;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
 }
 
 /* Botão de login */
 .login-button {
   width: 100%;
-  padding: 12px;
-  margin-top: 16px;
-  background-color: #2563eb;
+  padding: 14px;
+  margin-top: 20px;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
   color: white;
   font-size: 16px;
+  font-weight: 600;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
 }
 
 .login-button:hover {
-  background-color: #1d4ed8;
+  background: linear-gradient(to right, #5a0cb0, #1a68e8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(106, 17, 203, 0.4);
 }
 
-/* Link de cadastro */
-.cadastro-link {
-  margin-top: 10px;
+.login-button:active {
+  transform: translateY(0);
 }
 
-.cadastro-link button {
-  color: #2563eb;
+/* Links */
+.cadastro-link, .esquecisenha-link {
+  margin-top: 16px;
+}
+
+.cadastro-link button, .esquecisenha-link button {
+  color: #6a11cb;
   border: none;
   background: none;
   cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.cadastro-link button:hover {
+.cadastro-link button:hover, .esquecisenha-link button:hover {
+  color: #2575fc;
   text-decoration: underline;
-}
-.esquecisenha-link{
-  margin-top: 10px;
-}
-
-.esquecisenha-link button {
-  color: #2563eb;
-  border: none;
-  background: none;
-  cursor: pointer;
-  }
-  .esquecisenha-link button:hover {
-      text-decoration: underline;
 }
 
 /* Alerta de sucesso */
 .alerta-sucesso {
   margin-bottom: 16px;
   padding: 12px;
-  background-color: #10b981; /* verde */
+  background: linear-gradient(to right, #20bf6b, #26de81);
   color: white;
   text-align: center;
   border-radius: 8px;
@@ -101,4 +134,15 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Efeito de onda no botão */
+@keyframes wave {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.login-button.wave {
+  animation: wave 0.4s ease;
 }
