@@ -201,3 +201,16 @@
     to { opacity: 1; transform: translateY(0); }
   }
   
+  .foto-preview {
+    margin-top: 8px;
+    text-align: center;
+  }
+  
+  .preview-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+  }
+  

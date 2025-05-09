@@ -70,11 +70,12 @@ function App() {
         <Route
           path="/"
           element={
-            !isAuthenticated ? (
-              <LandingPage />
-            ) : (
-              <Navigate to="/app" replace />
-            )
+            <LandingPage />
+            // !isAuthenticated ? (
+            //   <LandingPage />
+            // ) : (
+            //   <Navigate to="/app" replace />
+            // )
           }
         />
 

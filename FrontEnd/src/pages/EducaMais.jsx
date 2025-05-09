@@ -52,7 +52,7 @@ const EducaMais = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Alunos cadastrados:', students);
-
+    
     // Adiciona os alunos cadastrados ao estado de matrículas
     setRegistrations([...registrations, ...students]);
 
