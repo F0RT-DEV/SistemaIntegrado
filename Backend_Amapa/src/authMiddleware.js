@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
+
 export const autenticar = (req, res, next) => {
   // 1. Extrair o token do cabeçalho Authorization
   const authHeader = req.headers.authorization;

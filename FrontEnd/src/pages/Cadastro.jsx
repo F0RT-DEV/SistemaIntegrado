@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import "./Cadastro.css";
@@ -24,15 +24,119 @@ const Cadastro = () => {
 
   const [alerta, setAlerta] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isCheckingCep, setIsCheckingCep] = useState(false);
+  const [isCheckingCpf, setIsCheckingCpf] = useState(false);
   const navigate = useNavigate();
+
+  // Formatação dos campos
+  const formatarCPF = (cpf) => {
+    return cpf
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1');
+  };
+
+  const formatarTelefone = (telefone) => {
+    return telefone
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, '($1) $2')
+      .replace(/(\d{5})(\d)/, '$1-$2')
+      .replace(/(-\d{4})\d+?$/, '$1');
+  };
+
+  const formatarCEP = (cep) => {
+    return cep
+      .replace(/\D/g, '')
+      .replace(/(\d{5})(\d)/, '$1-$2')
+      .replace(/(-\d{3})\d+?$/, '$1');
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    let formattedValue = value;
+    
+    // Aplica formatação conforme o campo
+    if (name === 'cpf') {
+      formattedValue = formatarCPF(value);
+    } else if (name === 'telefone') {
+      formattedValue = formatarTelefone(value);
+    } else if (name === 'cep') {
+      formattedValue = formatarCEP(value);
+    }
+    
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: formattedValue
     }));
   };
+
+  // Validação de CEP via API
+  const buscarEnderecoPorCEP = async () => {
+    const cepLimpo = formData.cep.replace(/\D/g, '');
+    if (cepLimpo.length !== 8) return;
+
+    setIsCheckingCep(true);
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+      const data = await response.json();
+
+      if (!data.erro) {
+        setFormData(prev => ({
+          ...prev,
+          endereco: data.logradouro || "",
+          bairro: data.bairro || "",
+          cidade: data.localidade || "",
+          uf: data.uf || "",
+          complemento: data.complemento || ""
+        }));
+      } else {
+        setAlerta("⚠️ CEP não encontrado!");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar CEP:", error);
+      setAlerta("⚠️ Erro ao consultar CEP. Tente novamente.");
+    } finally {
+      setIsCheckingCep(false);
+    }
+  };
+
+  // Validação de CPF via API
+  const validarCPF = async () => {
+    const cpfLimpo = formData.cpf.replace(/\D/g, '');
+    if (cpfLimpo.length !== 11) return;
+
+    setIsCheckingCpf(true);
+    try {
+      // Substitua por sua API de validação de CPF
+      // Exemplo fictício:
+      const response = await api.validarCPF(cpfLimpo);
+      if (!response.valido) {
+        setAlerta("⚠️ CPF inválido ou já cadastrado!");
+      }
+    } catch (error) {
+      console.error("Erro ao validar CPF:", error);
+      setAlerta("⚠️ Erro ao validar CPF. Tente novamente.");
+    } finally {
+      setIsCheckingCpf(false);
+    }
+  };
+
+  // Efeito para buscar CEP quando completo
+  useEffect(() => {
+    if (formData.cep.replace(/\D/g, '').length === 8) {
+      buscarEnderecoPorCEP();
+    }
+  }, [formData.cep]);
+
+  // Efeito para validar CPF quando completo
+  useEffect(() => {
+    if (formData.cpf.replace(/\D/g, '').length === 11) {
+      validarCPF();
+    }
+  }, [formData.cpf]);
 
   const validarCampos = () => {
     const camposObrigatorios = [
@@ -44,6 +148,11 @@ const Cadastro = () => {
         setAlerta(`⚠️ O campo ${campo.replace('_', ' ')} é obrigatório!`);
         return false;
       }
+    }
+
+    if (formData.cpf.replace(/\D/g, '').length !== 11) {
+      setAlerta("⚠️ CPF inválido! Deve conter 11 dígitos.");
+      return false;
     }
 
     if (formData.senha !== formData.confirmarSenha) {
@@ -70,14 +179,14 @@ const Cadastro = () => {
     try {
       await api.cadastrarUsuario({
         nome: formData.nome,
-        cpf: formData.cpf,
-        telefone: formData.telefone,
+        cpf: formData.cpf.replace(/\D/g, ''),
+        telefone: formData.telefone.replace(/\D/g, ''),
         email: formData.email,
         data_nascimento: formData.data_nascimento,
         senha: formData.senha,
         genero: formData.genero,
         e_dependente: false,
-        cep: formData.cep,
+        cep: formData.cep.replace(/\D/g, ''),
         endereço: formData.endereco,
         complemento: formData.complemento,
         numero: formData.numero,
@@ -128,8 +237,10 @@ const Cadastro = () => {
                   value={formData.cpf}
                   onChange={handleChange}
                   placeholder="000.000.000-00"
+                  maxLength="14"
                   required
                 />
+                {isCheckingCpf && <span className="loading-text">Validando CPF...</span>}
               </div>
               
               <div className="form-group">
@@ -153,6 +264,7 @@ const Cadastro = () => {
                   value={formData.telefone}
                   onChange={handleChange}
                   placeholder="(00) 00000-0000"
+                  maxLength="15"
                 />
               </div>
               
@@ -226,7 +338,9 @@ const Cadastro = () => {
                   value={formData.cep}
                   onChange={handleChange}
                   placeholder="00000-000"
+                  maxLength="9"
                 />
+                {isCheckingCep && <span className="loading-text">Buscando endereço...</span>}
               </div>
               
               <div className="form-group">
@@ -306,7 +420,7 @@ const Cadastro = () => {
           <button 
             type="submit" 
             className="cadastro-button" 
-            disabled={isLoading}
+            disabled={isLoading || isCheckingCep || isCheckingCpf}
           >
             {isLoading ? 'CADASTRANDO...' : 'FINALIZAR CADASTRO'}
           </button>

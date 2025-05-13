@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { createPessoa, getPessoa, loginController } from '../controllers/cadastropessoaController.js';
+import { autenticar } from '../authMiddleware.js';
 
 
 const router = Router();
