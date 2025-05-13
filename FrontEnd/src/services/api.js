@@ -4,7 +4,9 @@ const handleResponse = async (response) => {
   const data = await response.json();
   
   if (!response.ok) {
-    throw new Error(data.mensagem || 'Erro na requisição');
+    const error = new Error(data.message || 'Erro na requisição');
+    error.response = data;
+    throw error;
   }
   
   return data;
@@ -21,4 +23,15 @@ export const api = {
     });
     return handleResponse(response);
   },
+  login: async (credentials) => {
+    const response = await fetch(`${API_BASE_URL}/pessoas/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+    });
+    return handleResponse(response);
+  },
 };
+

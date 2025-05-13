@@ -17,10 +17,17 @@ app.use(express.json());
 app.post('/pessoas/login', loginController);
 app.post('/pessoas', createPessoa);
 
+app.use('/app', autenticar);
+
 app.use('/pessoas', pessoaRouter);
 app.use('/matriculas', matriculaRouter);
 app.use('/pacientes', pacienteRouter);
 app.use('/app', autenticar);
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ mensagem: 'Erro interno no servidor' });
+});
 
 // Rota de teste
 app.get('/', (req, res) => {
