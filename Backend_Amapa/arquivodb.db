@@ -1,0 +1,232 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema amapa
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema amapa
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `amapa` DEFAULT CHARACTER SET utf8mb4 ;
+USE `amapa` ;
+
+-- -----------------------------------------------------
+-- Table `amapa`.`pessoa_fisica`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`pessoa_fisica` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  `cpf` VARCHAR(14) NOT NULL,
+  `telefone` VARCHAR(20) NULL DEFAULT NULL,
+  `email` VARCHAR(100) NULL DEFAULT NULL,
+  `data_nascimento` DATE NULL DEFAULT NULL,
+  `senha` VARCHAR(100) NOT NULL,
+  `genero` ENUM('Masculino', 'Feminino', 'Outro') NULL DEFAULT NULL,
+  `e_dependente` TINYINT(1) NULL DEFAULT 0,
+  `cep` VARCHAR(9) NULL DEFAULT NULL,
+  `endereco` VARCHAR(100) NULL DEFAULT NULL,
+  `complemento` VARCHAR(100) NULL DEFAULT NULL,
+  `numero` VARCHAR(10) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `cpf` (`cpf` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 13
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`horario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`horario` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `data` DATE NOT NULL,
+  `hora` TIME NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`paciente`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`paciente` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  `pcd` TINYINT(1) NULL DEFAULT 0,
+  `horario_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `horario_id` (`horario_id` ASC),
+  CONSTRAINT `paciente_ibfk_1`
+    FOREIGN KEY (`horario_id`)
+    REFERENCES `amapa`.`horario` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`conect_sus`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`conect_sus` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `pessoa_fisica_id` INT(11) NOT NULL,
+  `paciente_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `pessoa_fisica_id` (`pessoa_fisica_id` ASC),
+  INDEX `paciente_id` (`paciente_id` ASC),
+  CONSTRAINT `conect_sus_ibfk_1`
+    FOREIGN KEY (`pessoa_fisica_id`)
+    REFERENCES `amapa`.`pessoa_fisica` (`id`),
+  CONSTRAINT `conect_sus_ibfk_2`
+    FOREIGN KEY (`paciente_id`)
+    REFERENCES `amapa`.`paciente` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`dependente`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`dependente` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  `data_nascimento` DATE NOT NULL,
+  `id_responsavel` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `id_responsavel` (`id_responsavel` ASC),
+  CONSTRAINT `dependente_ibfk_1`
+    FOREIGN KEY (`id_responsavel`)
+    REFERENCES `amapa`.`pessoa_fisica` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`escola`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`escola` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`turma`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`turma` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `serie` VARCHAR(50) NULL DEFAULT NULL,
+  `tipo` VARCHAR(50) NULL DEFAULT NULL,
+  `escola_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `escola_id` (`escola_id` ASC),
+  CONSTRAINT `turma_ibfk_1`
+    FOREIGN KEY (`escola_id`)
+    REFERENCES `amapa`.`escola` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 7
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`matricula`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`matricula` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `turma_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `turma_id` (`turma_id` ASC),
+  CONSTRAINT `matricula_ibfk_1`
+    FOREIGN KEY (`turma_id`)
+    REFERENCES `amapa`.`turma` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`educa_mais`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`educa_mais` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `matricula_id` INT(11) NOT NULL,
+  `pessoa_fisica_id` INT(11) NULL DEFAULT NULL,
+  `dependente_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `matricula_id` (`matricula_id` ASC),
+  INDEX `pessoa_fisica_id` (`pessoa_fisica_id` ASC),
+  INDEX `dependente_id` (`dependente_id` ASC),
+  CONSTRAINT `educa_mais_ibfk_1`
+    FOREIGN KEY (`matricula_id`)
+    REFERENCES `amapa`.`matricula` (`id`),
+  CONSTRAINT `educa_mais_ibfk_2`
+    FOREIGN KEY (`pessoa_fisica_id`)
+    REFERENCES `amapa`.`pessoa_fisica` (`id`),
+  CONSTRAINT `educa_mais_ibfk_3`
+    FOREIGN KEY (`dependente_id`)
+    REFERENCES `amapa`.`dependente` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`especialidade`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`especialidade` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `tipo` VARCHAR(100) NOT NULL,
+  `nome_doutor` VARCHAR(100) NULL DEFAULT NULL,
+  `local` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`fome_zero`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`fome_zero` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `pessoa_fisica_id` INT(11) NOT NULL,
+  `apto` TINYINT(1) NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX `pessoa_fisica_id` (`pessoa_fisica_id` ASC),
+  CONSTRAINT `fome_zero_ibfk_1`
+    FOREIGN KEY (`pessoa_fisica_id`)
+    REFERENCES `amapa`.`pessoa_fisica` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `amapa`.`paciente_especialidade`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amapa`.`paciente_especialidade` (
+  `paciente_id` INT(11) NOT NULL,
+  `especialidade_id` INT(11) NOT NULL,
+  PRIMARY KEY (`paciente_id`, `especialidade_id`),
+  INDEX `especialidade_id` (`especialidade_id` ASC),
+  CONSTRAINT `paciente_especialidade_ibfk_1`
+    FOREIGN KEY (`paciente_id`)
+    REFERENCES `amapa`.`paciente` (`id`),
+  CONSTRAINT `paciente_especialidade_ibfk_2`
+    FOREIGN KEY (`especialidade_id`)
+    REFERENCES `amapa`.`especialidade` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

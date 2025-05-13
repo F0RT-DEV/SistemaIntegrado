@@ -1,17 +1,23 @@
+// PerfilUsuario.jsx (corrigido)
 import React, { useState, useEffect } from "react";
 import "./PerfilUsuario.css";
-import { User, Mail, MapPin, Grid, Pencil } from "lucide-react";
+import { User, Grid, Pencil } from "lucide-react";
 import EditarPerfilModal from "../components/EditarPerfilModal";
 
 const PerfilUsuario = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState({});
 
-  // Carregar dados do localStorage ao montar o componente
   useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem("userData"));
-    if (savedUser) {
-      setUser(savedUser);
+    if (typeof window !== 'undefined') {
+      try {
+        const savedUser = JSON.parse(localStorage.getItem("userData"));
+        if (savedUser) {
+          setUser(savedUser);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar dados do usuário:", error);
+      }
     }
   }, []);
 
@@ -23,7 +29,7 @@ const PerfilUsuario = () => {
 
   const handleSave = () => {
     setIsModalOpen(false);
-    // Lógica de salvar no backend pode ser adicionada aqui
+    // Aqui você poderia atualizar os dados no localStorage se o perfil for editado
   };
 
   return (
@@ -34,7 +40,7 @@ const PerfilUsuario = () => {
           <Pencil size={16} /> Editar
         </button>
       </div>
-      
+
       <div className="perfil-content">
         <div className="perfil-info">
           <div className="foto-section">
@@ -49,12 +55,10 @@ const PerfilUsuario = () => {
             <p><strong>Nome:</strong> {user.nome}</p>
             <p><strong>CPF:</strong> {user.cpf}</p>
             <p><strong>Gênero:</strong> {user.genero}</p>
-            <p><strong>Email:</strong> <span className="flex items-center gap-2">{user.email}</span></p>
-            <p><strong>Endereço:</strong>
-              <span className="flex items-center gap-2">
-                {`${user.logradouro}, Nº ${user.numero}, ${user.bairro}, ${user.complemento}, ${user.cidade} - ${user.uf}`}
-              </span>
-            </p>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Telefone:</strong> {user.telefone}</p>
+            <p><strong>Data de Nascimento:</strong> {user.data_nascimento}</p>
+            <p><strong>Endereço:</strong> {`${user.endereco}, Nº ${user.numero}, ${user.complemento}, ${user.cep}`}</p>
           </div>
         </div>
 
