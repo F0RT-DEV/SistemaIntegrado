@@ -16,7 +16,7 @@ const EducaMais = () => {
     if (showConsultModal) {
       setLoadingConsult(true);
       setConsultError('');
-      fetch("http://localhost:3000/matriculas/educacao", {
+  fetch("https://sistemaintegrado.onrender.com/matriculas/educacao", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +93,7 @@ const EducaMais = () => {
       // Se marcado como dependente, pode adicionar lógica extra se necessário
       // Envia a requisição para o backend
       try {
-        await fetch("http://localhost:3000/matriculas/educacao", {
+  await fetch("https://sistemaintegrado.onrender.com/matriculas/educacao", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

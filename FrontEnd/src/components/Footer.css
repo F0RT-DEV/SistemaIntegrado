@@ -16,7 +16,7 @@
 }
 
 .footer-logo {
-  flex: 0 0 300px;
+  flex: 0 0 200px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,10 +31,6 @@
 .footer-section {
   flex: 1;
   min-width: 200px;
-}
-
-.footer-section.links {
-  margin-left: 40px;
 }
 
 .footer-section.contato {
@@ -80,14 +76,100 @@
 }
 
 @media (max-width: 768px) {
+  .footer {
+    background-color: #f3f4f6;
+    padding: 10px 0 4px 0;
+    border-top: 1px solid #ddd;
+  }
   .footer-container {
     flex-direction: column;
     text-align: center;
     align-items: center;
+    gap: 0.2rem;
+    padding: 0;
+    max-width: 340px;
+    margin: 0 auto;
   }
-
-  .footer-logo,
+  .footer-logo {
+    margin: 4px auto 2px auto;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .footer-section.links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+  .footer-logo img {
+    width: 90px;
+    max-width: 70vw;
+    margin: 0 auto;
+    display: block;
+  }
   .footer-section {
-    margin-bottom: 20px;
+    margin-bottom: 2px;
+    min-width: unset;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-heading {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #1e3a8a;
+    margin-bottom: 2px;
+    border-bottom: 1px solid #2563eb;
+    padding-bottom: 1px;
+    display: inline-block;
+    text-align: center;
+  }
+  .footer-links {
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-links li {
+    margin-bottom: 1px;
+    font-size: 0.95em;
+    text-align: center;
+  }
+  .footer-links a {
+    color: #333;
+    font-size: 0.95em;
+    text-align: center;
+    display: inline-block;
+  }
+  .footer-section.contato {
+    margin-left: 0;
+    font-size: 0.93em;
+    margin-bottom: 1px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-section.contato p,
+  .footer-section.contato span,
+  .footer-section.contato a {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+  }
+  .footer-bottom {
+    font-size: 0.88em;
+    margin-top: 6px;
+    padding-top: 4px;
+    color: #666;
+    border-top: 1px solid #ccc;
+    text-align: center;
   }
 }

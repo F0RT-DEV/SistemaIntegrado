@@ -21,14 +21,24 @@ import SistemaCard from "./components/SistemaCard";
 import "./App.css";
 
 
+import { useRef } from "react";
 function MainContent() {
   const location = useLocation();
+  const contentRef = useRef(null);
 
   const systems = [
     { id: "educa", name: "Educa Mais", icon: GraduationCap, color: "blue" },
     { id: "fome", name: "Fome Zero", icon: Apple, color: "green" },
     { id: "sus", name: "Conect SUS", icon: Heart, color: "red" },
   ];
+
+  useEffect(() => {
+    if (window.innerWidth <= 768 && contentRef.current) {
+      setTimeout(() => {
+        contentRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
+    }
+  }, [location.pathname]);
 
   return (
     <main className="main-content">
@@ -42,7 +52,7 @@ function MainContent() {
         </section>
       )}
 
-      <div className="system-content-container">
+      <div className="system-content-container" ref={contentRef}>
         <Outlet />
       </div>
     </main>

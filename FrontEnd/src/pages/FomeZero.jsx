@@ -21,7 +21,7 @@ function ConsultaPedidosModal({ cpf, onClose }) {
       setLoadingModal(true);
       setErrorModal("");
       try {
-        const res = await fetch(`http://localhost:3000/fomezero/pedidos?cpf=${cpfLimpo}`, {
+  const res = await fetch(`https://sistemaintegrado.onrender.com/fomezero/pedidos?cpf=${cpfLimpo}`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -136,7 +136,7 @@ const FomeZero = () => {
       return;
     }
     try {
-      const res = await fetch("http://localhost:3000/fomezero/solicitar", {
+  const res = await fetch("https://sistemaintegrado.onrender.com/fomezero/solicitar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -249,7 +249,7 @@ const FomeZero = () => {
                   /> Possuo dependentes
                 </label>
               </div>
-              <div className="modal-buttons">
+              <div className="modal-buttons1">
                 <button type="button" onClick={() => setMostrarFormulario(false)} className="cancel-button">
                   Cancelar
                 </button>

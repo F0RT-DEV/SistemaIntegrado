@@ -27,7 +27,7 @@ const ConectSus = () => {
     if (showConsultas) {
       setLoadingConsultas(true);
       setConsultasError("");
-      fetch("http://localhost:3000/pacientes/consultas", {
+  fetch("https://sistemaintegrado.onrender.com/pacientes/consultas", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

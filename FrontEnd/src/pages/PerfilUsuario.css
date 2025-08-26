@@ -3,7 +3,7 @@
     --primary: #6366f1;
     --primary-light: #818cf8;
     --primary-dark: #4f46e5;
-    --gray-50: #f8fafc;
+  --gray-50: #f4f6fb;
     --gray-100: #f1f5f9;
     --gray-200: #e2e8f0;
     --gray-300: #cbd5e1;
@@ -21,14 +21,14 @@
     --transition: all 0.2s ease;
   }
   
-  .perfil-container {
-    max-width: 900px;
-    margin: 1rem auto;
-    background: white;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-  }
+.perfil-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
   
   .perfil-header {
     background: var(--gray-50);
@@ -135,21 +135,26 @@
     border-radius: var(--radius);
     padding: 1.5rem;
     border: 1px solid var(--gray-200);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    font-size: 1.05em;
   }
   
   .dados-section p {
-    margin: 0.75rem 0;
-    line-height: 1.6;
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    color: var(--gray-600);
+  margin: 0.75rem 0;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gray-600);
+  word-break: break-word;
   }
   
   .dados-section p strong {
     min-width: 100px;
     color: var(--gray-800);
     font-weight: 600;
+    font-size: 1em;
   }
   
   .section-divider {
@@ -242,17 +247,25 @@
   
     .perfil-info {
       flex-direction: column;
-      align-items: center;
-      text-align: center;
+      align-items: stretch;
+      text-align: left;
+      gap: 1rem;
     }
-  
+
+    .dados-section {
+      padding: 1rem;
+      font-size: 0.98em;
+    }
+
     .dados-section p {
-      flex-direction: column;
-      align-items: flex-start;
+      margin: 0.5rem 0;
+      gap: 0.1rem;
+      font-size: 0.98em;
     }
-  
+
     .dados-section p strong {
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.15rem;
+      font-size: 0.98em;
     }
     
     .servicos-list {

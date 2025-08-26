@@ -32,6 +32,24 @@
   padding: 1rem 0;
 }
 
+@media (max-width: 480px) {
+  .landing-header-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.7rem 0;
+  }
+  .landing-logo img {
+    height: 2rem;
+    width: 4.5rem;
+  }
+  .landing-access-button {
+    padding: 0.4rem 1rem;
+    font-size: 0.98em;
+  }
+}
+
 .landing-logo {
   display: flex;
   align-items: center;
@@ -110,10 +128,40 @@
 
 /* Hero section */
 .landing-hero {
-  padding-top: 10rem;
-  padding-bottom: 4rem;
+  padding-top: 7rem;
+  padding-bottom: 2rem;
   background: linear-gradient(to bottom right, #f0f9ff, #f3e8ff);
-  height: 500px;
+  min-height: 350px;
+}
+
+@media (max-width: 480px) {
+  .landing-hero {
+    padding-top: 5.5rem;
+    padding-bottom: 1.5rem;
+    min-height: 0;
+  }
+  .landing-hero-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 0 0.5rem;
+  }
+  .landing-hero-title {
+    font-size: 1.5em !important;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 0.7rem;
+  }
+  .landing-hero-subtitle {
+    font-size: 1em !important;
+    text-align: center;
+    margin-bottom: 0.7rem;
+  }
+  .landing-hero-button {
+    font-size: 1em;
+    padding: 0.5rem 1.2rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .landing-hero-content {

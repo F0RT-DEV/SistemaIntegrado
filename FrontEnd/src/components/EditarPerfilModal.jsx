@@ -33,7 +33,7 @@ const EditarPerfilModal = ({ user, setUser, onClose, onSave }) => {
     try {
       const token = localStorage.getItem("token");
       const userId = editedUser.id;
-      const response = await fetch(`http://localhost:3000/pessoas/${userId}`, {
+  const response = await fetch(`https://sistemaintegrado.onrender.com/pessoas/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

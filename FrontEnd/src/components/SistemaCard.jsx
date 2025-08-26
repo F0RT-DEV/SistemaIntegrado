@@ -10,7 +10,15 @@ const SistemaCard = ({ system }) => {
 
   return (
     <button
-    onClick={() => navigate(`/app/${system.id}`)} 
+      onClick={e => {
+        navigate(`/app/${system.id}`);
+        if (window.innerWidth <= 768) {
+          // Rola para o topo do card clicado
+          setTimeout(() => {
+            e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 100);
+        }
+      }}
       className={`system-card ${isActive ? 'active' : ''}`}>
       <div 
   className={`icon-wrapper ${system.color}`}

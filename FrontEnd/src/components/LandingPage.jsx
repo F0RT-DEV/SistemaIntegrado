@@ -44,19 +44,15 @@ function LandingPage() {
           </nav>
 
           <div className="landing-header-buttons">
-            <button className="landing-download-button">
-              <Download size={20} />
-              <span>Baixe o app</span>
-            </button>
-            {logado ? (
-  <span className="landing-welcome-message">Bem-vindo de volta!</span>
-) : (
-  <Link to="/login" className="landing-access-button">Acessar</Link>
-)}
-
-            <button className="landing-menu-button">
-              <Menu size={24} />
-            </button>
+              <button className="landing-download-button">
+                <Download size={20} />
+                <span>Baixe o app</span>
+              </button>
+              {logado ? (
+                <span className="landing-welcome-message">Bem-vindo de volta!</span>
+              ) : (
+                <Link to="/login" className="landing-access-button">Acessar</Link>
+              )}
           </div>
         </div>
       </header>
