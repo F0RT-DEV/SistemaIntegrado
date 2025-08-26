@@ -103,26 +103,23 @@ const Cadastro = () => {
     }
   };
 
-  // Validação de CPF via API
-  const validarCPF = async () => {
-    const cpfLimpo = formData.cpf.replace(/\D/g, '');
-    if (cpfLimpo.length !== 11) return;
-
-    setIsCheckingCpf(true);
-    try {
-      // Substitua por sua API de validação de CPF
-      // Exemplo fictício:
-      const response = await api.validarCPF(cpfLimpo);
-      if (!response.valido) {
-        setAlerta("⚠️ CPF inválido ou já cadastrado!");
-      }
-    } catch (error) {
-      console.error("Erro ao validar CPF:", error);
-      setAlerta("⚠️ Erro ao validar CPF. Tente novamente.");
-    } finally {
-      setIsCheckingCpf(false);
-    }
-  };
+  // Validação de CPF desabilitada temporariamente
+  // const validarCPF = async () => {
+  //   const cpfLimpo = formData.cpf.replace(/\D/g, '');
+  //   if (cpfLimpo.length !== 11) return;
+  //   setIsCheckingCpf(true);
+  //   try {
+  //     const response = await api.validarCPF(cpfLimpo);
+  //     if (!response.valido) {
+  //       setAlerta("⚠️ CPF inválido ou já cadastrado!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Erro ao validar CPF:", error);
+  //     setAlerta("⚠️ Erro ao validar CPF. Tente novamente.");
+  //   } finally {
+  //     setIsCheckingCpf(false);
+  //   }
+  // };
 
   // Efeito para buscar CEP quando completo
   useEffect(() => {
@@ -131,12 +128,12 @@ const Cadastro = () => {
     }
   }, [formData.cep]);
 
-  // Efeito para validar CPF quando completo
-  useEffect(() => {
-    if (formData.cpf.replace(/\D/g, '').length === 11) {
-      validarCPF();
-    }
-  }, [formData.cpf]);
+  // Validação de CPF desabilitada temporariamente
+  // useEffect(() => {
+  //   if (formData.cpf.replace(/\D/g, '').length === 11) {
+  //     validarCPF();
+  //   }
+  // }, [formData.cpf]);
 
   const validarCampos = () => {
     const camposObrigatorios = [

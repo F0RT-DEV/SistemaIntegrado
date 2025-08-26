@@ -1,3 +1,4 @@
+
 import express from 'express';
 import cors from 'cors';
 import pessoaRouter from './routes/pessoaRoutes.js';
@@ -5,6 +6,7 @@ import matriculaRouter from './routes/matriculaRoutes.js';
 import pacienteRouter from './routes/pacienteRoutes.js';
 import { autenticar } from './authMiddleware.js';
 import { createPessoa, loginController } from './controllers/cadastropessoaController.js';
+import fomeZeroRoutes from './routes/fomeZeroRoutes.js';
 
 const app = express();
 const PORT = 3000;
@@ -23,6 +25,8 @@ app.use('/pessoas', pessoaRouter);
 app.use('/matriculas', matriculaRouter);
 app.use('/pacientes', pacienteRouter);
 app.use('/app', autenticar);
+
+app.use(fomeZeroRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

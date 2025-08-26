@@ -1,10 +1,13 @@
 // matriculaRoutes.js
 import { Router } from 'express';
 import { autenticar } from '../authMiddleware.js';
-import { criarEducacaoController } from '../controllers/matriculaController.js';
+import { criarEducacaoController, listarMatriculasController } from '../controllers/matriculaController.js';
 
 const router = Router();
 
+
 router.post('/educacao', autenticar, criarEducacaoController);
+// Rota para listar todas as matrículas cadastradas
+router.get('/educacao', autenticar, listarMatriculasController);
 
 export default router;

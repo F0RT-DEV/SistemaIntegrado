@@ -1,81 +1,154 @@
 .system-card {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 2px rgba(10, 10, 10, 0.05);
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-  }
-  
-  .system-card:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .system-card.active {
-    box-shadow: 0 0 0 2px #3b82f6, 0 0 0 4px #ffffff;
-    transform: scale(1.05);
-  }
-
-  .icon-wrapper {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-  }
-
-  /* Estilos para os ícones com sombra */
-  .icon-small {
-    filter: 
-      drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2)) 
-      drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
-    transition: all 0.3s ease;
-  }
-  
-  /* Cores específicas para cada ícone */
-  .icon-small.blue {
-    color: #2563eb;
-    filter: 
-      drop-shadow(0px 2px 4px rgba(37, 99, 235, 0.3)) 
-      drop-shadow(0px 4px 6px rgba(37, 99, 235, 0.2));
-  }
-  
-  .icon-small.green {
-    color: #16a34a;
-    filter: 
-      drop-shadow(0px 2px 4px rgba(22, 163, 74, 0.3)) 
-      drop-shadow(0px 4px 6px rgba(22, 163, 74, 0.2));
-  }
-  
-  .icon-small.red {
-    color: #FF6600;
-    filter: 
-      drop-shadow(0px 0px 8px rgba(255, 102, 0, 0.6));
-    animation: pulse 2s infinite;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px rgba(10, 10, 10, 0.05);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
-  
+
+.system-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.system-card.active {
+  box-shadow: 0 0 0 2px #3b82f6, 0 0 0 4px #ffffff;
+  transform: scale(1.05);
+}
+
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.icon-small {
+  filter: 
+    drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2)) 
+    drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+}
+
+.icon-small.blue {
+  color: #2563eb;
+  filter: 
+    drop-shadow(0px 2px 4px rgba(37, 99, 235, 0.3)) 
+    drop-shadow(0px 4px 6px rgba(37, 99, 235, 0.2));
+}
+
+.icon-small.green {
+  color: #16a34a;
+  filter: 
+    drop-shadow(0px 2px 4px rgba(22, 163, 74, 0.3)) 
+    drop-shadow(0px 4px 6px rgba(22, 163, 74, 0.2));
+}
+
+.icon-small.red {
+  color: #FF6600;
+  filter: drop-shadow(0px 0px 8px rgba(255, 102, 0, 0.6));
+  animation: pulse 2s infinite;
+}
+
 @keyframes pulse {
-    0% { filter: drop-shadow(0px 0px 8px rgba(255, 102, 0, 0.6)); }
-    50% { filter: drop-shadow(0px 0px 16px rgba(255, 102, 0, 0.8)); }
-    100% { filter: drop-shadow(0px 0px 8px rgba(255, 102, 0, 0.6)); }
+  0% { filter: drop-shadow(0px 0px 8px rgba(255, 102, 0, 0.6)); }
+  50% { filter: drop-shadow(0px 0px 16px rgba(255, 102, 0, 0.8)); }
+  100% { filter: drop-shadow(0px 0px 8px rgba(255, 102, 0, 0.6)); }
 }
-  
-  /* Efeito hover para os ícones */
-  .system-card:hover .icon-small {
-    filter: 
-      drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.3)) 
-      drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.2));
-    transform: scale(1.05);
+
+.system-card:hover .icon-small {
+  filter: 
+    drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.3)) 
+    drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.2));
+  transform: scale(1.05);
+}
+
+.system-card.active .icon-small {
+  filter: 
+    drop-shadow(0px 0px 0px rgba(99, 102, 241, 0.3))
+    drop-shadow(0px 0px 10px rgba(99, 102, 241, 0.5));
+}
+
+/* ====== MEDIA QUERIES PARA RESPONSIVIDADE ====== */
+
+/* Tablets e menores */
+@media (max-width: 768px) {
+  .system-card {
+    padding: 1rem;
+    font-size: 0.95rem;
   }
-  
-  /* Estilo quando ativo */
-  .system-card.active .icon-small {
-    filter: 
-      drop-shadow(0px 0px 0px rgba(99, 102, 241, 0.3))
-      drop-shadow(0px 0px 10px rgba(99, 102, 241, 0.5));
+  .icon-wrapper {
+    width: 50px;
+    height: 50px;
   }
+}
+
+/* Dispositivos pequenos tipo iPhone SE ou similares */
+@media screen and (max-width: 380px) and (max-height: 830px) {
+  .system-card {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+  .icon-wrapper {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* iPhone 6/7/8 */
+@media screen and (max-width: 375px) and (max-height: 667px) {
+  .system-card {
+    padding: 0.7rem;
+    font-size: 0.8rem;
+  }
+  .icon-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Modelos como iPhone 14 Pro */
+@media screen and (min-width: 393px) and (max-width: 400px) and (min-height: 850px) and (max-height: 852px) {
+  .system-card {
+    padding: 1.2rem;
+    font-size: 0.9rem;
+  }
+  .icon-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Ex: Galaxy A10 */
+@media screen and (max-width: 575px) and (min-height: 750px) and (max-height: 780px) {
+  .system-card {
+    padding: 0.85rem;
+    font-size: 0.88rem;
+  }
+}
+
+/* Modelos como Galaxy S20 FE */
+@media screen and (min-width: 430px) and (max-width: 580px) and (min-height: 842px) and (max-height: 932px) {
+  .system-card {
+    padding: 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Telas grandes ou monitores 4K */
+@media (min-width: 1700px) {
+  .system-card {
+    max-width: 500px;
+    font-size: 1.1rem;
+  }
+  .icon-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+}

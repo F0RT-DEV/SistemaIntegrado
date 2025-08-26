@@ -50,7 +50,41 @@
 
 /* Ajuste para garantir que os modais apareçam acima das mensagens */
 .modal {
-  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.15);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  padding: 32px 24px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.consultas-list {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  padding: 32px 24px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10001;
 }
 
 .option-cardEDM {
@@ -91,4 +125,126 @@
 .auto-filled {
   background-color: #f0f8ff; /* Azul bem clarinho */
   border-left: 3px solid #4682b4; /* Borda lateral azul */
+}
+
+/* Estilo base já definido (mantido) */
+
+/* Dispositivos com largura até 768px */
+@media (max-width: 768px) {
+  .option-cardEDM,
+  .option-cardEdm {
+    padding: 0.75rem;
+    text-align: center;
+  }
+
+  .option-titleedm,
+  .option-titleEDM {
+    font-size: 1rem;
+  }
+
+  .option-description {
+    font-size: 0.8rem;
+  }
+
+  .consultas-listED {
+    padding: 15px;
+  }
+
+  .consultas-listED li {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .consultas-listED h3 {
+    font-size: 20px;
+  }
+}
+
+/* iPhones SE, X, 11 Pro (ex: 375x667) */
+@media screen and (max-width: 375px) and (max-height: 667px) {
+  .option-cardEDM,
+  .option-cardEdm {
+    padding: 0.5rem;
+  }
+
+  .option-description {
+    font-size: 0.75rem;
+  }
+
+  .consultas-listED h3 {
+    font-size: 18px;
+  }
+
+  .consultas-listED li {
+    font-size: 13px;
+  }
+}
+
+/* Dispositivos muito pequenos (ex: Galaxy Fold, iPhone 12 mini) */
+@media screen and (max-width: 380px) and (max-height: 830px) {
+  .option-cardEDM,
+  .option-cardEdm {
+    font-size: 0.85rem;
+  }
+
+  .consultas-listED {
+    padding: 10px;
+  }
+
+  .consultas-listED li {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+/* iPhone 14 Pro, etc (393x852) */
+@media screen and (min-width: 393px) and (max-width: 400px) and (min-height: 850px) and (max-height: 852px) {
+  .option-titleEDM,
+  .option-titleedm {
+    font-size: 1.1rem;
+  }
+
+  .consultas-listED h3 {
+    font-size: 21px;
+  }
+}
+
+/* Dispositivos de altura mais limitada */
+@media screen and (max-width: 575px) and (min-height: 750px) and (max-height: 780px) {
+  .consultas-listED {
+    margin-top: 20px;
+    padding: 12px;
+  }
+}
+
+/* Ex: Galaxy A52 (430x932) */
+@media screen and (min-width: 430px) and (max-width: 580px) and (min-height: 842px) and (max-height: 932px) {
+  .option-cardEDM,
+  .option-cardEdm {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+}
+
+/* Telas grandes */
+@media (min-width: 1700px) {
+  .consultas-listED {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .option-cardEDM,
+  .option-cardEdm {
+    font-size: 1.1rem;
+    padding: 1.5rem;
+  }
+
+  .consultas-listED h3 {
+    font-size: 24px;
+  }
+
+  .consultas-listED li {
+    font-size: 16px;
+    padding: 18px;
+  }
 }

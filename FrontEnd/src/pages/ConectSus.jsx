@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import './ConectSus.css';
 
@@ -5,6 +6,8 @@ const ConectSus = () => {
   const [showModal, setShowModal] = useState(false);
   const [showConsultas, setShowConsultas] = useState(false);
   const [consultas, setConsultas] = useState([]);
+  const [loadingConsultas, setLoadingConsultas] = useState(false);
+  const [consultasError, setConsultasError] = useState('');
   const [nomePaciente, setNomePaciente] = useState('');
   const [dataHora, setDataHora] = useState('');
   const [medico, setMedico] = useState('');
@@ -20,36 +23,50 @@ const ConectSus = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const agendarConsulta = () => {
-    if (nomePaciente && dataHora && medico && especialidade) {
-      const novaConsulta = {
-        id: Date.now(),
-        nome: nomePaciente,
-        dataHora,
-        medico,
-        especialidade,
-      };
-      setConsultas([...consultas, novaConsulta]);
-      setNomePaciente('');
-      setDataHora('');
-      setMedico('');
-      setEspecialidade('');
-      setShowModal(false);
-      setShowConfirmation(true);
-      setTimeout(() => setShowConfirmation(false), 3000);
-    } else {
-      alert('Preencha todos os campos!');
+  useEffect(() => {
+    if (showConsultas) {
+      setLoadingConsultas(true);
+      setConsultasError("");
+      fetch("http://localhost:3000/pacientes/consultas", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Erro ao buscar consultas");
+          return res.json();
+        })
+        .then((data) => {
+          setConsultas(Array.isArray(data) ? data : []);
+          setLoadingConsultas(false);
+        })
+        .catch((err) => {
+          setConsultasError("Erro ao buscar consultas. Tente novamente.");
+          setLoadingConsultas(false);
+        });
     }
+  }, [showConsultas]);
+
+  // Função para agendar consulta (deve ser implementada)
+  const agendarConsulta = () => {
+    // ... implementação do agendamento ...
+    setShowModal(false);
+    setShowConfirmation(true);
+    setTimeout(() => setShowConfirmation(false), 3000);
   };
 
   return (
     <div className="system-info">
+      {/* Mensagem de boas-vindas */}
       {showWelcome && (
         <div className="welcome-message-top">
           <h2>Seja bem-vindo ao Conect SUS!</h2>
         </div>
       )}
 
+      {/* Mensagem de confirmação de consulta */}
       {showConfirmation && (
         <div className="confirmation-message">
           <h2>Consulta confirmada!</h2>
@@ -108,33 +125,37 @@ const ConectSus = () => {
         </div>
       )}
 
-{showConsultas && (
-  <div className="consultas-list">
-    <h3>Consultas Agendadas</h3>
-    {consultas.length > 0 ? (
-      <ul>
-        {consultas.map((consulta) => (
-          <li key={consulta.id}>
-            <strong>{consulta.nome}</strong>
-            <div>
-              {new Date(consulta.dataHora).toLocaleDateString()} às {new Date(consulta.dataHora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+      {showConsultas && (
+        <div className="modal">
+          <div className="modal-content consultas-list">
+            <h3 style={{ textAlign: 'center', marginBottom: '24px' }}>Consultas Agendadas</h3>
+            {loadingConsultas ? (
+              <p>Carregando...</p>
+            ) : consultasError ? (
+              <p style={{ color: 'red' }}>{consultasError}</p>
+            ) : consultas.length > 0 ? (
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {consultas.map((consulta, index) => (
+                  <li key={consulta.id || index} style={{ background: '#f1f1f1', marginBottom: '12px', padding: '14px 20px', borderRadius: '10px', borderLeft: '5px solid #28a745', fontSize: '15px', color: '#444' }}>
+                    <strong style={{ display: 'block', fontSize: '16px', color: '#222', fontWeight: 600 }}>{consulta.nome_paciente}</strong>
+                    <div>Data/Hora: {consulta.data_hora ? `${new Date(consulta.data_hora).toLocaleDateString()} às ${new Date(consulta.data_hora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : '-'}</div>
+                    <div>Médico: {consulta.medico_id}</div>
+                    <div>Especialidade: {consulta.especialidade_id}</div>
+                    <div>Status: {consulta.status || 'Pendente'}</div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>Nenhuma consulta agendada.</p>
+            )}
+            <div className="center-button" style={{ textAlign: 'center', marginTop: '18px' }}>
+              <button onClick={() => setShowConsultas(false)} className="cancel-button">
+                Fechar
+              </button>
             </div>
-            <div>Médico: {consulta.medico}</div>
-            <div>Especialidade: {consulta.especialidade}</div>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p>Nenhuma consulta agendada.</p>
-    )}
-    <div className="center-button">
-      <button onClick={() => setShowConsultas(false)} className="cancel-button">
-        Fechar
-      </button>
-    </div>
-  </div>
-)}
-
+          </div>
+        </div>
+      )}
     </div>
   );
 };

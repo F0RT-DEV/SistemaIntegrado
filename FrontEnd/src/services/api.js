@@ -33,5 +33,14 @@ export const api = {
     });
     return handleResponse(response);
   },
+  validarCPF: async (cpf) => {
+    const response = await fetch(`${API_BASE_URL}/pessoas/validar-cpf?cpf=${cpf}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return handleResponse(response);
+  },
 };
 

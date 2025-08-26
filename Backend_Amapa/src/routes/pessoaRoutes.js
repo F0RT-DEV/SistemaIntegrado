@@ -1,9 +1,13 @@
 import { Router } from 'express';
-import { createPessoa, getPessoa, loginController } from '../controllers/cadastropessoaController.js';
+import { createPessoa, getPessoa, loginController, updatePessoa } from '../controllers/cadastropessoaController.js';
+import { buscarUsuarioPorEmail } from '../models/cadastropessoaModel.js';
 import { autenticar } from '../authMiddleware.js';
 
 
+
 const router = Router();
+// Atualizar dados do usuário (incluindo foto) - agora protegido
+router.put('/:id', autenticar, updatePessoa);
 
 // Cadastro de pessoa
 router.post('/', createPessoa);

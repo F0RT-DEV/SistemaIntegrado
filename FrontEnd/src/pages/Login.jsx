@@ -26,8 +26,9 @@ const Login = ({ login }) => {
       const response = await api.login({ email, senha });
 
       // Corrigido para salvar com chave correta
-      localStorage.setItem("token", response.token);
-      localStorage.setItem("userData", JSON.stringify(response.user));
+  localStorage.setItem("token", response.token);
+  localStorage.setItem("userData", JSON.stringify(response.user));
+  localStorage.setItem("usuarioLogado", JSON.stringify(response.user));
 
       login();
       navigate("/app/perfil"); // Redireciona para a tela de perfil

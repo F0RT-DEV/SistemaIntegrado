@@ -1,22 +1,47 @@
-import db from '../db.js';
-import mysql from 'mysql2/promise';
 
-const conexao = mysql.createPool(db);
-
+import { db } from '../db.js';
 export const criarEducacao = async ({ body }) => {
-    const { matricula_id, pessoa_fisica_id, dependente_id } = body;
-    const sql = `INSERT INTO educa_mais (matricula_id, pessoa_fisica_id, dependente_id) VALUES (?, ?, ?)`;
-    const params = [matricula_id, pessoa_fisica_id || null, dependente_id || null];
-
+    const {
+        nome_aluno,
+        cpf_aluno,
+        data_nascimento,
+        serie_ano,
+        escola,
+        turno,
+        responsavel_id,
+        dependente_id
+    } = body;
     try {
-        const [resultado] = await conexao.query(sql, params);
-        return { 
+        const docRef = await db.collection("educa_mais").add({
+            nome_aluno,
+            cpf_aluno,
+            data_nascimento,
+            serie_ano,
+            escola,
+            turno,
+            responsavel_id: responsavel_id || null,
+            dependente_id: dependente_id || null,
+            status: "Em análise" // status inicial
+        });
+        return {
             success: true,
-            id: resultado.insertId,
-            mensagem: 'Educação vinculada com sucesso' 
+            id: docRef.id,
+            mensagem: 'Matrícula escolar cadastrada com sucesso'
         };
     } catch (error) {
         console.error('Erro no model:', error);
-        throw new Error(`Erro ao vincular educação: ${error.message}`);
+        throw new Error(`Erro ao cadastrar matrícula: ${error.message}`);
+    }
+};
+
+// Listar todas as matrículas cadastradas
+export const listarMatriculas = async () => {
+    try {
+        const querySnapshot = await db.collection("educa_mais").get();
+        const matriculas = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return [200, matriculas];
+    } catch (error) {
+        console.error('Erro ao listar matrículas:', error);
+        return [500, { mensagem: 'Erro ao listar matrículas', error }];
     }
 };
