@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import admin from 'firebase-admin';
 import { getFirestore } from 'firebase-admin/firestore';
 
