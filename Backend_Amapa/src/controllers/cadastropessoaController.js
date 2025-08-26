@@ -50,7 +50,16 @@ export const updatePessoa = async (req, res) => {
   const dadosAtualizados = req.body;
   try {
     const [status, resposta] = await atualizarPessoa(id, dadosAtualizados);
-    return res.status(status).json(resposta);
+    if (status !== 200) {
+      return res.status(status).json(resposta);
+    }
+    // Buscar usuário atualizado
+    const doc = await (await import('../db.js')).db.collection("pessoa_fisica").doc(id).get();
+    if (!doc.exists) {
+      return res.status(404).json({ mensagem: "Usuário não encontrado após atualização" });
+    }
+    const usuarioAtualizado = { id: doc.id, ...doc.data() };
+    return res.status(200).json(usuarioAtualizado);
   } catch (error) {
     return res.status(500).json({
       mensagem: "Erro ao atualizar",

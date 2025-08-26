@@ -29,8 +29,7 @@ const Login = ({ login }) => {
   localStorage.setItem("token", response.token);
   localStorage.setItem("userData", JSON.stringify(response.user));
   localStorage.setItem("usuarioLogado", JSON.stringify(response.user));
-
-      login();
+  login(response.user);
       navigate("/app/perfil"); // Redireciona para a tela de perfil
     } catch (error) {
       console.error("Erro no login:", error);

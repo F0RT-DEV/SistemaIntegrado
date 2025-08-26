@@ -4,22 +4,9 @@ import "./PerfilUsuario.css";
 import { User, Grid, Pencil } from "lucide-react";
 import EditarPerfilModal from "../components/EditarPerfilModal";
 
-const PerfilUsuario = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user, setUser] = useState({});
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const savedUser = JSON.parse(localStorage.getItem("userData"));
-        if (savedUser) {
-          setUser(savedUser);
-        }
-      } catch (error) {
-        console.error("Erro ao carregar dados do usuário:", error);
-      }
-    }
-  }, []);
+const PerfilUsuario = ({ user, setUser }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const servicos = [
     { nome: "EducaMais", status: "ativo", desc: "1 matrícula ativa" },
@@ -27,9 +14,17 @@ const PerfilUsuario = () => {
     { nome: "ConectSUS", status: "agendado", desc: "1 consulta agendada" }
   ];
 
+  // Atualiza o estado do usuário após edição
   const handleSave = () => {
     setIsModalOpen(false);
-    // Aqui você poderia atualizar os dados no localStorage se o perfil for editado
+    try {
+      const savedUser = JSON.parse(localStorage.getItem("userData"));
+      if (savedUser) {
+        setUser(savedUser); // Atualiza o estado global do App.jsx
+      }
+    } catch (error) {
+      // Se der erro, mantém o estado anterior
+    }
   };
 
   return (

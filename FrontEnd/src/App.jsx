@@ -5,8 +5,7 @@ import {
   useLocation,
   Outlet,
 } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { GraduationCap, Apple, Heart } from "lucide-react";
 import NavBarra from "./components/NavBarra";
 import EducaMais from "./pages/EducaMais";
@@ -51,67 +50,74 @@ function MainContent() {
 }
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    const token = localStorage.getItem("token");
+    return !!token;
+  });
+  const [user, setUser] = useState(() => {
+    const savedUser = JSON.parse(localStorage.getItem("userData"));
+    return savedUser || {};
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setIsAuthenticated(true);
-    }
+    setIsAuthenticated(!!token);
+    const savedUser = JSON.parse(localStorage.getItem("userData"));
+    if (savedUser) setUser(savedUser);
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = (userData) => {
     setIsAuthenticated(true);
+    setUser(userData);
   };
 
   return (
-      <Routes>
-        {/* Landing Page */}
-        <Route
-          path="/"
-          element={
-            !isAuthenticated ? (
-              <LandingPage />
-            ) : (
-              <Navigate to="/app" replace />
-            )
-          }
-        />
+    <Routes>
+      {/* Landing Page */}
+      <Route
+        path="/"
+        element={
+          !isAuthenticated ? (
+            <LandingPage />
+          ) : (
+            <Navigate to="/app" replace />
+          )
+        }
+      />
 
-        {/* Autenticação */}
-        <Route path="/cadastro" element={<Cadastro />} />
-        <Route path="/login" element={<Login login={handleLogin} />} />
-        <Route path="/esqueci-senha" element={<Esquecisenha />} />
+      {/* Autenticação */}
+      <Route path="/cadastro" element={<Cadastro />} />
+      <Route path="/login" element={<Login login={handleLogin} />} />
+      <Route path="/esqueci-senha" element={<Esquecisenha />} />
 
-        {/* App Principal */}
-        <Route
-          path="/app/*"
-          element={
-            isAuthenticated ? (
-              <div className="app">
-                <NavBarra isAuthenticated={isAuthenticated} />
-                <MainContent />
-                <Footer />
-              </div>
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        >
-          {/* Rotas aninhadas */}
-          <Route path="educa" element={<EducaMais />} />
-          <Route path="fome" element={<FomeZero />} />
-          <Route path="sus" element={<ConectSus />} />
-          <Route path="perfil" element={<PerfilUsuario />} />
-          <Route path="landing" element={<LandingPage />} />
-        </Route>
-        
-        
+      {/* App Principal */}
+      <Route
+        path="/app/*"
+        element={
+          isAuthenticated ? (
+            <div className="app">
+              <NavBarra isAuthenticated={isAuthenticated} />
+              <MainContent />
+              <Footer />
+            </div>
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      >
+        {/* Rotas aninhadas */}
+        <Route path="educa" element={<EducaMais />} />
+        <Route path="fome" element={<FomeZero />} />
+        <Route path="sus" element={<ConectSus />} />
+        <Route path="perfil" element={<PerfilUsuario user={user} setUser={setUser} />} />
+        <Route path="landing" element={<LandingPage />} />
+      </Route>
 
-        {/* Redirecionamento Padrão */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      {/* Redirecionamento Padrão */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
+
 
 export default App;

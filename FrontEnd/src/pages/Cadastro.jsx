@@ -19,7 +19,8 @@ const Cadastro = () => {
     numero: "",
     bairro: "",
     cidade: "",
-    uf: ""
+    uf: "",
+    e_dependente: false
   });
 
   const [alerta, setAlerta] = useState("");
@@ -54,19 +55,17 @@ const Cadastro = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    
+    const { name, value, type, checked } = e.target;
     let formattedValue = value;
-    
-    // Aplica formatação conforme o campo
     if (name === 'cpf') {
       formattedValue = formatarCPF(value);
     } else if (name === 'telefone') {
       formattedValue = formatarTelefone(value);
     } else if (name === 'cep') {
       formattedValue = formatarCEP(value);
+    } else if (name === 'e_dependente' && type === 'checkbox') {
+      formattedValue = checked;
     }
-    
     setFormData(prev => ({
       ...prev,
       [name]: formattedValue
@@ -182,9 +181,9 @@ const Cadastro = () => {
         data_nascimento: formData.data_nascimento,
         senha: formData.senha,
         genero: formData.genero,
-        e_dependente: false,
+        e_dependente: formData.e_dependente,
         cep: formData.cep.replace(/\D/g, ''),
-        endereço: formData.endereco,
+        endereco: formData.endereco,
         complemento: formData.complemento,
         numero: formData.numero,
         bairro: formData.bairro,
@@ -212,7 +211,36 @@ const Cadastro = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-section">
             <h2>Informações Pessoais</h2>
-            
+            <div className="form-group" style={{ margin: '18px 0' }}>
+              <div style={{
+                background: '#f5f6fa',
+                borderRadius: '12px',
+                padding: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '18px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+              }}>
+                <input
+                  type="checkbox"
+                  id="e_dependente"
+                  name="e_dependente"
+                  checked={formData.e_dependente}
+                  onChange={handleChange}
+                  style={{ width: '22px', height: '22px', accentColor: '#6c63ff' }}
+                />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <span style={{ fontWeight: 600, fontSize: '1.1em', color: '#6c63ff', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    {/* Ícone de usuário dependente/responsável */}
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="#6c63ff"/><path d="M4 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="#6c63ff" strokeWidth="2"/></svg>
+                    Dependente ou Responsável
+                  </span>
+                  <span style={{ fontSize: '0.98em', color: '#333' }}>
+                    Marque se você é <b>dependente</b> (filho, tutelado, etc).<br />Desmarcado indica <b>responsável</b> (pai, mãe, tutor).
+                  </span>
+                </div>
+              </div>
+            </div>
             <div className="form-group">
               <label>NOME COMPLETO *</label>
               <input
