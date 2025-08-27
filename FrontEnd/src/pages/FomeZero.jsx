@@ -39,8 +39,8 @@ function ConsultaPedidosModal({ cpf, onClose }) {
   }, [cpf]);
 
   return (
-    <div className="modal">
-      <div className="modal-content">
+    <div className="modalFZERO">
+      <div className="modal-contentFZERO">
         <h3 style={{ textAlign: 'center', marginBottom: '24px' }}>Pedidos Cadastrados</h3>
         {loadingModal ? (
           <p>Carregando...</p>
@@ -49,20 +49,30 @@ function ConsultaPedidosModal({ cpf, onClose }) {
         ) : pedidosModal.length > 0 ? (
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
             {pedidosModal.map((pedido, index) => (
-              <li key={pedido.id || index} style={{ background: '#f1f1f1', marginBottom: '12px', padding: '14px 20px', borderRadius: '10px', borderLeft: '5px solid #28a745', fontSize: '15px', color: '#444' }}>
-                <strong style={{ display: 'block', fontSize: '16px', color: '#222', fontWeight: 600 }}>{pedido.nome}</strong>
-                <div>CPF: {pedido.cpf}</div>
-                <div>Renda Familiar: {pedido.renda_familiar}</div>
-                <div>Status: {pedido.status === 'Aprovado' ? 'Aprovado' : pedido.status === 'Rejeitado' ? 'Rejeitado' : 'Em andamento'}</div>
-                {pedido.status === 'Aprovado' && (
-                  <div style={{ color: 'green', marginTop: '8px' }}>{pedido.mensagem}</div>
-                )}
-                {pedido.status === 'Rejeitado' && (
-                  <div style={{ color: 'red', marginTop: '8px' }}>Pedido rejeitado: {pedido.motivo}</div>
-                )}
-                {pedido.status !== 'Aprovado' && pedido.status !== 'Rejeitado' && (
-                  <div style={{ color: 'orange', marginTop: '8px' }}>Pedido em andamento</div>
-                )}
+              <li key={pedido.id || index} className="pedido-card">
+                <strong>{pedido.nome}</strong>
+                <div className="pedido-info">
+                  <span>CPF: {pedido.cpf}</span>
+                  <span>Renda Familiar: {pedido.renda_familiar}</span>
+                  {pedido.status === 'Aprovado' && (
+                    <span className="status-badge-fz">Aprovado</span>
+                  )}
+                  {pedido.status === 'Rejeitado' && (
+                    <span className="status-badge-fz rejeitado">Rejeitado</span>
+                  )}
+                  {pedido.status !== 'Aprovado' && pedido.status !== 'Rejeitado' && (
+                    <span className="status-badge-fz andamento">Em andamento</span>
+                  )}
+                  {pedido.status === 'Aprovado' && (
+                    <div style={{ color: '#22c55e', marginTop: '8px' }}>{pedido.mensagem}</div>
+                  )}
+                  {pedido.status === 'Rejeitado' && (
+                    <div style={{ color: '#e53935', marginTop: '8px' }}>Pedido rejeitado: {pedido.motivo}</div>
+                  )}
+                  {pedido.status !== 'Aprovado' && pedido.status !== 'Rejeitado' && (
+                    <div style={{ color: '#f59e42', marginTop: '8px' }}>Pedido em andamento</div>
+                  )}
+                </div>
               </li>
             ))}
           </ul>
@@ -70,7 +80,7 @@ function ConsultaPedidosModal({ cpf, onClose }) {
           <p>Nenhum pedido encontrado.</p>
         )}
         <div className="center-button" style={{ textAlign: 'center', marginTop: '18px' }}>
-          <button onClick={onClose} className="cancel-button">
+          <button onClick={onClose} className="cancel-buttonFZF">
             Fechar
           </button>
         </div>
@@ -204,8 +214,8 @@ const FomeZero = () => {
 
       {/* Modal Nova Solicitação */}
       {mostrarFormulario && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="modalFZERO">
+          <div className="modal-contentFZERO">
             <h3>Nova Solicitação</h3>
             <form onSubmit={handleSubmit}>
               <p>Novo pedido</p>
@@ -250,10 +260,10 @@ const FomeZero = () => {
                 </label>
               </div>
               <div className="modal-buttons1">
-                <button type="button" onClick={() => setMostrarFormulario(false)} className="cancel-button">
+                <button type="button" onClick={() => setMostrarFormulario(false)} className="cancel-buttonFZF">
                   Cancelar
                 </button>
-                <button type="submit" className="confirm-button">
+                <button type="submit" className="confirm-buttonF">
                   Enviar Pedido
                 </button>
               </div>

@@ -1,3 +1,40 @@
+.matricula-card {
+  background-color: #f7faff;
+  margin-bottom: 24px;
+  padding: 18px 24px;
+  border-radius: 16px;
+  border-left: 7px solid #2563eb;
+  font-size: 15px;
+  color: #222;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+  position: relative;
+  min-height: 80px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.matricula-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+.status-badge {
+  display: inline-block;
+  background: #e53935;
+  color: #fff;
+  border-radius: 16px;
+  padding: 2px 14px;
+  font-size: 0.95em;
+  font-weight: 500;
+  margin-top: 6px;
+  box-shadow: 0 1px 4px rgba(229,57,53,0.08);
+  letter-spacing: 0.5px;
+  width: 40%;
+  text-align: center;
+}
+
 /* Responsividade para botões do modal de cadastro */
 .modal-buttons {
   display: flex;
@@ -46,23 +83,98 @@
   margin: 0;
 }
 
+
 .consultas-listED li {
-  background-color: #f1f1f1;
-  margin-bottom: 12px;
-  padding: 14px 20px;
-  border-radius: 10px;
-  border-left: 5px solid #28a745;
+  background-color: #f7faff;
+  margin-bottom: 24px;
+  padding: 18px 24px;
+  border-radius: 16px;
+  border-left: 5px solid #2563eb; /* azul padrão EducaMais */
   font-size: 15px;
-  color: #444;
+  color: #222;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+  position: relative;
+  min-height: 80px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
+
+/* Remove divisória, pois a borda azul já destaca cada card */
 
 .consultas-listED li strong {
   display: block;
   font-size: 16px;
   color: #222;
   font-weight: 600;
+  margin-bottom: 6px;
 }
 
+.matricula-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+/* .status-badge {
+  display: inline-block;
+  background: #e53935;
+  color: #fff;
+  border-radius: 16px;
+  padding: 2px 14px;
+  font-size: 0.95em;
+  font-weight: 500;
+  margin-top: 6px;
+  box-shadow: 0 1px 4px rgba(229,57,53,0.08);
+  letter-spacing: 0.5px;
+  width: 40%;
+  text-align: center;
+} */
+
+.cancel-buttonF {
+  background: #2563eb !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.5rem 1.2rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+  transition: background 0.2s;
+}
+.cancel-buttonF:hover {
+  background: #1742a0 !important;
+}
+
+.cancel-buttonC {
+  background: #e53935 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.5rem 1.2rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+  transition: background 0.2s;
+}
+.cancel-buttonC:hover {
+  background: #e53935 !important;
+}
+
+.confirm-buttonC{
+  background-color: #2563eb;
+  color: #fff;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.5rem 1.2rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(40,167,69,0.08);
+  transition: background 0.2s;
+}
+.confirm-buttonC:hover {
+  background: #2563eb !important;
+}
 
 
 @keyframes fadeInOut {
@@ -73,7 +185,7 @@
 }
 
 /* Ajuste para garantir que os modais apareçam acima das mensagens */
-.modal {
+.modalEDM {
   position: fixed;
   top: 0;
   left: 0;
@@ -86,8 +198,8 @@
   justify-content: center;
 }
 
-.modal-content {
-  background: #fff;
+.modal-contentEDM {
+  background: #ececec;
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.18);
   padding: 32px 24px;
@@ -95,6 +207,14 @@
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
+}
+
+.modal-contentEDM h3{
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
 }
 
 .consultas-list {
@@ -148,9 +268,22 @@
 
 .auto-filled {
   background-color: #f0f8ff; /* Azul bem clarinho */
-  border-left: 3px solid #4682b4; /* Borda lateral azul */
+  border-left: 1px solid #4682b4; /* Borda lateral azul */
 }
 
+.modal-contentEDM input[type="text"],
+  .modal-contentEDM input[type="date"],
+  .modal-contentEDM input[type="file"],
+  .modal-contentEDM input[type="email"],
+  .modal-contentEDM select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+  }
 /* Estilo base já definido (mantido) */
 
 /* Dispositivos com largura até 768px */

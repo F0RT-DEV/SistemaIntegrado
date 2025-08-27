@@ -1,5 +1,50 @@
+.consulta-card {
+  background-color: #fff8f3;
+  margin-bottom: 24px;
+  padding: 18px 24px;
+  border-radius: 16px;
+  border-left: 7px solid #FF6600;
+  font-size: 15px;
+  color: #222;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(255,102,0,0.07);
+  position: relative;
+  min-height: 80px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.consulta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+.status-badge-csus {
+  display: inline-block;
+  background: #FF6600;
+  color: #fff;
+  border-radius: 16px;
+  padding: 2px 14px;
+  font-size: 0.95em;
+  font-weight: 500;
+  margin-top: 6px;
+  box-shadow: 0 1px 4px rgba(255,102,0,0.08);
+  letter-spacing: 0.5px;
+  width: 40%;
+  text-align: center;
+}
+.status-badge-csus.pendente {
+  background: #FF6600;
+}
+.status-badge-csus.confirmada {
+  background: #22c55e;
+}
+.status-badge-csus.cancelada {
+  background: #e53935;
+}
 /* Modal de Agendamento */
-.modal {
+.modalCSUS {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +57,7 @@
   z-index: 1000;
 }
 
-.modal-content {
+.modal-contentCSUS {
   background-color: #ffffff;
   padding: 30px;
   border-radius: 16px;
@@ -22,7 +67,7 @@
   animation: fadeIn 0.3s ease;
 }
 
-.modal-content h3 {
+.modal-contentCSUS h3 {
   font-size: 24px;
   margin-bottom: 20px;
   text-align: center;
@@ -30,7 +75,7 @@
   color: #333;
 }
 
-.modal-content label {
+.modal-contentCSUS label {
   display: block;
   margin-bottom: 5px;
   font-size: 14px;
@@ -38,8 +83,8 @@
   font-weight: 500;
 }
 
-.modal-content input,
-.modal-content select {
+.modal-contentCSUS input,
+.modal-contentCSUS select {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -49,7 +94,7 @@
   background-color: #f9f9f9;
 }
 
-.modal-content button {
+.modal-contentCSUS button {
   padding: 10px 18px;
   margin-top: 10px;
   border: none;
@@ -59,14 +104,14 @@
   font-weight: bold;
 }
 
-.modal-content button:first-of-type {
+.modal-contentCSUS button:first-of-type {
   background-color: #dc3545;
   color: white;
   margin-right: 10px;
 }
 
-.modal-content button:last-of-type {
-  background-color: #28a745;
+.modal-contentCSUS button:last-of-type {
+  background-color: #1742a0;
   color: white;
 }
 
@@ -99,7 +144,7 @@
   margin-bottom: 12px;
   padding: 14px 20px;
   border-radius: 10px;
-  border-left: 5px solid #28a745;
+  border-left: 7px solid #FF6600;
   font-size: 15px;
   color: #444;
 }
@@ -165,4 +210,18 @@
 .option-titleAC {
   font-weight: 500;
   color: #f7f7f7;
+}
+
+.cancel-buttonFZ {
+  background: #e53935 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.5rem 1.2rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+  transition: background 0.2s;
+}
+.cancel-buttonFZ:hover {
+  background: #e53935 !important;
 }

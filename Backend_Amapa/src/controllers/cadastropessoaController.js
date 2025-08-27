@@ -139,7 +139,8 @@ export const loginController = async (req, res) => {
         cep: usuario.cep,
         endereco: usuario.endereco,
         complemento: usuario.complemento,
-        numero: usuario.numero
+        numero: usuario.numero,
+        foto: usuario.foto || "" // Adiciona o campo foto na resposta
       }
     });
   } catch (error) {

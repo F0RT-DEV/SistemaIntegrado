@@ -90,8 +90,8 @@ const ConectSus = () => {
       </div>
 
       {showModal && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="modalCSUS">
+          <div className="modal-contentCSUS">
             <h3>Nova Consulta</h3>
             <label>Nome do Paciente</label>
             <input
@@ -126,8 +126,8 @@ const ConectSus = () => {
       )}
 
       {showConsultas && (
-        <div className="modal">
-          <div className="modal-content consultas-list">
+        <div className="modalCSUS">
+          <div className="modal-contentCSUS consultas-list">
             <h3 style={{ textAlign: 'center', marginBottom: '24px' }}>Consultas Agendadas</h3>
             {loadingConsultas ? (
               <p>Carregando...</p>
@@ -136,12 +136,22 @@ const ConectSus = () => {
             ) : consultas.length > 0 ? (
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {consultas.map((consulta, index) => (
-                  <li key={consulta.id || index} style={{ background: '#f1f1f1', marginBottom: '12px', padding: '14px 20px', borderRadius: '10px', borderLeft: '5px solid #28a745', fontSize: '15px', color: '#444' }}>
-                    <strong style={{ display: 'block', fontSize: '16px', color: '#222', fontWeight: 600 }}>{consulta.nome_paciente}</strong>
-                    <div>Data/Hora: {consulta.data_hora ? `${new Date(consulta.data_hora).toLocaleDateString()} às ${new Date(consulta.data_hora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : '-'}</div>
-                    <div>Médico: {consulta.medico_id}</div>
-                    <div>Especialidade: {consulta.especialidade_id}</div>
-                    <div>Status: {consulta.status || 'Pendente'}</div>
+                  <li key={consulta.id || index} className="consulta-card">
+                    <strong>{consulta.nome_paciente}</strong>
+                    <div className="consulta-info">
+                      <span>Data/Hora: {consulta.data_hora ? `${new Date(consulta.data_hora).toLocaleDateString()} às ${new Date(consulta.data_hora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : '-'}</span>
+                      <span>Médico: {consulta.medico_id}</span>
+                      <span>Especialidade: {consulta.especialidade_id}</span>
+                      {(!consulta.status || consulta.status === 'Pendente') && (
+                        <span className="status-badge-csus pendente">Pendente</span>
+                      )}
+                      {consulta.status === 'Confirmada' && (
+                        <span className="status-badge-csus confirmada">Confirmada</span>
+                      )}
+                      {consulta.status === 'Cancelada' && (
+                        <span className="status-badge-csus cancelada">Cancelada</span>
+                      )}
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -149,7 +159,7 @@ const ConectSus = () => {
               <p>Nenhuma consulta agendada.</p>
             )}
             <div className="center-button" style={{ textAlign: 'center', marginTop: '18px' }}>
-              <button onClick={() => setShowConsultas(false)} className="cancel-button">
+              <button onClick={() => setShowConsultas(false)} className="cancel-buttonFZ">
                 Fechar
               </button>
             </div>

@@ -165,13 +165,12 @@ const EducaMais = () => {
 
       {/* Modal de Nova Matrícula */}
       {showNewRegistrationModal && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="modalEDM">
+          <div className="modal-contentEDM">
             <h3>Nova Matrícula</h3>
             <form onSubmit={handleSubmit}>
               {students.map((student, index) => (
                 <div key={index} className="student-form">
-                  <h5>Aluno {index + 1}</h5>
                   <input
                     type="text"
                     placeholder="Nome do Aluno"
@@ -226,13 +225,13 @@ const EducaMais = () => {
                 </div>
               ))}
               <div className="modal-buttons">
-                <button type="button" onClick={handleAddStudent} className="add-button">
+                {/* <button type="button" onClick={handleAddStudent} className="add-button">
                   Adicionar Aluno
-                </button>
-                <button type="button" onClick={() => setShowNewRegistrationModal(false)} className="cancel-button">
+                </button> */}
+                <button type="button" onClick={() => setShowNewRegistrationModal(false)} className="cancel-buttonC">
                   Cancelar
                 </button>
-                <button type="submit" className="confirm-button">
+                <button type="submit" className="confirm-buttonC">
                   Cadastrar
                 </button>
               </div>
@@ -243,8 +242,8 @@ const EducaMais = () => {
 
       {/* Modal de Consulta de Matrícula */}
       {showConsultModal && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="modalEDM">
+          <div className="modal-contentEDM">
             <h3 style={{ textAlign: 'center', marginBottom: '24px' }}>Matrículas Cadastradas</h3>
             {loadingConsult ? (
               <p>Carregando...</p>
@@ -253,14 +252,20 @@ const EducaMais = () => {
             ) : registrations.length > 0 ? (
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {registrations.map((student, index) => (
-                  <li key={index} style={{ background: '#f1f1f1', marginBottom: '12px', padding: '14px 20px', borderRadius: '10px', borderLeft: '5px solid #28a745', fontSize: '15px', color: '#444' }}>
-                    <strong style={{ display: 'block', fontSize: '16px', color: '#222', fontWeight: 600 }}>{student.nome_aluno || student.name}</strong>
-                    <div>CPF: {student.cpf_aluno || student.cpf}</div>
-                    <div>Nascimento: {student.data_nascimento || student.birthDate}</div>
-                    <div>Série/Ano: {student.serie_ano || student.grade}</div>
-                    <div>Escola: {student.escola}</div>
-                    <div>Turno: {student.turno}</div>
-                    <div>Status: {student.status || 'Em análise'}</div>
+                  <li key={index} className="matricula-card">
+                    <strong>{student.nome_aluno || student.name}</strong>
+                    <div className="matricula-info">
+                      <span>CPF: {student.cpf_aluno || student.cpf}</span>
+                      <span>Nascimento: {student.data_nascimento || student.birthDate}</span>
+                      <span>Série/Ano: {student.serie_ano || student.grade}</span>
+                      <span>Escola: {student.escola}</span>
+                      <span>Turno: {student.turno}</span>
+                      {((student.status || 'Em análise') === 'Em análise') ? (
+                        <span className="status-badge">Em análise</span>
+                      ) : (
+                        <span>Status: {student.status}</span>
+                      )}
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -268,7 +273,7 @@ const EducaMais = () => {
               <p>Nenhuma matrícula cadastrada.</p>
             )}
             <div className="center-button" style={{ textAlign: 'center', marginTop: '18px' }}>
-              <button onClick={() => setShowConsultModal(false)} className="cancel-button">
+              <button onClick={() => setShowConsultModal(false)} className="cancel-buttonC">
                 Fechar
               </button>
             </div>
