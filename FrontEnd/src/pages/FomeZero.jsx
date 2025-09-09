@@ -105,6 +105,7 @@ const FomeZero = () => {
     };
   });
 
+  const [jaSolicitouNoMes, setJaSolicitouNoMes] = useState(false);
   const [pedidos, setPedidos] = useState([]);
 
   useEffect(() => {
@@ -112,6 +113,43 @@ const FomeZero = () => {
       setMostrarBemVindo(false);
     }, 3000);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Verifica se já existe solicitação no mês ao carregar a tela
+  useEffect(() => {
+    async function verificarSolicitacaoMes() {
+      const userData = JSON.parse(localStorage.getItem("usuarioLogado")) || {};
+      const cpf = userData.cpf;
+      if (!cpf || cpf.length !== 11) {
+        setJaSolicitouNoMes(false);
+        return;
+      }
+      try {
+        const res = await fetch(`https://sistemaintegrado.onrender.com/fomezero/pedidos?cpf=${cpf}`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+        const data = await res.json();
+        console.log("Pedidos encontrados para debug:", data);
+        // Verifica se existe pedido do mês atual
+        const agora = new Date();
+        const pedidosDoMes = (Array.isArray(data) ? data : []).filter(p => {
+          const dataPedido = new Date(p.data);
+          const mesmoMes = dataPedido.getMonth() === agora.getMonth();
+          const mesmoAno = dataPedido.getFullYear() === agora.getFullYear();
+          console.log(`Pedido:`, p, `Data:`, p.data, `Mês:`, dataPedido.getMonth(), `Ano:`, dataPedido.getFullYear(), `Mesmo mês?`, mesmoMes, `Mesmo ano?`, mesmoAno);
+          return mesmoMes && mesmoAno;
+        });
+        console.log("Pedidos do mês atual:", pedidosDoMes);
+        setJaSolicitouNoMes(pedidosDoMes.length > 0);
+      } catch (err) {
+        console.log("Erro ao buscar pedidos para debug:", err);
+        setJaSolicitouNoMes(false);
+      }
+    }
+    verificarSolicitacaoMes();
   }, []);
 
   // Atualiza os dados quando o modal abre
@@ -128,13 +166,9 @@ const FomeZero = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "cpf") {
-      // Permite qualquer número (removida a validação)
-      const onlyNumbers = value.replace(/\D/g, "");
-      setFormData({ ...formData, [name]: onlyNumbers });
-    } else if (name === "possuiDependentes") {
+    if (name === "possuiDependentes") {
       setFormData({ ...formData, [name]: e.target.checked });
-    } else {
+    } else if (name !== "cpf") {
       setFormData({ ...formData, [name]: value });
     }
   };
@@ -146,7 +180,7 @@ const FomeZero = () => {
       return;
     }
     try {
-  const res = await fetch("https://sistemaintegrado.onrender.com/fomezero/solicitar", {
+      const res = await fetch("https://sistemaintegrado.onrender.com/fomezero/solicitar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -163,23 +197,25 @@ const FomeZero = () => {
       if (data.aprovado) {
         setMostrarConfirmacao(true);
         setTimeout(() => setMostrarConfirmacao(false), 3000);
+        setFormData({ nome: "", cpf: formData.cpf, rendaFamiliar: "", possuiDependentes: false });
+        setMostrarFormulario(false);
+        setJaSolicitouNoMes(true); // Bloqueia imediatamente após sucesso
       } else {
-        alert(data.motivo || "Pedido rejeitado.");
+        if (data.motivo === 'Só é permitida uma solicitação por mês.') {
+          alert('Você já fez uma solicitação este mês. Aguarde o próximo mês para solicitar novamente.');
+          setJaSolicitouNoMes(true); // Garante bloqueio se backend retornar restrição
+        } else {
+          alert(data.motivo || "Pedido rejeitado.");
+        }
       }
     } catch (err) {
       alert("Erro ao enviar pedido. Tente novamente.");
     }
-  setFormData({ nome: "", cpf: "", rendaFamiliar: "", possuiDependentes: false });
-    setMostrarFormulario(false);
   };
 
   // Função para abrir o modal de consulta
   const handleAbrirConsulta = () => {
-    // Força o CPF do usuário logado para o valor cadastrado
-    const userData = JSON.parse(localStorage.getItem("usuarioLogado")) || {};
-    userData.cpf = "12345678900";
-    localStorage.setItem("usuarioLogado", JSON.stringify(userData));
-    setMostrarConsulta(true);
+  setMostrarConsulta(true);
   };
 
   return (
@@ -202,9 +238,21 @@ const FomeZero = () => {
       </div>
 
       <div className="options-grid">
-        <div className="option-cardFZERO" onClick={() => setMostrarFormulario(true)}>
+        <div
+          className="option-cardFZERO"
+          onClick={() => {
+            if (!jaSolicitouNoMes) setMostrarFormulario(true);
+          }}
+          style={jaSolicitouNoMes ? { cursor: 'not-allowed', opacity: 0.7 } : { cursor: 'pointer' }}
+        >
           <h4 className="option-titleFZERO">Nova Solicitação</h4>
           <p className="option-description">Cadastre um novo pedido de cesta básica</p>
+          {jaSolicitouNoMes && (
+            <p style={{ color: '#e53935', fontWeight: 'bold', marginTop: '8px' }}>
+              Você já fez uma solicitação este mês.<br />
+              Você poderá fazer uma nova solicitação daqui a um mês novamente!
+            </p>
+          )}
         </div>
         <div className="option-cardFzero" onClick={handleAbrirConsulta}>
           <h4 className="option-titlefzero">Acompanhar Pedido</h4>
@@ -217,57 +265,69 @@ const FomeZero = () => {
         <div className="modalFZERO">
           <div className="modal-contentFZERO">
             <h3>Nova Solicitação</h3>
-            <form onSubmit={handleSubmit}>
-              <p>Novo pedido</p>
-              <input 
-                type="text" 
-                name="nome" 
-                placeholder="Nome" 
-                value={formData.nome} 
-                onChange={handleChange} 
-                required 
-                className={formData.nome ? 'auto-filled' : ''}
-              />
-              <input 
-                type="text" 
-                name="cpf" 
-                placeholder="CPF (apenas números)" 
-                value={formData.cpf} 
-                onChange={handleChange} 
-                required 
-                className={formData.cpf ? 'auto-filled' : ''}
-                maxLength={11}
-              />
-              <select 
-                name="rendaFamiliar" 
-                value={formData.rendaFamiliar} 
-                onChange={handleChange} 
-                required
-              >
-                <option value="">Selecione a Renda Familiar</option>
-                <option value="Até 1 salário mínimo">Até 1 salário mínimo</option>
-                <option value="De 1 a 2 salários mínimos">De 1 a 2 salários mínimos</option>
-                <option value="Acima de 2 salários mínimos">Acima de 2 salários mínimos</option>
-              </select>
-              <div style={{ margin: '10px 0' }}>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="possuiDependentes"
-                    checked={formData.possuiDependentes}
-                    onChange={handleChange}
-                  /> Possuo dependentes
-                </label>
-              </div>
-              <div className="modal-buttons1">
-                <button type="button" onClick={() => setMostrarFormulario(false)} className="cancel-buttonFZF">
-                  Cancelar
-                </button>
-                <button type="submit" className="confirm-buttonF">
-                  Enviar Pedido
+            {jaSolicitouNoMes ? (
+              <div style={{ textAlign: 'center', padding: '24px 0' }}>
+                <p style={{ color: '#e53935', fontWeight: 'bold', fontSize: '1.1em' }}>
+                  Você já fez uma solicitação este mês.<br />
+                  Você poderá fazer uma nova solicitação daqui a um mês novamente!
+                </p>
+                <button type="button" onClick={() => setMostrarFormulario(false)} className="cancel-buttonFZF" style={{ marginTop: '24px' }}>
+                  Fechar
                 </button>
               </div>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <p>Novo pedido</p>
+                <input 
+                  type="text" 
+                  name="nome" 
+                  placeholder="Nome" 
+                  value={formData.nome} 
+                  onChange={handleChange} 
+                  required 
+                  className={formData.nome ? 'auto-filled' : ''}
+                />
+                <input 
+                  type="text" 
+                  name="cpf" 
+                  placeholder="CPF (apenas números)" 
+                  value={formData.cpf} 
+                  disabled
+                  required 
+                  className={formData.cpf ? 'auto-filled' : ''}
+                  maxLength={11}
+                />
+                <select 
+                  name="rendaFamiliar" 
+                  value={formData.rendaFamiliar} 
+                  onChange={handleChange} 
+                  required
+                >
+                  <option value="">Selecione a Renda Familiar</option>
+                  <option value="Até 1 salário mínimo">Até 1 salário mínimo</option>
+                  <option value="De 1 a 2 salários mínimos">De 1 a 2 salários mínimos</option>
+                  <option value="Acima de 2 salários mínimos">Acima de 2 salários mínimos</option>
+                </select>
+                <div style={{ margin: '10px 0' }}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="possuiDependentes"
+                      checked={formData.possuiDependentes}
+                      onChange={handleChange}
+                    /> Possuo dependentes
+                  </label>
+                </div>
+                <div className="modal-buttons1">
+                  <button type="button" onClick={() => setMostrarFormulario(false)} className="cancel-buttonFZF">
+                    Cancelar
+                  </button>
+                  <button type="submit" className="confirm-buttonF">
+                    Enviar Pedido
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}

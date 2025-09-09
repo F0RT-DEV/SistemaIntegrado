@@ -2,7 +2,12 @@ import { criarEducacao, listarMatriculas } from "../models/matriculaModel.js";
 // Listar todas as matrículas cadastradas
 export const listarMatriculasController = async (req, res) => {
     try {
-        const [status, matriculas] = await listarMatriculas();
+        // Pega o CPF do usuário autenticado
+        const cpf_aluno = req.usuario?.cpf;
+        if (!cpf_aluno) {
+            return res.status(400).json({ mensagem: "CPF do usuário não encontrado." });
+        }
+        const [status, matriculas] = await listarMatriculas(cpf_aluno);
         return res.status(status).json(matriculas);
     } catch (error) {
         return res.status(500).json({

@@ -35,9 +35,10 @@ export const criarEducacao = async ({ body }) => {
 };
 
 // Listar todas as matrículas cadastradas
-export const listarMatriculas = async () => {
+// Listar matrículas apenas do CPF informado
+export const listarMatriculas = async (cpf_aluno) => {
     try {
-        const querySnapshot = await db.collection("educa_mais").get();
+        const querySnapshot = await db.collection("educa_mais").where("cpf_aluno", "==", cpf_aluno).get();
         const matriculas = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         return [200, matriculas];
     } catch (error) {

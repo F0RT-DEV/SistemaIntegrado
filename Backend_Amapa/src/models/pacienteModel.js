@@ -1,4 +1,5 @@
-// Removido import do client SDK
+import { db } from '../db.js';
+
 // Listar consultas agendadas por nome ou id do usuário
 export const listarConsultas = async ({ nome_paciente, usuario_id, data_hora, status }) => {
     let queryRef = db.collection('consultas');
@@ -7,14 +8,32 @@ export const listarConsultas = async ({ nome_paciente, usuario_id, data_hora, st
     if (data_hora) queryRef = queryRef.where('data_hora', '==', data_hora);
     if (status) queryRef = queryRef.where('status', '==', status);
     const snapshot = await queryRef.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    // Garante que o campo cpf_paciente sempre aparece, mesmo se estiver undefined
+    return snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+            id: doc.id,
+            nome_paciente: data.nome_paciente,
+            cpf_paciente: data.cpf_paciente || null,
+            usuario_id: data.usuario_id || null,
+            data_hora: data.data_hora,
+            medico_id: data.medico_id,
+            especialidade_id: data.especialidade_id,
+            status: data.status || 'Pendente',
+            criado_em: data.criado_em
+        };
+    });
 };
+
 // Agendar consulta de paciente
 export const agendarConsulta = async ({ body }) => {
-    const { nome_paciente, data_hora, medico_id, especialidade_id } = body;
+    const { nome_paciente, cpf_paciente, usuario_id, data_hora, medico_id, especialidade_id } = body;
     try {
+        // Garante que o campo cpf_paciente sempre será salvo
         await db.collection('consultas').add({
             nome_paciente,
+            cpf_paciente: cpf_paciente || null,
+            usuario_id: usuario_id || null,
             data_hora,
             medico_id,
             especialidade_id,
@@ -25,7 +44,6 @@ export const agendarConsulta = async ({ body }) => {
         throw new Error('Erro ao agendar consulta: ' + error.message);
     }
 };
-import { db } from '../db.js';
 
 // Vincular paciente ao Conect SUS
 export const criarConectSus = async ({ body }) => {

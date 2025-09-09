@@ -21,6 +21,33 @@ async function criarSolicitacaoFomeZero({ nome, cpf, renda_familiar }) {
   let mensagem = '';
   let motivo = '';
 
+  // Verifica se já existe solicitação no mês atual
+  const now = new Date();
+  const anoAtual = now.getFullYear();
+  const mesAtual = now.getMonth();
+  const snapshot = await db.collection('solicitacoes_fomezero')
+    .where('cpf', '==', cpf)
+    .get();
+  let bloqueado = false;
+  snapshot.forEach(doc => {
+    const pedido = doc.data();
+    // Garante que o campo data existe e é válido
+    if (pedido.data) {
+      // Normaliza para UTC, ignorando timezone
+      const dataPedido = new Date(pedido.data);
+      const anoPedido = dataPedido.getUTCFullYear();
+      const mesPedido = dataPedido.getUTCMonth();
+      if (anoPedido === anoAtual && mesPedido === mesAtual) {
+        bloqueado = true;
+      }
+    }
+  });
+  if (bloqueado) {
+    status = 'Rejeitado';
+    motivo = 'Só é permitida uma solicitação por mês.';
+    return { aprovado: false, status, motivo };
+  }
+
   // Regra 1: Renda até 2 salários mínimos
   if (renda_familiar === 'Acima de 2 salários mínimos') {
     status = 'Rejeitado';

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import './ConectSus.css';
-
+//
 const ConectSus = () => {
   const [showModal, setShowModal] = useState(false);
   const [showConsultas, setShowConsultas] = useState(false);
@@ -27,11 +27,16 @@ const ConectSus = () => {
     if (showConsultas) {
       setLoadingConsultas(true);
       setConsultasError("");
-  fetch("https://sistemaintegrado.onrender.com/pacientes/consultas", {
+      const userData = JSON.parse(localStorage.getItem("usuarioLogado"));
+      const cpfLogado = userData?.cpf;
+      const token = localStorage.getItem("token");
+      console.log("[DEBUG] Token JWT usado:", token);
+      console.log("[DEBUG] CPF logado:", cpfLogado);
+      fetch("https://sistemaintegrado.onrender.com/pacientes/consultas", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
+          "Authorization": `Bearer ${token}`
         }
       })
         .then((res) => {
@@ -39,22 +44,60 @@ const ConectSus = () => {
           return res.json();
         })
         .then((data) => {
-          setConsultas(Array.isArray(data) ? data : []);
+          console.log("[DEBUG] Consultas recebidas do backend:", data);
+          const userData = JSON.parse(localStorage.getItem("usuarioLogado"));
+          const usuarioIdLogado = userData?.id;
+          const filtradas = Array.isArray(data) ? data.filter(c => c.usuario_id === usuarioIdLogado) : [];
+          console.log("[DEBUG] Consultas após filtro por usuario_id:", filtradas);
+          setConsultas(filtradas);
           setLoadingConsultas(false);
         })
         .catch((err) => {
           setConsultasError("Erro ao buscar consultas. Tente novamente.");
           setLoadingConsultas(false);
+          console.error("[DEBUG] Erro na busca de consultas:", err);
         });
     }
   }, [showConsultas]);
 
   // Função para agendar consulta (deve ser implementada)
   const agendarConsulta = () => {
-    // ... implementação do agendamento ...
-    setShowModal(false);
-    setShowConfirmation(true);
-    setTimeout(() => setShowConfirmation(false), 3000);
+    const userData = JSON.parse(localStorage.getItem("usuarioLogado"));
+    const cpfLogado = userData?.cpf;
+    const usuario_id = userData?.id;
+    const consultaData = {
+      nome_paciente: nomePaciente,
+      cpf_paciente: cpfLogado,
+      usuario_id: usuario_id,
+      data_hora: dataHora,
+      medico_id: medico,
+      especialidade_id: especialidade
+    };
+    fetch("https://sistemaintegrado.onrender.com/pacientes/consultas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify(consultaData)
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Erro ao agendar consulta");
+        return res.json();
+      })
+      .then(data => {
+        setShowModal(false);
+        setShowConfirmation(true);
+        setTimeout(() => setShowConfirmation(false), 3000);
+        // Limpa campos após agendamento
+        setNomePaciente("");
+        setDataHora("");
+        setMedico("");
+        setEspecialidade("");
+      })
+      .catch(err => {
+        alert("Erro ao agendar consulta. Tente novamente.");
+      });
   };
 
   return (
@@ -134,27 +177,33 @@ const ConectSus = () => {
             ) : consultasError ? (
               <p style={{ color: 'red' }}>{consultasError}</p>
             ) : consultas.length > 0 ? (
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {consultas.map((consulta, index) => (
-                  <li key={consulta.id || index} className="consulta-card">
-                    <strong>{consulta.nome_paciente}</strong>
-                    <div className="consulta-info">
-                      <span>Data/Hora: {consulta.data_hora ? `${new Date(consulta.data_hora).toLocaleDateString()} às ${new Date(consulta.data_hora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : '-'}</span>
-                      <span>Médico: {consulta.medico_id}</span>
-                      <span>Especialidade: {consulta.especialidade_id}</span>
-                      {(!consulta.status || consulta.status === 'Pendente') && (
-                        <span className="status-badge-csus pendente">Pendente</span>
-                      )}
-                      {consulta.status === 'Confirmada' && (
-                        <span className="status-badge-csus confirmada">Confirmada</span>
-                      )}
-                      {consulta.status === 'Cancelada' && (
-                        <span className="status-badge-csus cancelada">Cancelada</span>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <>
+                <div style={{background:'#eee',padding:'8px',marginBottom:'8px',fontSize:'12px'}}>
+                  <strong>Debug:</strong> Consultas recebidas:<br/>
+                  <pre>{JSON.stringify(consultas, null, 2)}</pre>
+                </div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {consultas.map((consulta, index) => (
+                    <li key={consulta.id || index} className="consulta-card">
+                      <strong>{consulta.nome_paciente}</strong>
+                      <div className="consulta-info">
+                        <span>Data/Hora: {consulta.data_hora ? `${new Date(consulta.data_hora).toLocaleDateString()} às ${new Date(consulta.data_hora).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : '-'}</span>
+                        <span>Médico: {consulta.medico_id}</span>
+                        <span>Especialidade: {consulta.especialidade_id}</span>
+                        {(!consulta.status || consulta.status === 'Pendente') && (
+                          <span className="status-badge-csus pendente">Pendente</span>
+                        )}
+                        {consulta.status === 'Confirmada' && (
+                          <span className="status-badge-csus confirmada">Confirmada</span>
+                        )}
+                        {consulta.status === 'Cancelada' && (
+                          <span className="status-badge-csus cancelada">Cancelada</span>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </>
             ) : (
               <p>Nenhuma consulta agendada.</p>
             )}

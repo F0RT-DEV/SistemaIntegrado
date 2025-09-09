@@ -16,7 +16,9 @@ const EducaMais = () => {
     if (showConsultModal) {
       setLoadingConsult(true);
       setConsultError('');
-  fetch("https://sistemaintegrado.onrender.com/matriculas/educacao", {
+      const userData = JSON.parse(localStorage.getItem("usuarioLogado"));
+      const cpfLogado = userData?.cpf;
+      fetch("https://sistemaintegrado.onrender.com/matriculas/educacao", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -28,8 +30,9 @@ const EducaMais = () => {
           return res.json();
         })
         .then(data => {
-          // Ajusta para o formato esperado pelo frontend
-          setRegistrations(Array.isArray(data) ? data : []);
+          // Filtra por CPF do usuário logado, caso o backend não filtre
+          const filtradas = Array.isArray(data) ? data.filter(m => m.cpf_aluno === cpfLogado) : [];
+          setRegistrations(filtradas);
           setLoadingConsult(false);
         })
         .catch(err => {
