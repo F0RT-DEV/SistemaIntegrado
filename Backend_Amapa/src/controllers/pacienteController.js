@@ -22,26 +22,32 @@ export const listarConsultasController = async (req, res) => {
 import { agendarConsulta } from "../models/pacienteModel.js";
 // Controller para agendar consulta
 export const agendarConsultaController = async (req, res) => {
-    const { nome_paciente, data_hora, medico_id, especialidade_id } = req.body;
-    // Garante que o CPF do usuário logado seja usado
+    // Log completo do corpo recebido e do usuário autenticado
+    console.log('---[AGENDAR CONSULTA]---');
+    console.log('req.body:', req.body);
+    console.log('req.usuario:', req.usuario);
+    const { nome_paciente, data_hora, medico_id, especialidade_id, cpf_paciente: cpfPacienteBody } = req.body;
     // Log completo do usuário autenticado
     console.log('Conteúdo de req.usuario:', req.usuario);
-    // Sempre usa o CPF e o ID do usuário autenticado
-    const cpf_paciente = req.usuario?.cpf;
+    // Usa o CPF digitado, se enviado, senão o do JWT
+    const cpf_paciente = cpfPacienteBody || req.usuario?.cpf;
     const usuario_id = req.usuario?.id;
     console.log('Agendar consulta - usuario_id do JWT:', usuario_id);
 
-    if (!nome_paciente || !data_hora || !medico_id || !especialidade_id || !cpf_paciente || !usuario_id) {
+    const camposFaltantes = {
+        nome_paciente: !nome_paciente,
+        data_hora: !data_hora,
+        medico_id: !medico_id,
+        especialidade_id: !especialidade_id,
+        cpf_paciente: !cpf_paciente,
+        usuario_id: !usuario_id
+    };
+    const algumFaltando = Object.values(camposFaltantes).some(faltando => faltando);
+    if (algumFaltando) {
         return res.status(400).json({
             mensagem: 'Todos os campos são obrigatórios',
-            campos_faltantes: {
-                nome_paciente: !nome_paciente,
-                data_hora: !data_hora,
-                medico_id: !medico_id,
-                especialidade_id: !especialidade_id,
-                cpf_paciente: !cpf_paciente,
-                usuario_id: !usuario_id
-            }
+            campos_faltantes: camposFaltantes,
+            motivo: 'Preencha todos os campos obrigatórios corretamente. Veja quais estão faltando ou inválidos.'
         });
     }
 

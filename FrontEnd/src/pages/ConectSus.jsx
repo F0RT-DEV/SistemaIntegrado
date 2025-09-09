@@ -1,7 +1,8 @@
+import { API_BASE_URL } from '../services/api';
 
 import React, { useState, useEffect } from 'react';
 import './ConectSus.css';
-//
+
 const ConectSus = () => {
   const [showModal, setShowModal] = useState(false);
   const [showConsultas, setShowConsultas] = useState(false);
@@ -9,11 +10,13 @@ const ConectSus = () => {
   const [loadingConsultas, setLoadingConsultas] = useState(false);
   const [consultasError, setConsultasError] = useState('');
   const [nomePaciente, setNomePaciente] = useState('');
+  const [cpfPaciente, setCpfPaciente] = useState('');
   const [dataHora, setDataHora] = useState('');
   const [medico, setMedico] = useState('');
   const [especialidade, setEspecialidade] = useState('');
   const [showWelcome, setShowWelcome] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [agendamentoErro, setAgendamentoErro] = useState("");
 
   useEffect(() => {
     setShowWelcome(true);
@@ -28,11 +31,8 @@ const ConectSus = () => {
       setLoadingConsultas(true);
       setConsultasError("");
       const userData = JSON.parse(localStorage.getItem("usuarioLogado"));
-      const cpfLogado = userData?.cpf;
       const token = localStorage.getItem("token");
-      console.log("[DEBUG] Token JWT usado:", token);
-      console.log("[DEBUG] CPF logado:", cpfLogado);
-      fetch("https://sistemaintegrado.onrender.com/pacientes/consultas", {
+  fetch(`${API_BASE_URL}/pacientes/consultas`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -44,72 +44,82 @@ const ConectSus = () => {
           return res.json();
         })
         .then((data) => {
-          console.log("[DEBUG] Consultas recebidas do backend:", data);
           const userData = JSON.parse(localStorage.getItem("usuarioLogado"));
           const usuarioIdLogado = userData?.id;
           const filtradas = Array.isArray(data) ? data.filter(c => c.usuario_id === usuarioIdLogado) : [];
-          console.log("[DEBUG] Consultas após filtro por usuario_id:", filtradas);
           setConsultas(filtradas);
           setLoadingConsultas(false);
         })
         .catch((err) => {
           setConsultasError("Erro ao buscar consultas. Tente novamente.");
           setLoadingConsultas(false);
-          console.error("[DEBUG] Erro na busca de consultas:", err);
         });
     }
   }, [showConsultas]);
 
-  // Função para agendar consulta (deve ser implementada)
-  const agendarConsulta = () => {
+  const agendarConsulta = async () => {
+    setAgendamentoErro("");
     const userData = JSON.parse(localStorage.getItem("usuarioLogado"));
-    const cpfLogado = userData?.cpf;
     const usuario_id = userData?.id;
     const consultaData = {
       nome_paciente: nomePaciente,
-      cpf_paciente: cpfLogado,
+      cpf_paciente: cpfPaciente,
       usuario_id: usuario_id,
       data_hora: dataHora,
       medico_id: medico,
       especialidade_id: especialidade
     };
-    fetch("https://sistemaintegrado.onrender.com/pacientes/consultas", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      },
-      body: JSON.stringify(consultaData)
-    })
-      .then(res => {
-        if (!res.ok) throw new Error("Erro ao agendar consulta");
-        return res.json();
-      })
-      .then(data => {
-        setShowModal(false);
-        setShowConfirmation(true);
-        setTimeout(() => setShowConfirmation(false), 3000);
-        // Limpa campos após agendamento
-        setNomePaciente("");
-        setDataHora("");
-        setMedico("");
-        setEspecialidade("");
-      })
-      .catch(err => {
-        alert("Erro ao agendar consulta. Tente novamente.");
+    // console.log('[DEBUG] Corpo enviado para agendamento:', consultaData); // Comentado para privacidade
+    try {
+      //const response = await fetch("https://sistemaintegrado.onrender.com/pacientes/consultas", {
+      const response = await fetch(`${API_BASE_URL}/pacientes/consultas`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(consultaData)
       });
+      if (!response.ok) {
+        let errorMsg = "Erro ao agendar consulta. Tente novamente.";
+        try {
+          const errorData = await response.json();
+          if (errorData.mensagem) {
+            errorMsg = errorData.mensagem;
+            if (errorData.motivo) {
+              errorMsg += ` Motivo: ${errorData.motivo}`;
+            }
+            if (errorData.campos_faltantes) {
+              errorMsg += ` Campos faltantes: ${errorData.campos_faltantes.join(", ")}`;
+            }
+          }
+        } catch (err) {
+          // Se não conseguir extrair JSON, mantém mensagem padrão
+        }
+        setAgendamentoErro(errorMsg);
+        return;
+      }
+      await response.json();
+      setShowModal(false);
+      setShowConfirmation(true);
+      setTimeout(() => setShowConfirmation(false), 3000);
+      setNomePaciente("");
+      setDataHora("");
+      setMedico("");
+      setEspecialidade("");
+    } catch (err) {
+      setAgendamentoErro("Erro ao agendar consulta. Tente novamente.");
+    }
   };
 
   return (
     <div className="system-info">
-      {/* Mensagem de boas-vindas */}
       {showWelcome && (
         <div className="welcome-message-top">
           <h2>Seja bem-vindo ao Conect SUS!</h2>
         </div>
       )}
 
-      {/* Mensagem de confirmação de consulta */}
       {showConfirmation && (
         <div className="confirmation-message">
           <h2>Consulta confirmada!</h2>
@@ -122,7 +132,7 @@ const ConectSus = () => {
       </div>
 
       <div className="options-grid">
-        <div className="option-cardCSUS" onClick={() => setShowModal(true)}>
+  <div className="option-cardCSUS" onClick={() => setShowModal(true)}>
           <h4 className="option-titleAC">Agendar Consulta</h4>
           <p className="option-description">Marque uma nova consulta médica</p>
         </div>
@@ -141,6 +151,14 @@ const ConectSus = () => {
               type="text"
               value={nomePaciente}
               onChange={(e) => setNomePaciente(e.target.value)}
+            />
+            <label>CPF do Paciente</label>
+            <input
+              type="text"
+              value={cpfPaciente}
+              onChange={e => setCpfPaciente(e.target.value)}
+              maxLength={11}
+              placeholder="Digite o CPF do paciente"
             />
             <label>Data e Hora</label>
             <input
@@ -164,6 +182,9 @@ const ConectSus = () => {
             </select>
             <button onClick={() => setShowModal(false)}>Cancelar</button>
             <button onClick={agendarConsulta}>Confirmar</button>
+            {agendamentoErro && (
+              <p style={{ color: 'red', marginTop: '10px' }}>{agendamentoErro}</p>
+            )}
           </div>
         </div>
       )}
@@ -178,10 +199,6 @@ const ConectSus = () => {
               <p style={{ color: 'red' }}>{consultasError}</p>
             ) : consultas.length > 0 ? (
               <>
-                <div style={{background:'#eee',padding:'8px',marginBottom:'8px',fontSize:'12px'}}>
-                  <strong>Debug:</strong> Consultas recebidas:<br/>
-                  <pre>{JSON.stringify(consultas, null, 2)}</pre>
-                </div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                   {consultas.map((consulta, index) => (
                     <li key={consulta.id || index} className="consulta-card">

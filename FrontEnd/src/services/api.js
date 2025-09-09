@@ -1,5 +1,9 @@
-//const API_BASE_URL = 'http://localhost:3000';
-const API_BASE_URL = 'https://sistemaintegrado.onrender.com';
+// Alterna entre local e produção automaticamente
+export const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (window.location.hostname === 'localhost'
+    ? 'http://localhost:3000'
+    : 'https://sistemaintegrado.onrender.com');
 
 const handleResponse = async (response) => {
   const data = await response.json();

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import "./FomeZero.css";
 
@@ -11,7 +10,7 @@ function ConsultaPedidosModal({ cpf, onClose }) {
   useEffect(() => {
     async function fetchPedidos() {
       const cpfLimpo = cpf ? cpf.trim() : "";
-      console.log("CPF usado na consulta:", cpfLimpo);
+      // console.log("CPF usado na consulta:", cpfLimpo); // Comentado para privacidade
       if (!cpfLimpo || cpfLimpo.length !== 11) {
         setPedidosModal([]);
         setLoadingModal(false);
@@ -28,7 +27,7 @@ function ConsultaPedidosModal({ cpf, onClose }) {
           }
         });
         const data = await res.json();
-        console.log("Dados recebidos do backend:", data);
+        // console.log("Dados recebidos do backend:", data); // Comentado para privacidade
         setPedidosModal(Array.isArray(data) ? data : []);
       } catch (err) {
         setErrorModal("Erro ao buscar pedidos.");
@@ -132,20 +131,20 @@ const FomeZero = () => {
           }
         });
         const data = await res.json();
-        console.log("Pedidos encontrados para debug:", data);
+        // console.log("Pedidos encontrados para debug:", data); // Comentado para privacidade
         // Verifica se existe pedido do mês atual
         const agora = new Date();
         const pedidosDoMes = (Array.isArray(data) ? data : []).filter(p => {
           const dataPedido = new Date(p.data);
           const mesmoMes = dataPedido.getMonth() === agora.getMonth();
           const mesmoAno = dataPedido.getFullYear() === agora.getFullYear();
-          console.log(`Pedido:`, p, `Data:`, p.data, `Mês:`, dataPedido.getMonth(), `Ano:`, dataPedido.getFullYear(), `Mesmo mês?`, mesmoMes, `Mesmo ano?`, mesmoAno);
+          // console.log(`Pedido:`, p, `Data:`, p.data, `Mês:`, dataPedido.getMonth(), `Ano:`, dataPedido.getFullYear(), `Mesmo mês?`, mesmoMes, `Mesmo ano?`, mesmoAno); // Comentado para privacidade
           return mesmoMes && mesmoAno;
         });
-        console.log("Pedidos do mês atual:", pedidosDoMes);
+        // console.log("Pedidos do mês atual:", pedidosDoMes); // Comentado para privacidade
         setJaSolicitouNoMes(pedidosDoMes.length > 0);
       } catch (err) {
-        console.log("Erro ao buscar pedidos para debug:", err);
+        // console.log("Erro ao buscar pedidos para debug:", err); // Comentado para privacidade
         setJaSolicitouNoMes(false);
       }
     }

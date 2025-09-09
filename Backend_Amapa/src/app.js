@@ -23,7 +23,7 @@ app.use('/app', autenticar);
 
 app.use('/pessoas', pessoaRouter);
 app.use('/matriculas', matriculaRouter);
-app.use('/pacientes', pacienteRouter);
+app.use('/pacientes', autenticar, pacienteRouter);
 app.use('/app', autenticar);
 
 app.use(fomeZeroRoutes);

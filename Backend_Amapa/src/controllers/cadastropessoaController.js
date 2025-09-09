@@ -119,7 +119,8 @@ export const loginController = async (req, res) => {
     const token = jwt.sign(
       { 
         id: usuario.id,
-        email: usuario.email 
+        email: usuario.email,
+        cpf: usuario.cpf // Adiciona o CPF ao payload do JWT
       },
       process.env.JWT_SECRET || 'segredo_default',
       { expiresIn: '1h' }
