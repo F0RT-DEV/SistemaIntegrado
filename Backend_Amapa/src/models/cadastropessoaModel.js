@@ -1,11 +1,9 @@
 import { db } from '../db.js';
 import bcrypt from 'bcrypt';
 
-
-export const criandoPessoa = async (nome, cpf, telefone, email, data_nascimento, senha, genero, e_dependente, cep, endereco, complemento, numero, foto) => {
+export const criandoPessoa = async (nome, cpf, telefone, email, data_nascimento, senha, genero, e_dependente, cep, endereco, complemento, numero, foto, bairro, cidade, uf) => {
   console.log("cadastroPesssoaModel :: criandoPessoa (Firebase)");
   try {
-    // Hash da senha antes de salvar
     const senhaHash = await bcrypt.hash(senha, 10);
     const pessoa = {
       nome: nome || "",
@@ -20,7 +18,10 @@ export const criandoPessoa = async (nome, cpf, telefone, email, data_nascimento,
       endereco: endereco || "",
       complemento: complemento || "",
       numero: numero || "",
-      foto: foto || ""
+      foto: foto || "",
+      bairro: bairro || "",
+      cidade: cidade || "",
+      uf: uf || ""
     };
     await db.collection("pessoa_fisica").add(pessoa);
     return [201, { menssagem: 'Cadastro realizado com sucesso'}];
@@ -29,11 +30,14 @@ export const criandoPessoa = async (nome, cpf, telefone, email, data_nascimento,
     return [500, { menssagem: 'Erro ao cadastrar', error }];
   }
 };
-// Atualizar dados do usuário (incluindo foto)
-// Removido import do client SDK
 
 export const atualizarPessoa = async (id, dadosAtualizados) => {
   try {
+    // Garante que todos os campos do endereço sejam atualizados
+    const camposEndereco = ["cep", "endereco", "complemento", "numero", "bairro", "cidade", "uf"];
+    camposEndereco.forEach(campo => {
+      if (!(campo in dadosAtualizados)) dadosAtualizados[campo] = "";
+    });
     await db.collection("pessoa_fisica").doc(id).update(dadosAtualizados);
     return [200, { mensagem: "Dados atualizados com sucesso" }];
   } catch (error) {
@@ -62,7 +66,7 @@ export const buscarUsuarioPorEmail = async (email) => {
     if (snapshot.empty) {
       return [404, null];
     }
-    // Retorna o primeiro usuário encontrado
+    
     const usuario = snapshot.docs[0].data();
     usuario.id = snapshot.docs[0].id;
     return [200, usuario];

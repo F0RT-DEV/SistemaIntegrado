@@ -13,13 +13,6 @@ const Cadastro = () => {
     senha: "",
     confirmarSenha: "",
     genero: "",
-    cep: "",
-    endereco: "",
-    complemento: "",
-    numero: "",
-    bairro: "",
-    cidade: "",
-    uf: "",
     e_dependente: false
   });
 
@@ -47,13 +40,6 @@ const Cadastro = () => {
       .replace(/(-\d{4})\d+?$/, '$1');
   };
 
-  const formatarCEP = (cep) => {
-    return cep
-      .replace(/\D/g, '')
-      .replace(/(\d{5})(\d)/, '$1-$2')
-      .replace(/(-\d{3})\d+?$/, '$1');
-  };
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     let formattedValue = value;
@@ -61,8 +47,6 @@ const Cadastro = () => {
       formattedValue = formatarCPF(value);
     } else if (name === 'telefone') {
       formattedValue = formatarTelefone(value);
-    } else if (name === 'cep') {
-      formattedValue = formatarCEP(value);
     } else if (name === 'e_dependente' && type === 'checkbox') {
       formattedValue = checked;
     }
@@ -72,35 +56,7 @@ const Cadastro = () => {
     }));
   };
 
-  // Validação de CEP via API
-  const buscarEnderecoPorCEP = async () => {
-    const cepLimpo = formData.cep.replace(/\D/g, '');
-    if (cepLimpo.length !== 8) return;
-
-    setIsCheckingCep(true);
-    try {
-      const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
-      const data = await response.json();
-
-      if (!data.erro) {
-        setFormData(prev => ({
-          ...prev,
-          endereco: data.logradouro || "",
-          bairro: data.bairro || "",
-          cidade: data.localidade || "",
-          uf: data.uf || "",
-          complemento: data.complemento || ""
-        }));
-      } else {
-        setAlerta("⚠️ CEP não encontrado!");
-      }
-    } catch (error) {
-      console.error("Erro ao buscar CEP:", error);
-      setAlerta("⚠️ Erro ao consultar CEP. Tente novamente.");
-    } finally {
-      setIsCheckingCep(false);
-    }
-  };
+  // ...removido busca de endereço por CEP...
 
   // Validação de CPF desabilitada temporariamente
   // const validarCPF = async () => {
@@ -121,11 +77,7 @@ const Cadastro = () => {
   // };
 
   // Efeito para buscar CEP quando completo
-  useEffect(() => {
-    if (formData.cep.replace(/\D/g, '').length === 8) {
-      buscarEnderecoPorCEP();
-    }
-  }, [formData.cep]);
+  // ...removido useEffect de busca de endereço por CEP...
 
   // Validação de CPF desabilitada temporariamente
   // useEffect(() => {
@@ -181,14 +133,7 @@ const Cadastro = () => {
         data_nascimento: formData.data_nascimento,
         senha: formData.senha,
         genero: formData.genero,
-        e_dependente: formData.e_dependente,
-        cep: formData.cep.replace(/\D/g, ''),
-        endereco: formData.endereco,
-        complemento: formData.complemento,
-        numero: formData.numero,
-        bairro: formData.bairro,
-        cidade: formData.cidade,
-        uf: formData.uf
+        e_dependente: formData.e_dependente
       });
 
       alert("Cadastro realizado com sucesso! Você será redirecionado para o login.");
@@ -351,96 +296,7 @@ const Cadastro = () => {
             </div>
           </div>
 
-          <div className="form-section">
-            <h2>Endereço</h2>
-            
-            <div className="form-row">
-              <div className="form-group">
-                <label>CEP</label>
-                <input
-                  type="text"
-                  name="cep"
-                  value={formData.cep}
-                  onChange={handleChange}
-                  placeholder="00000-000"
-                  maxLength="9"
-                />
-                {isCheckingCep && <span className="loading-text">Buscando endereço...</span>}
-              </div>
-              
-              <div className="form-group">
-                <label>UF</label>
-                <select
-                  name="uf"
-                  value={formData.uf}
-                  onChange={handleChange}
-                >
-                  <option value="">Selecione</option>
-                  <option value="AC">AC</option>
-                  <option value="AL">AL</option>
-                  {/* Adicione todos os estados */}
-                  <option value="ES">ES</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>CIDADE</label>
-              <input
-                type="text"
-                name="cidade"
-                value={formData.cidade}
-                onChange={handleChange}
-                placeholder="Sua cidade"
-              />
-            </div>
-
-            <div className="form-group">
-              <label>ENDEREÇO</label>
-              <input
-                type="text"
-                name="endereco"
-                value={formData.endereco}
-                onChange={handleChange}
-                placeholder="Rua, Avenida, etc."
-              />
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label>NÚMERO</label>
-                <input
-                  type="text"
-                  name="numero"
-                  value={formData.numero}
-                  onChange={handleChange}
-                  placeholder="Nº"
-                />
-              </div>
-              
-              <div className="form-group">
-                <label>BAIRRO</label>
-                <input
-                  type="text"
-                  name="bairro"
-                  value={formData.bairro}
-                  onChange={handleChange}
-                  placeholder="Seu bairro"
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>COMPLEMENTO</label>
-              <input
-                type="text"
-                name="complemento"
-                value={formData.complemento}
-                onChange={handleChange}
-                placeholder="Apartamento, bloco, etc."
-              />
-            </div>
-          </div>
+          {/* ...removido seção de endereço para etapa 1... */}
 
           <button 
             type="submit" 
@@ -449,6 +305,15 @@ const Cadastro = () => {
           >
             {isLoading ? 'CADASTRANDO...' : 'FINALIZAR CADASTRO'}
           </button>
+          <div style={{ textAlign: 'center', marginTop: '12px' }}>
+            <a
+              href="#"
+              style={{ color: '#6a11cb', textDecoration: 'underline', fontWeight: 500, fontSize: '15px' }}
+              onClick={e => { e.preventDefault(); navigate('/login'); }}
+            >
+              Voltar para o login
+            </a>
+          </div>
         </form>
       </div>
     </div>

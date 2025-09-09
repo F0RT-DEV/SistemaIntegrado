@@ -27,6 +27,10 @@ const PerfilUsuario = ({ user, setUser }) => {
     }
   };
 
+  // Verifica se há campos obrigatórios faltantes
+  const camposObrigatorios = ["nome", "cpf", "email", "data_nascimento", "endereco", "numero", "cep", "cidade", "uf", "bairro"];
+  const camposFaltando = camposObrigatorios.filter(campo => !user[campo] || user[campo] === "");
+
   return (
     <div className="perfil-container">
       <div className="perfil-header">
@@ -35,6 +39,38 @@ const PerfilUsuario = ({ user, setUser }) => {
           <Pencil size={16} /> Editar
         </button>
       </div>
+
+      {camposFaltando.length > 0 && (
+        <div className="perfil-alerta-completar" style={{
+          background: '#fffbe6',
+          border: '1px solid #ffe58f',
+          color: '#ad8b00',
+          borderRadius: '8px',
+          padding: '16px',
+          margin: '18px 0',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          fontWeight: 500
+        }}>
+          ⚠️ Seu perfil está incompleto. Complete os dados obrigatórios para acessar todos os serviços.
+          <button
+            style={{
+              marginLeft: 'auto',
+              background: 'linear-gradient(90deg,#6c63ff,#4e54c8)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '6px',
+              padding: '8px 18px',
+              cursor: 'pointer',
+              fontWeight: 600
+            }}
+            onClick={() => setIsModalOpen(true)}
+          >
+            Completar Perfil
+          </button>
+        </div>
+      )}
 
       <div className="perfil-content">
         <div className="perfil-info">

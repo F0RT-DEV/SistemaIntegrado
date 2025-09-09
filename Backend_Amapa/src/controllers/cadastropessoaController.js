@@ -11,7 +11,7 @@ import 'dotenv/config';
 export const createPessoa = async (req, res) => {
     console.log("cadastroPesssoaController :: createPessoa");
 
-    const { nome, cpf, telefone, email, data_nascimento, senha, genero, e_dependente, cep, endereco, complemento, numero, foto } = req.body;
+    const { nome, cpf, telefone, email, data_nascimento, senha, genero, e_dependente, cep, endereco, complemento, numero, foto, bairro, cidade, uf } = req.body;
 
     try {
       const [status, resposta] = await criandoPessoa(
@@ -27,7 +27,10 @@ export const createPessoa = async (req, res) => {
         endereco,
         complemento,
         numero,
-        foto
+        foto,
+        bairro,
+        cidade,
+        uf
       );
 
       if (status !== 201) {
@@ -126,23 +129,18 @@ export const loginController = async (req, res) => {
       { expiresIn: '1h' }
     );
 
+    // Garante todos os campos obrigatórios na resposta
+    const obrigatorios = [
+      "id", "nome", "email", "cpf", "genero", "telefone", "data_nascimento", "cep", "endereco", "complemento", "numero", "foto", "bairro", "cidade", "uf"
+    ];
+    const userResponse = {};
+    obrigatorios.forEach(campo => {
+      userResponse[campo] = usuario[campo] !== undefined ? usuario[campo] : "";
+    });
     return res.status(200).json({
       success: true,
       token,
-      user: {
-        id: usuario.id,
-        nome: usuario.nome,
-        email: usuario.email,
-        cpf: usuario.cpf,
-        genero: usuario.genero,
-        telefone: usuario.telefone,
-        data_nascimento: usuario.data_nascimento,
-        cep: usuario.cep,
-        endereco: usuario.endereco,
-        complemento: usuario.complemento,
-        numero: usuario.numero,
-        foto: usuario.foto || "" // Adiciona o campo foto na resposta
-      }
+      user: userResponse
     });
   } catch (error) {
     return res.status(500).json({

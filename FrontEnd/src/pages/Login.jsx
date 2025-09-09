@@ -25,11 +25,16 @@ const Login = ({ login }) => {
     try {
       const response = await api.login({ email, senha });
 
-      // Corrigido para salvar com chave correta
-  localStorage.setItem("token", response.token);
-  localStorage.setItem("userData", JSON.stringify(response.user));
-  localStorage.setItem("usuarioLogado", JSON.stringify(response.user));
-  login(response.user);
+      // Corrigido para garantir todos os campos obrigatórios no localStorage
+      localStorage.setItem("token", response.token);
+      const obrigatorios = ["nome", "cpf", "email", "data_nascimento", "endereco", "numero", "cep", "cidade", "uf", "bairro"];
+      const userData = { ...response.user };
+      obrigatorios.forEach(campo => {
+        if (!(campo in userData)) userData[campo] = "";
+      });
+      localStorage.setItem("userData", JSON.stringify(userData));
+      localStorage.setItem("usuarioLogado", JSON.stringify(userData));
+      login(userData);
       navigate("/app/perfil"); // Redireciona para a tela de perfil
     } catch (error) {
       console.error("Erro no login:", error);

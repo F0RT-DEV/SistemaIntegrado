@@ -22,7 +22,9 @@ import "./App.css";
 
 
 import { useRef } from "react";
-function MainContent() {
+function MainContent({ user }) {
+  // LOG: Estado do usuário recebido
+  console.log('[DEBUG] user recebido em MainContent:', user);
   const location = useLocation();
   const contentRef = useRef(null);
 
@@ -31,6 +33,23 @@ function MainContent() {
     { id: "fome", name: "Fome Zero", icon: Apple, color: "green" },
     { id: "sus", name: "Conect SUS", icon: Heart, color: "red" },
   ];
+
+  // Verifica se há campos obrigatórios faltantes
+  const camposObrigatorios = ["nome", "cpf", "email", "data_nascimento", "endereco", "numero", "cep", "cidade", "uf", "bairro"];
+  // Considera campo faltando se for null, undefined ou string vazia/espacos
+  const camposFaltando = camposObrigatorios.filter(campo => {
+    const valor = user[campo];
+    const faltando = valor === undefined || valor === null || (typeof valor === "string" && valor.trim() === "");
+    if (faltando) {
+      // LOG: Campo faltando
+      console.log(`[DEBUG] Campo faltando: ${campo} | Valor:`, valor);
+    }
+    return faltando;
+  });
+  const perfilIncompleto = camposFaltando.length > 0;
+  if (perfilIncompleto) {
+    console.log('[DEBUG] Campos faltando:', camposFaltando);
+  }
 
   useEffect(() => {
     if (window.innerWidth <= 768 && contentRef.current) {
@@ -43,13 +62,50 @@ function MainContent() {
   return (
     <main className="main-content">
       {location.pathname.startsWith("/app") && !location.pathname.startsWith("/app/perfil") && (
-        <section className="services">
+        <>
+          {perfilIncompleto && (
+            <div className="main-alerta-completar" style={{
+              background: '#fffbe6',
+              border: '1px solid #ffe58f',
+              color: '#ad8b00',
+              borderRadius: '8px',
+              padding: '16px',
+              margin: '18px 0',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              fontWeight: 500,
+              maxWidth: '700px',
+              marginLeft: 'auto',
+              marginRight: 'auto'
+            }}>
+              ⚠️ Seu perfil está incompleto. Complete os dados obrigatórios para acessar todos os serviços.
+              <a
+                href="/app/perfil"
+                style={{
+                  marginLeft: 'auto',
+                  background: 'linear-gradient(90deg,#6c63ff,#4e54c8)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '8px 18px',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  textDecoration: 'none'
+                }}
+              >
+                Completar Perfil
+              </a>
+            </div>
+          )}
+          <section className="services">
             <div className="systems-grid">
               {systems.map((system) => (
-                <SistemaCard key={system.id} system={system} />
+                <SistemaCard key={system.id} system={system} perfilIncompleto={perfilIncompleto} />
               ))}
             </div>
-        </section>
+          </section>
+        </>
       )}
 
       <div className="system-content-container" ref={contentRef}>
@@ -76,9 +132,23 @@ function App() {
     if (savedUser) setUser(savedUser);
   }, []);
 
+  // Atualiza o estado do usuário sempre que fizer login ou logout
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const savedUser = JSON.parse(localStorage.getItem("userData"));
+      if (savedUser) setUser(savedUser);
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   const handleLogin = (userData) => {
     setIsAuthenticated(true);
     setUser(userData);
+    // Garante que o localStorage está sincronizado
+    localStorage.setItem("userData", JSON.stringify(userData));
   };
 
   return (
@@ -107,7 +177,7 @@ function App() {
           isAuthenticated ? (
             <div className="app">
               <NavBarra isAuthenticated={isAuthenticated} />
-              <MainContent />
+              <MainContent user={user} />
               <Footer />
             </div>
           ) : (

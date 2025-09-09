@@ -8,15 +8,16 @@
   padding: 20px;
 }
 
+
 .editar-perfil-container {
-  max-width: 650px;
+  max-width: 480px;
   width: 100%;
-  margin: 20px auto;
-  padding: 40px;
+  margin: 12px auto;
+  padding: 24px;
   font-family: Arial, sans-serif;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   transform: translateY(0);
@@ -28,11 +29,12 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 }
 
+
 .editar-perfil-container h1 {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 18px;
   color: #6a11cb;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
 }
 
@@ -86,8 +88,9 @@
 }
 
 /* Grupos de formulário */
+
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .form-group label {
@@ -116,9 +119,10 @@
 }
 
 /* Linhas com múltiplos campos */
+
 .form-row {
   display: flex;
-  gap: 20px;
+  gap: 12px;
 }
 
 .form-row .form-group {
@@ -126,17 +130,18 @@
 }
 
 /* Botão */
+
 .cadastro-button {
   width: 100%;
-  padding: 16px;
+  padding: 12px;
   background: linear-gradient(to right, #6a11cb, #2575fc);
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 30px;
+  margin-top: 18px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
 }

@@ -5,9 +5,8 @@ import { criarEducacaoController, listarMatriculasController } from '../controll
 
 const router = Router();
 
-
 router.post('/educacao', autenticar, criarEducacaoController);
-// Rota para listar todas as matrículas cadastradas
+
 router.get('/educacao', autenticar, listarMatriculasController);
 
 export default router;

@@ -3,16 +3,12 @@ import { criarConectSusController, vincularEspecialidadeController, agendarConsu
 
 const router = Router();
 
-// Listar consultas agendadas
 router.get('/consultas', listarConsultasController);
 
-// Vincular ao Conect SUS
 router.post('/conect-sus', criarConectSusController);
 
-// Vincular especialidade
 router.post('/especialidades', vincularEspecialidadeController);
 
-// Agendar consulta
 router.post('/consultas', agendarConsultaController);
 
 export default router;

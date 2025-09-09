@@ -26,26 +26,40 @@ const EditarPerfilModal = ({ user, setUser, onClose, onSave }) => {
   };
 
   const handleSave = async () => {
-    if (!editedUser.nome || !editedUser.email) {
-      showAlert("Preencha os campos obrigatórios: Nome e Email.", "error");
-      return;
+    // Lista de campos obrigatórios
+    const obrigatorios = ["nome", "cpf", "email", "data_nascimento", "endereco", "numero", "cep", "cidade", "uf", "bairro"];
+    for (const campo of obrigatorios) {
+      const valor = editedUser[campo];
+      if (valor === undefined || valor === null || (typeof valor === "string" && valor.trim() === "")) {
+        showAlert(`Preencha o campo obrigatório: ${campo.replace('_', ' ')}.`, "error");
+        return;
+      }
     }
     try {
       const token = localStorage.getItem("token");
       const userId = editedUser.id;
-  const response = await fetch(`https://sistemaintegrado.onrender.com/pessoas/${userId}`, {
+      // Garante que todos os campos obrigatórios vão para o backend
+      const payload = { ...editedUser };
+      obrigatorios.forEach(campo => {
+        if (!(campo in payload)) payload[campo] = "";
+      });
+      const response = await fetch(`https://sistemaintegrado.onrender.com/pessoas/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(editedUser),
+        body: JSON.stringify(payload),
       });
       if (!response.ok) {
         showAlert("Erro ao atualizar perfil!", "error");
         return;
       }
       const updatedUser = await response.json();
+      // Garante que todos os campos obrigatórios estejam presentes no localStorage
+      obrigatorios.forEach(campo => {
+        if (!(campo in updatedUser)) updatedUser[campo] = payload[campo];
+      });
       localStorage.setItem("userData", JSON.stringify(updatedUser));
       setUser(updatedUser);
       onSave();
@@ -124,7 +138,7 @@ const EditarPerfilModal = ({ user, setUser, onClose, onSave }) => {
           <div className="form-groupE">
             <label>Endereço:</label>
             <div className="endereco-inputs">
-              {["endereco", "numero", "complemento", "cep"].map((campo) => (
+              {["cep", "uf", "cidade", "bairro", "endereco", "numero", "complemento"].map((campo) => (
                 <div className="endereco-col" key={campo}>
                   <label>{campo.charAt(0).toUpperCase() + campo.slice(1)}</label>
                   <input
@@ -136,6 +150,32 @@ const EditarPerfilModal = ({ user, setUser, onClose, onSave }) => {
                   />
                 </div>
               ))}
+            </div>
+          </div>
+          <div className="form-groupE">
+            <label>CPF</label>
+            <input
+              type="text"
+              name="cpf"
+              value={editedUser.cpf || ""}
+              onChange={handleChange}
+              className="edit-input"
+              maxLength={14}
+            />
+          </div>
+          <div className="form-groupE">
+            <label>Dependente ou Responsável</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <input
+                type="checkbox"
+                name="e_dependente"
+                checked={!!editedUser.e_dependente}
+                onChange={e => setEditedUser(prev => ({ ...prev, e_dependente: e.target.checked }))}
+                style={{ width: '22px', height: '22px', accentColor: '#6c63ff' }}
+              />
+              <span style={{ fontSize: '0.98em', color: '#333' }}>
+                Marque se você é <b>dependente</b> (filho, tutelado, etc). Desmarcado indica <b>responsável</b> (pai, mãe, tutor).
+              </span>
             </div>
           </div>
           <div className="form-groupE">

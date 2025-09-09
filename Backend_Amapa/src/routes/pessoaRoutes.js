@@ -3,16 +3,12 @@ import { createPessoa, getPessoa, loginController, updatePessoa } from '../contr
 import { buscarUsuarioPorEmail } from '../models/cadastropessoaModel.js';
 import { autenticar } from '../authMiddleware.js';
 
-
-
 const router = Router();
-// Atualizar dados do usuário (incluindo foto) - agora protegido
+
 router.put('/:id', autenticar, updatePessoa);
 
-// Cadastro de pessoa
 router.post('/', createPessoa);
 
-// Listagem de pessoas
 router.get('/', getPessoa);
 
 router.post('/login', loginController);
