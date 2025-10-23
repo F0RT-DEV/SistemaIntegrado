@@ -31,7 +31,7 @@ function LandingPage() {
         <div className="landing-container landing-header-content">
           <div className="landing-logo">
             <img
-              src="https://www.portal.ap.gov.br/img/logo_gea.png"
+              src="https://amapa.gov.br/images/logo-amapa.png"
               alt="Logo AP"
             />
           </div>
@@ -70,7 +70,7 @@ function LandingPage() {
           </div>
           <div className="landing-hero-image">
             <img
-              src="https://www.portal.ap.gov.br/img/logo_gea.png"
+              src="https://amapa.gov.br/images/logo-amapa.png"
               alt="App Preview"
             />
           </div>
