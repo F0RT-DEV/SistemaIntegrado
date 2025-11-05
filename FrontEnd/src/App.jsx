@@ -41,7 +41,6 @@ function MainContent({ user }) {
     const valor = user[campo];
     const faltando = valor === undefined || valor === null || (typeof valor === "string" && valor.trim() === "");
     if (faltando) {
-      // LOG: Campo faltando
       console.log(`[DEBUG] Campo faltando: ${campo} | Valor:`, valor);
     }
     return faltando;

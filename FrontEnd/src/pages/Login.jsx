@@ -48,7 +48,7 @@ const Login = ({ login }) => {
     <div className="login-container">
       <div className="login-box">
         <img 
-          src="https://www.portal.ap.gov.br/img/logo_gea.png" 
+          src="https://amapa.gov.br/images/logo-amapa.png" 
           alt="Logo GEA" 
           className="login-logo"
         />
