@@ -6,6 +6,7 @@ import {
   Heart,
   Download,
   Menu,
+  X,
   ChevronRight,
   MessageSquare,
   Wifi,
@@ -17,6 +18,7 @@ import './LandingPage.css';
 
 function LandingPage() {
   const [logado, setLogado] = useState(false);
+  const [menuAberto, setMenuAberto] = useState(false);
 
   const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({
@@ -47,19 +49,38 @@ function LandingPage() {
             />
           </div>
 
-          <nav className="landing-main-nav" aria-label="Navegação principal">
-            <button type="button" className="landing-nav-link" onClick={() => scrollToSection('home')}>
+          <button
+            type="button"
+            className="landing-mobile-toggle"
+            aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={menuAberto}
+            onClick={() => setMenuAberto((prev) => !prev)}
+          >
+            {menuAberto ? <X size={22} /> : <Menu size={22} />}
+          </button>
+
+          <nav
+            className={`landing-main-nav ${menuAberto ? 'mobile-open' : ''}`}
+            aria-label="Navegação principal"
+          >
+            <button type="button" className="landing-nav-link" onClick={() => { scrollToSection('home'); setMenuAberto(false); }}>
               Home
             </button>
-            <button type="button" className="landing-nav-link" onClick={() => scrollToSection('servicos')}>
+            <button type="button" className="landing-nav-link" onClick={() => { scrollToSection('servicos'); setMenuAberto(false); }}>
               Serviços
             </button>
-            <button type="button" className="landing-nav-link" onClick={() => scrollToSection('sobre')}>
+            <button type="button" className="landing-nav-link" onClick={() => { scrollToSection('sobre'); setMenuAberto(false); }}>
               Sobre
             </button>
-            <button type="button" className="landing-nav-link" onClick={() => scrollToSection('ajuda')}>
+            <button type="button" className="landing-nav-link" onClick={() => { scrollToSection('ajuda'); setMenuAberto(false); }}>
               Ajuda
             </button>
+
+            {!logado && (
+              <Link to="/login" className="landing-access-button landing-access-button-mobile" onClick={() => setMenuAberto(false)}>
+                Acessar
+              </Link>
+            )}
           </nav>
 
           <div className="landing-header-buttons">
@@ -70,7 +91,7 @@ function LandingPage() {
               {logado ? (
                 <span className="landing-welcome-message">Bem-vindo de volta!</span>
               ) : (
-                <Link to="/login" className="landing-access-button">Acessar</Link>
+                <Link to="/login" className="landing-access-button landing-access-button-desktop">Acessar</Link>
               )}
           </div>
         </div>

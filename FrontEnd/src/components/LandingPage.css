@@ -29,31 +29,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   padding: 1rem 0;
-}
-
-@media (max-width: 480px) {
-  .landing-header-content {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    padding: 0.7rem 0;
-  }
-  .landing-logo img {
-    height: 2rem;
-    width: 4.5rem;
-  }
-  .landing-access-button {
-    padding: 0.4rem 1rem;
-    font-size: 0.98em;
-  }
 }
 
 .landing-logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex: 1;
 }
 
 .landing-logo img {
@@ -68,12 +52,10 @@
 }
 
 .landing-main-nav {
-  display: none;
-}
-
-.landing-main-nav {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -84,6 +66,8 @@
   cursor: pointer;
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
+  line-height: 1.2;
+  white-space: nowrap;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
@@ -94,6 +78,16 @@
 
 .landing-nav-link {
   font: inherit;
+}
+
+.landing-mobile-toggle {
+  display: none !important;
+  background: transparent;
+  border: none;
+  color: var(--color-blue-900);
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 0.5rem;
 }
 
 .landing-footer-link {
@@ -142,10 +136,22 @@
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .landing-access-button:hover {
   background: #7e22ce;
+}
+
+.landing-access-button-desktop {
+  display: inline-flex;
+}
+
+.landing-access-button-mobile {
+  display: none;
 }
 
 .landing-menu-button {
@@ -153,6 +159,120 @@
   background: none;
   border: none;
   cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .landing-mobile-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    background: rgba(37, 99, 235, 0.06);
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    color: var(--color-blue-900);
+    padding: 0.5rem;
+    border-radius: 0.625rem;
+    margin-left: auto;
+    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.08);
+  }
+
+  .landing-header-content {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.7rem 0;
+    position: relative;
+    min-height: 3.75rem;
+  }
+
+  .landing-logo {
+    flex: 1 1 auto;
+  }
+
+  .landing-header-buttons {
+    display: none !important;
+  }
+
+  .landing-access-button-desktop {
+    display: none !important;
+  }
+
+  .landing-access-button-mobile {
+    display: inline-flex !important;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-top: 0.3rem;
+    font-size: 1rem;
+  }
+
+  .landing-main-nav {
+    display: none;
+    width: 100%;
+    order: 3;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    border-radius: 0.9rem;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    padding: 0;
+    margin-top: 0.25rem;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: max-height 0.28s ease, opacity 0.25s ease, transform 0.25s ease, padding 0.25s ease;
+  }
+
+  .landing-main-nav.mobile-open {
+    display: flex;
+    max-height: 400px;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 0.65rem;
+  }
+
+  .landing-main-nav button {
+    width: 100%;
+    padding: 0.75rem 0.85rem;
+    border-radius: 0.65rem;
+    text-align: center;
+    font-size: 0.96rem;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .landing-main-nav button:hover {
+    background: #eef4ff;
+    color: var(--color-blue-600);
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-header-content {
+    gap: 0.5rem;
+    padding: 0.7rem 0;
+  }
+
+  .landing-logo img {
+    height: 2rem;
+    width: 4.5rem;
+  }
+
+  .landing-main-nav {
+    gap: 0.15rem;
+  }
+
+  .landing-nav-link {
+    font-size: 0.8rem;
+    padding: 0.28rem 0.4rem;
+  }
+
+  .landing-access-button {
+    padding: 0.4rem 1rem;
+    font-size: 0.98em;
+  }
 }
 
 /* Hero section */
@@ -517,6 +637,10 @@
 
 /* Media Queries */
 @media (min-width: 768px) {
+  .landing-mobile-toggle {
+    display: none !important;
+  }
+
   .landing-main-nav {
     display: flex;
   }
@@ -527,6 +651,18 @@
 
   .landing-menu-button {
     display: none;
+  }
+
+  .landing-header-buttons {
+    display: flex;
+  }
+
+  .landing-access-button-desktop {
+    display: inline-flex;
+  }
+
+  .landing-access-button-mobile {
+    display: none !important;
   }
 
   .landing-hero-content {
