@@ -49,8 +49,8 @@ const NavBarra = () => {
           <div className="nav-left">
             <div className="nav-logo">
               <img
-                src="https://agenciaamapa.com.br/images/logo_amapa_700.png"
-                alt="Bandeira do Amapá"
+                src="https://amapa.gov.br/images/logo-amapa.png"
+                alt="Logo do Governo do Amapá"
                 onClick={() => navigate("/")}
                 style={{ cursor: "pointer" }}
               />

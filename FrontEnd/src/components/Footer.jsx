@@ -10,8 +10,8 @@ const navigate = useNavigate();
       <div className="footer-container">
       <div className="footer-logo">
               <img
-                src="https://agenciaamapa.com.br/images/logo_amapa_700.png"
-                alt="Bandeira do Amapá"
+                src="https://amapa.gov.br/images/logo-amapa.png"
+                alt="Logo do Governo do Amapá"
                 onClick={() => navigate("/")} 
                 style={{ cursor: "pointer" }}
               />

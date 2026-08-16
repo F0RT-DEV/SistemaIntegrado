@@ -18,6 +18,17 @@ import './LandingPage.css';
 function LandingPage() {
   const [logado, setLogado] = useState(false);
 
+  const scrollToSection = (sectionId) => {
+    document.getElementById(sectionId)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  };
+
+  const scrollToServices = () => {
+    scrollToSection('servicos');
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -36,11 +47,19 @@ function LandingPage() {
             />
           </div>
 
-          <nav className="landing-main-nav">
-            <Link to="#">Home</Link>
-            <Link to="#">Serviços</Link>
-            <Link to="#">Sobre</Link>
-            <Link to="#">Ajuda</Link>
+          <nav className="landing-main-nav" aria-label="Navegação principal">
+            <button type="button" className="landing-nav-link" onClick={() => scrollToSection('home')}>
+              Home
+            </button>
+            <button type="button" className="landing-nav-link" onClick={() => scrollToSection('servicos')}>
+              Serviços
+            </button>
+            <button type="button" className="landing-nav-link" onClick={() => scrollToSection('sobre')}>
+              Sobre
+            </button>
+            <button type="button" className="landing-nav-link" onClick={() => scrollToSection('ajuda')}>
+              Ajuda
+            </button>
           </nav>
 
           <div className="landing-header-buttons">
@@ -58,7 +77,7 @@ function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="landing-hero">
+      <section id="home" className="landing-hero">
         <div className="landing-container landing-hero-content">
           <div className="landing-hero-text">
             <h1>Todos os serviços do Governo do Amapá em um só lugar</h1>
@@ -66,7 +85,13 @@ function LandingPage() {
               Educação, saúde e assistência social de forma integrada e
               acessível
             </p>
-            <button className="landing-cta-button">Conheça nossos serviços</button>
+            <button
+              type="button"
+              className="landing-cta-button"
+              onClick={scrollToServices}
+            >
+              Explorar serviços
+            </button>
           </div>
           <div className="landing-hero-image">
             <img
@@ -78,7 +103,7 @@ function LandingPage() {
       </section>
 
       {/* Services Section */}
-      <section className="landing-services">
+      <section id="servicos" className="landing-services">
         <div className="landing-container">
           <h2>Nossos Serviços</h2>
           <div className="landing-services-grid">
@@ -125,7 +150,7 @@ function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="landing-features bg-gray-100 py-12">
+      <section id="sobre" className="landing-features bg-gray-100 py-12">
         <div className="landing-container mx-auto px-4">
           <h2 className="text-3xl font-bold text-blue-900 mb-8 border-b-4 border-yellow-500 inline-block">
             Serviços do Governo
@@ -172,43 +197,49 @@ function LandingPage() {
       <section className="landing-download">
         <div className="landing-container landing-download-content">
           <div className="landing-download-text">
-            <h2>Baixe nosso aplicativo</h2>
-            <p>Tenha todos os serviços na palma da sua mão</p>
+            <span className="landing-eyebrow">Portal digital</span>
+            <h2>Acesse tudo em um só lugar</h2>
+            <p>
+              Educação, saúde, benefícios e informações oficiais com acesso fácil,
+              rápido e seguro.
+            </p>
             <div className="landing-store-buttons">
-              <button className="landing-store-button">
-                <Download size={24} />
-                <span>Google Play</span>
-              </button>
-              <button className="landing-store-button">
-                <Download size={24} />
-                <span>App Store</span>
+              <Link to="/login" className="landing-store-button primary">
+                <span>Entrar no portal</span>
+              </Link>
+              <button
+                type="button"
+                className="landing-store-button secondary"
+                onClick={scrollToServices}
+              >
+                <span>Ver serviços</span>
               </button>
             </div>
           </div>
           <div className="landing-download-image">
             <img
               src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&h=500&fit=crop"
-              alt="App Preview"
+              alt="Acesso ao portal do Governo do Amapá"
             />
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="landing-footer">
+      <footer id="ajuda" className="landing-footer">
         <div className="landing-container">
           <div className="landing-footer-grid">
             <div className="landing-footer-column">
               <h3>Serviços</h3>
               <ul>
                 <li>
-                  <Link to="#">Educa Mais</Link>
+                  <Link to="/app/educa">Educa Mais</Link>
                 </li>
                 <li>
-                  <Link to="#">Fome 0</Link>
+                  <Link to="/app/fome">Fome 0</Link>
                 </li>
                 <li>
-                  <Link to="#">Conect SUS</Link>
+                  <Link to="/app/sus">Conect SUS</Link>
                 </li>
               </ul>
             </div>
@@ -216,13 +247,19 @@ function LandingPage() {
               <h3>Suporte</h3>
               <ul>
                 <li>
-                  <Link to="#">FAQ</Link>
+                  <button type="button" className="landing-footer-link" onClick={() => scrollToSection('sobre')}>
+                    FAQ
+                  </button>
                 </li>
                 <li>
-                  <Link to="#">Contato</Link>
+                  <button type="button" className="landing-footer-link" onClick={() => scrollToSection('contato')}>
+                    Contato
+                  </button>
                 </li>
                 <li>
-                  <Link to="#">Ajuda</Link>
+                  <button type="button" className="landing-footer-link" onClick={() => scrollToSection('ajuda')}>
+                    Ajuda
+                  </button>
                 </li>
               </ul>
             </div>
@@ -230,27 +267,33 @@ function LandingPage() {
               <h3>Legal</h3>
               <ul>
                 <li>
-                  <Link to="#">Privacidade</Link>
+                  <button type="button" className="landing-footer-link" onClick={() => scrollToSection('sobre')}>
+                    Privacidade
+                  </button>
                 </li>
                 <li>
-                  <Link to="#">Termos</Link>
+                  <button type="button" className="landing-footer-link" onClick={() => scrollToSection('sobre')}>
+                    Termos
+                  </button>
                 </li>
                 <li>
-                  <Link to="#">Segurança</Link>
+                  <button type="button" className="landing-footer-link" onClick={() => scrollToSection('sobre')}>
+                    Segurança
+                  </button>
                 </li>
               </ul>
             </div>
-            <div className="landing-footer-column">
+            <div id="contato" className="landing-footer-column">
               <h3>Contato</h3>
               <div className="landing-contact-phone">
                 <Phone size={20} />
                 <span>0800 123 4567</span>
               </div>
               <div className="landing-social-icons">
-                <Link to="#">
+                <Link to="mailto:contato@ap.gov.br">
                   <MessageSquare size={24} />
                 </Link>
-                <Link to="#">
+                <Link to="tel:08001234567">
                   <Bell size={24} />
                 </Link>
               </div>
